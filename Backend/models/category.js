@@ -7,6 +7,6 @@ const categorySchema = mongos.Schema({
     }
 })
 
-var CategoryModel = mongoose.model('Book', categorySchema);
+var CategoryModel = mongoose.model('Category', categorySchema);
 
 module.exports = CategoryModel;

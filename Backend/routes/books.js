@@ -1,17 +1,66 @@
 const express = require('express')
 const BookModel = require('../models/book')
+const multer = require('multer')
+const { v4: uuidv4 } = require('uuid');
 const router = express.Router()
 
-router.post('/', async (req, res) => {
-    console.log("Add Book To DB");
-    const bookData = req.body;
-    const book = new BookModel(bookData);
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/books/');
+    },
+    filename: function (req, file, cb) {
+        const fileName =  uuidv4() + " - " + file.originalname.toLowerCase().split(' ').join('-');
+        cb(null,fileName)
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+        cb(null, true);
+    } else {
+        cb(null, false);
+        return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
+}
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
+/** MiddleWares */
+
+
+
+/** APIs */
+router.post('/', upload.single('bookImage'), async (req, res) => {
+    console.log("Before Add Book To DB");
+    const book = new BookModel({
+        name: req.body.name,
+        bookImage: req.file.filename,
+        category: req.body.categoryId,
+        author: req.body.authorId
+    });
     try {
         const savedBook = await book.save();
         res.json(savedBook);
     } catch (err) {
         console.log(err);
         res.json(err);
+    }
+})
+
+router.get('/', async (req, res) => {
+    console.log("Get All Book");
+    try {
+        const books = await BookModel.find().populate('category').populate('author')
+        res.json(books)
+    } catch (err) {
+        console.log(err);
+        res.json(err)
     }
 })
 
