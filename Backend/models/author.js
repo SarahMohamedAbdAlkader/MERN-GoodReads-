@@ -1,12 +1,13 @@
-const mongoos = require('mongoose')
+const mongoose = require("mongoose");
+const authorSchema = new mongoose.Schema({
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  photo: { type: String, required: false },
+  dob: { type: String, required: false },
+});
+//authorSchema.dob instanceof Date;
+//for Data Manipulation: CRUD
+const authorModel = mongoose.model("author", authorSchema); //(model chosen name , schema name)
 
-const authorSchema = mongos.Schema({
-    name: {
-        type: String,
-        required: true
-    }
-})
-
-var AuthorModel = mongoose.model('Author', authorSchema);
-
-module.exports = AuthorModel;
+//exporting model:
+module.exports = authorModel;
