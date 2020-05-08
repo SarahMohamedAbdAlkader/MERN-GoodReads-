@@ -1,12 +1,26 @@
-const mongoos = require('mongoose')
+const mongoose = require("mongoose");
+var autoIncrement = require("mongoose-auto-increment");
 
-const categorySchema = mongos.Schema({
-    name: {
-        type: String,
-        required: true
-    }
-})
+const categorySchema = new mongoose.Schema({
+  // _id: {
+  //   type: Number,
+  //   required: true,
+  // },
+  catName: {
+    type: String,
+    unique: true,
+  },
+});
 
-var CategoryModel = mongoose.model('Category', categorySchema);
+// categorySchema.set("toJSON", {
+//   transform: function (doc, ret, options) {
+//     ret.id = ret._id;
+//     delete ret._id;
+//     delete ret.__v;
+//   },
+// });
 
-module.exports = CategoryModel;
+// autoIncrement.initialize(mongoose.connection);
+// categorySchema.plugin(autoIncrement.plugin, { model: "category", startAt: 1 });
+const catModel = mongoose.model("category", categorySchema);
+module.exports = catModel;
