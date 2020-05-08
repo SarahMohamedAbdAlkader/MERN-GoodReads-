@@ -18,9 +18,9 @@ app.use((req, res, next) => {
 
 /**Routes */
 app.use('/books', bookRouter)
-// app.use('/authors', athorRouter)
-// app.use('/categories', categoryRouter)
-// app.use('/users', userRouter)
+app.use('/authors', athorRouter)
+app.use('/categories', categoryRouter)
+app.use('/users', userRouter)
 
 
 
