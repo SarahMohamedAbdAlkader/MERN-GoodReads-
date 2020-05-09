@@ -1,9 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const router = express.Router();
-const BookModel = require("../../models/books/book")
-const catModel = require("../../models/categories/category");
-const categoryController = require("../../controllers/category.controller");
+const BookModel = require("../models/book")
+const catModel = require("../models/category");
 const { check, validationResult } = require('express-validator');
 router.get("/", cors(), async (req, res, next) => {
 
