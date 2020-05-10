@@ -1,31 +1,44 @@
 const express = require("express");
+const mongoose = require('mongoose');
 const authorModel = require("../models/author");
 const authorRouter = express.Router();
 const multer = require("multer");
+const { v4: uuidv4 } = require('uuid');
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./uploads/");
+    cb(null, './uploads/authors/');
   },
   filename: function (req, file, cb) {
-    cb(null, new Date().toISOString() + file.originalname);
-  },
+    const fileName = uuidv4() + " - " + file.originalname.toLowerCase().split(' ').join('-');
+    cb(null, fileName)
+  }
 });
 
 const fileFilter = (req, file, cb) => {
-  //conditionally accept/reject files
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
     cb(null, true);
   } else {
     cb(null, false);
+    return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
   }
-};
-const upload = multer({ storage: storage }, { fileFilter: fileFilter });
+}
 
-authorRouter.get("/", (req, res, next) => {
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5
+  },
+  fileFilter: fileFilter
+});
+authorRouter.get("/", async (req, res, next) => {
   //Dealing with DB:
   authorModel.find({}, (err, authors) => {
+    console.log(authors);
+
     if (!err) return res.json(authors);
-    res.json({
+    res.status(500).json({
       code: "DATABASE_ERROR",
     });
   });
@@ -42,17 +55,14 @@ authorRouter.get("/:id", (req, res) => {
   // res.send(`Showing author with ID = ${authorId}}`);
 });
 
-authorRouter.post("/", upload.single("photo"), (req, res) => {
-  //  console.log(req.body)
-  console.log(req.file);
-  //const authorData = req.body; //getting author data from req.body.
+authorRouter.post("/", upload.single("authorImage"), (req, res) => {
   const author = new authorModel({
-    _id: new mongoose.Types.ObjectID(),
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    photo: req.file.path,
-  }); //creating a authorModel, and passing it the data to be manipulated later
-
+    dob: req.body.dob,
+    authorImage: req.file.path
+  });
+  //creating a authorModel, and passing it the data to be manipulated later
   author.save((err, author) => {
     if (!err) return res.json(author);
     console.log(err);
@@ -62,32 +72,36 @@ authorRouter.post("/", upload.single("photo"), (req, res) => {
   });
 });
 
-authorRouter.patch("/:id", (req, res) => {
+authorRouter.patch("/:id", upload.single("authorImage"), async (req, res) => {
   authorId = req.params.id;
-  const authorDetails = req.body;
-  authorModel.findOneAndUpdate(
-    { _id: authorId },
-    authorDetails,
-    { new: true },
-    (err, author) => {
-      if (!err) return res.json(author);
-      res.json({
-        code: "DB_ERROR",
-      });
-    }
-  );
-  res.send(`Editing author with ID = ${req.params.id}`);
+  console.log("update author", "before author data");
+  authorData = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    dob: req.body.dob,
+    authorImage: req.file ? req.file.path : authorModel.findById(authorId).authorImage
+  }
+  console.log("update author", authorData);
+
+  try {
+    const updatedAuthor = await authorModel.findOneAndUpdate({ _id: authorId }, authorData, { new: true })
+    res.json(updatedAuthor)
+  } catch (err) {
+    res.status(500).json({
+      code: 'DB_ERROR'
+    })
+  }
 });
 
-authorRouter.delete("/:id", (req, res) => {
-  authorId = req.params.id;
-  authorModel.findOneAndRemove({ _id: authorId }, (err) => {
-    if (!err) return res.json({ state: "deleted" });
-    res.json({
-      code: "DB_ERROR",
-    });
-  });
-  res.send(`Deleting author with ID = ${req.params.id}`);
+
+authorRouter.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const result = await authorModel.findByIdAndRemove(id);
+    res.json(result);
+  } catch (err) {
+    res.status(500).send(error.errmsg);
+  }
 });
 
 module.exports = authorRouter;

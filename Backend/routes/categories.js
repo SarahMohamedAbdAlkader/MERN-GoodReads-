@@ -1,10 +1,10 @@
 const express = require("express");
-const cors = require("cors");
+// const cors = require("cors");
 const router = express.Router();
 const BookModel = require("../models/book")
 const catModel = require("../models/category");
 const { check, validationResult } = require('express-validator');
-router.get("/", cors(), async (req, res, next) => {
+router.get("/", async (req, res, next) => {
 
   try {
     if (req.query.name) {
@@ -29,9 +29,7 @@ router.get("/", cors(), async (req, res, next) => {
   }
 });
 
-router.post("/", [
-  check('catName').not().isEmpty()
-], async (req, res) => {
+router.post("/", [check('catName').not().isEmpty()], async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -44,7 +42,7 @@ router.post("/", [
 
     res.send(category);
   } catch (error) {
-    res.send(error.errmsg);
+    res.status(500).send(error.errmsg);
   }
 });
 router.delete("/:id", async (req, res) => {
@@ -79,7 +77,7 @@ router.patch("/:id", async (req, res) => {
     });
     res.json(category);
   } catch (err) {
-    res.send(error.errmsg);
+    res.status(500).send(error.errmsg);
   }
 });
 

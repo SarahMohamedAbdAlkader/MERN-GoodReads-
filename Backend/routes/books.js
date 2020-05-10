@@ -95,10 +95,9 @@ router.patch('/:id', async (req, res) => {
     const newBookData = req.body;
     console.log("edit book");
     try {
-        const updatedBook = BookModel.findOneAndUpdate({ _id: id }, newBookData, { new: true }).populate('category').populate('author')
+        const updatedBook = await BookModel.findOneAndUpdate({ _id: id }, newBookData, { new: true }).populate('category').populate('author')
         res.json(updatedBook)
     } catch (err) {
-        console.log(err);
         res.json({
             code: 'DB_ERROR'
         })
