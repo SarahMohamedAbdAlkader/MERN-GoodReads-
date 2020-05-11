@@ -19,9 +19,7 @@ router.get("/", async (req, res, next) => {
     }
     else {
       const cats = await catModel.find({});
-      res.json({
-        cats,
-      });
+      res.json(cats);
       console.log(cats);
     }
   } catch (err) {

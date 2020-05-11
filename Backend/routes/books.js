@@ -33,20 +33,19 @@ const upload = multer({
 });
 /** MiddleWares */
 
-
-
 /** APIs */
 router.post('/', upload.single('bookImage'), async (req, res) => {
     console.log("Before Add Book To DB");
     const book = new BookModel({
         name: req.body.name,
-        bookImage: req.file.filename,
         category: req.body.categoryId,
-        author: req.body.authorId
+        author: req.body.authorId,
+        bookImage: req.file.path
     });
     try {
         const savedBook = await book.save();
-        res.json(savedBook);
+        const savedBookDetails =  await BookModel.findById({ _id:savedBook._id }).populate('category').populate('author')
+        res.json(savedBookDetails);
     } catch (err) {
         console.log(err);
         res.json(err);
@@ -55,6 +54,7 @@ router.post('/', upload.single('bookImage'), async (req, res) => {
 
 router.get('/', async (req, res) => {
     console.log("Get All Book");
+    // BookModel.remove({},()=>{})
     try {
         const books = await BookModel.find().populate('category').populate('author')
         res.json(books)
@@ -81,8 +81,8 @@ router.delete('/:id', async (req, res) => {
     const id = req.params.id
     console.log("delete book");
     try {
-        const book = await BookModel.deleteOne({ _id: postId })
-        res.json(book);
+        const deletedState = await BookModel.deleteOne({ _id: id })
+        res.json(deletedState);
     }
     catch (err) {
         console.log(err);
@@ -90,9 +90,14 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', upload.single('bookImage'),async (req, res) => {
     const id = req.params.id;
-    const newBookData = req.body;
+    const newBookData = {
+        name: req.body.name,
+        category: req.body.categoryId,
+        author: req.body.authorId,
+        bookImage: req.file ? req.file.path : (await BookModel.findById(id).select('bookImage -_id')).bookImage
+      }
     console.log("edit book");
     try {
         const updatedBook = await BookModel.findOneAndUpdate({ _id: id }, newBookData, { new: true }).populate('category').populate('author')

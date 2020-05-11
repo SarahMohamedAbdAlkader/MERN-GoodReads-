@@ -10,13 +10,13 @@ const bookSchema = mongoos.Schema({
     },
     category: {
         type: mongoos.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'category'
     },
     author: {
         type: mongoos.Schema.Types.ObjectId,
-        ref: 'Author'
+        ref: 'author'
     },
-    added: {
+    addedDate: {
         type: Date,
         default: Date.now
     }
