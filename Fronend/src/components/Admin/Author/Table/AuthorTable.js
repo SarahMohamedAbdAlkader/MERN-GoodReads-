@@ -1,0 +1,132 @@
+import React from 'react';
+import { useState, useEffect } from 'react';
+import "./AuthorTable.css"
+import Modal from "../Modal/Modal"
+import axios from 'axios'
+const SERVER_URL="http://localhost:5000";
+
+function BookTable() {
+    let i = 0;
+    const [authorList, setAuthorList] = useState([])
+    const [editedItemId, setEditedItemId] = useState()
+    const [modalState, setModalState] = useState("add")
+    const [editedFirstName, setEditedFirstName] = useState("")
+    const [editedLastName, setEditedLastName] = useState("")
+    const [editedPhoto, seteditedPhoto] = useState("")
+    const [editedDob, setEditedDob] = useState({})
+
+    useEffect(() => {
+        fetchData(`${SERVER_URL}/authors`, setAuthorList)
+    }, [])
+    return <div class="mt-5 text-center">
+        <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => {
+            setEditedFirstName("")
+            setEditedLastName("")
+            seteditedPhoto("")
+            setEditedDob("")
+            setModalState("add")
+        }}><i class="fa fa-plus"></i></button>
+        <Modal
+            authorList={authorList} setAuthorList={setAuthorList}
+            modalState={modalState} editedItemId={editedItemId}
+            editedFirstName={editedFirstName} setEditedFirstName={setEditedFirstName}
+            editedLastName={editedLastName} setEditedLastName={setEditedLastName}
+            editedPhoto={editedPhoto} seteditedPhoto={seteditedPhoto}
+            editedDob={editedDob} setEditedDob={setEditedDob}
+        />
+        <table class="table mt-2 table-striped" >
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Date Of Birth</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    authorList.map((author) => {
+                        i++;
+                        return <TarbleRow index={i}
+                            author={author}
+                            authorList={authorList} setAuthorList={setAuthorList}
+                            setEditedItemId={setEditedItemId} setModalState={setModalState}
+                            setEditedFirstName={setEditedFirstName} setEditedLastName={setEditedLastName}
+                            seteditedPhoto={seteditedPhoto} setEditedDob={setEditedDob}
+                        ></TarbleRow>
+                    })
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+
+function TarbleRow({ index, author, authorList, setAuthorList,
+    setModalState, setEditedItemId, setEditedFirstName, setEditedLastName,
+    seteditedPhoto, setEditedDob }) {
+//   const date= new Date(author.dob).toISOString()
+  const date= author.dob.substring(0,10);
+  return (<tr>
+        <th scope="row">{index}</th>
+        <td><a href={`${SERVER_URL}/${author.authorImage}`} target="_blank">Photo</a></td>
+        <td>{author.firstName}</td>
+        <td>{author.lastName}</td>
+        <td>{date}</td>
+        <td>
+            <EditBtn author={author} authorList={authorList}
+                setModalState={setModalState} setEditedItemId={setEditedItemId}
+                setEditedFirstName={setEditedFirstName} setEditedLastName={setEditedLastName}
+                seteditedPhoto={seteditedPhoto} setEditedDob={setEditedDob}
+            ></EditBtn>
+            <DeleteBtn author={author} setAuthorList={setAuthorList} authorList={authorList}></DeleteBtn>
+        </td>
+    </tr>
+    )
+}
+
+
+const EditBtn = ({ author, authorList, setModalState, setEditedItemId,
+    setEditedFirstName, setEditedLastName, seteditedPhoto, setEditedDob }) => {
+    return <button class="btn" value={author._id}  >
+        <i data-toggle="modal" data-target=".bd-example-modal-lg" class="fa fa-edit" onClick={(event) => {
+            const editedId = event.target.parentElement.value
+            setEditedItemId(editedId);
+            
+            let editedItem = authorList.filter(item => editedId == item._id)[0]
+            console.log(editedItem);
+            
+            setEditedFirstName(editedItem.firstName)
+            setEditedLastName(editedItem.lastName)
+            seteditedPhoto(editedItem.authorImage)
+            setEditedDob(editedItem.dob.substring(0,10))
+            setModalState("edit")
+        }}></i></button>
+}
+
+const DeleteBtn = ({ author, setAuthorList, authorList }) => {
+    return <button class="btn" value={author._id} >
+        <i class="fa fa-trash" onClick={(event) => {
+            const deletedId = event.target.parentElement.value;
+            if (window.confirm("Are You Sure!")) {
+                axios.delete(`${SERVER_URL}/authors/${deletedId}`).then(res => {
+                    if (res.status === 200) {
+                        setAuthorList(() => {
+                            return authorList.filter(item => deletedId != item._id)
+                        })
+                    }
+                })
+            }
+        }}></i></button>
+}
+
+async function fetchData(url, setList) {
+    console.log("fetching");
+    let response = await fetch(url)
+    let data = await response.json();
+    console.log(data);
+    setList(data);
+}
+export default BookTable
