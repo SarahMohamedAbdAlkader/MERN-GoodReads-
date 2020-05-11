@@ -1,25 +1,27 @@
 const mongoos = require('mongoose')
 
-const bookSchema = mongos.Schema({
+const bookSchema = mongoos.Schema({
     name: {
         type: String,
         required: true
     },
-    photo: String,
+    bookImage: {
+        type: String,
+    },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        type: mongoos.Schema.Types.ObjectId,
+        ref: 'category'
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Author'
+        type: mongoos.Schema.Types.ObjectId,
+        ref: 'author'
     },
-    added: {
+    addedDate: {
         type: Date,
         default: Date.now
     }
 })
 
-var BookModel = mongoose.model('Book', bookSchema);
+var BookModel = mongoos.model('Book', bookSchema);
 
 module.exports = BookModel;
