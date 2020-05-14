@@ -4,9 +4,7 @@ const users = express.Router();
 const multer = require('multer');
 const upload = multer({dest : 'uploads/users'});
 
-//you should continue 7owar l sooraa.....
-//git ba2a kaman 
-//link backend - frontend ya nour 
+ 
 users.get('/', async function (request, response) {
     //show all users
 
@@ -66,7 +64,7 @@ users.post('/login', async function (request, response) {
 })
 users.post('/logout', async (req, res) => {
     // Log user out
-    console.log("ANA fl SERVER "); 
+    
     
     try {
         const {email,token}=req.body;
@@ -80,11 +78,11 @@ users.post('/logout', async (req, res) => {
         newUser=curUser
       
         await newUser.save()
-        console.log("aho aho aho aho");
+       
         
         res.json({"msg":"logged out!"})
     } catch (error) {
-        res.json({error:"error ya amaar"})
+        res.json({error:"database error"})
     }
 })
 
