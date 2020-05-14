@@ -3,6 +3,7 @@ const BookModel = require('../models/book')
 const multer = require('multer')
 const { v4: uuidv4 } = require('uuid');
 const router = express.Router()
+const ReviewModel = require('../models/review');
 
 
 
@@ -69,7 +70,8 @@ router.get('/:id', async (req, res) => {
     console.log("Get A Book");
     try {
         const book = await BookModel.findById({ id }).populate('category').populate('author')
-        res.json(book)
+        const bookReviews = await ReviewModel.find({ book:id }).populate('usersModel')
+        res.json(book,bookReviews)
     } catch (err) {
         console.log(err);
         res.json(err)
