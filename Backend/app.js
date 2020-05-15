@@ -5,6 +5,7 @@ const categoryRouter = require('./routes/categories')
 const authorRouter = require('./routes/authors')
 const userRouter= require('./routes/users')
 const reviewRouter= require('./routes/reviews')
+const ratingRouter= require('./routes/ratings')
 const PORT = process.env.PORT || 5000
 const MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/goodreads"
 const app = express();
@@ -25,6 +26,7 @@ app.use('/authors', authorRouter)
 app.use('/categories', categoryRouter)
 app.use('/users', userRouter)
 app.use('/reviews', reviewRouter)
+app.use('/ratings', ratingRouter)
 
 
 
