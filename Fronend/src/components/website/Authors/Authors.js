@@ -28,7 +28,7 @@ function Authors() {
             <Card.Body >
               <Card.Title>{item.firstName}</Card.Title>
               <img src={"http://localhost:8000/"+item.photo} alt=""/>  
-              <Card.Text>Number of Books: {item.books.length}</Card.Text>            
+              <Card.Text>Number of Books: </Card.Text>            
                <Link style={{marginLeft:'20%'}} to={"/authorDetails/"+item._id} >Go To Author Details</Link>
             </Card.Body>
           </Card>
