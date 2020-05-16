@@ -23,20 +23,34 @@ function AuthorDetails() {
       setfirstName(res.data.firstName)
       setlastName(res.data.lastName)
       setImg(url+res.data.photo)
-      console.log(res.data.books);
+      // console.log(res.data.books);
       
-      setarr(res.data.books)
-      console.log(url+res.data.photo);
+      // setarr(res.data.books)
+      // console.log(url+res.data.photo);
       
   })
   .catch(function (error) {
       console.log(error);
   })
   }
+  const getAuthorsBooks = ()=>{
+    let url="http://localhost:8000/";
+    axios.get(url+'books/author/'+id)
+    .then(res =>{
+      setarr(res.data)
+      console.log(res.data);
+      
+    })
+    .catch(function (error) {
+      console.log(error);
+  })
+  }
+  
   
   useEffect(()=>{ 
     
       getAuthorsInfo()
+      getAuthorsBooks()
       
   }, []);
     
