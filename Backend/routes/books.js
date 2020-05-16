@@ -28,17 +28,42 @@ router.post('/', upload.single('bookImage'), async (req, res) => {
     }
 })
 
-router.get('/', async (req, res) => {
-    console.log("Get All Book");
-    // BookModel.remove({},()=>{})
-    try {
-        const books = await BookModel.find().populate('category').populate('author')
-        res.json(books)
-    } catch (err) {
-        console.log(err);
-        res.json(err)
-    }
-})
+// router.get('/', async (req, res) => {
+//     console.log("Get All Book");
+//     // BookModel.remove({},()=>{})
+//     try {
+//         const books = await BookModel.find().populate('category').populate('author')
+//         res.json(books)
+//     } catch (err) {
+//         console.log(err);
+//         res.json(err)
+//     }
+// })
+router.get( '/',cors(),async (req,res)=>{
+    try{console.log("Get All Book"); 
+    const books = await BookModel.find().populate('category').populate('author')
+       console.log(books)
+       const pageCount = Math.ceil(books.length / 10);
+       let page = parseInt(req.query.page);
+       if (!page) { page = 1;}
+       if (page > pageCount) {
+         page = pageCount
+       }
+       res.json({
+         "dataLength":books.length,
+         "page": page,
+         "pageCount": pageCount,
+         books: books.slice(page * 10 - 10, page * 10)
+       });
+  }
+       catch(err){
+          res.json({
+              code: 'DataBase Error'
+          })
+      }
+      })
+
+
 
 router.get('/:id', async (req, res) => {
     const id = req.params.id
