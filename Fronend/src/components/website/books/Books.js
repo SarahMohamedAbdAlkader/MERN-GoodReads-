@@ -4,6 +4,7 @@ import ReactPaginate from 'react-paginate';
 import '../categories/Categories.css'
 import bg2 from '../../assests/bg2.png'
 import { Link } from 'react-router-dom'
+import './Books.css'
 const SERVER_URL = "http://localhost:5000"
 export default class Books extends Component {
     constructor(props) {
@@ -25,13 +26,14 @@ export default class Books extends Component {
             .get(`http://localhost:5000/books`)
             .then(res => {
 
-                const data = res.data;
+                const data = res.data.books;
+                console.log(data,"dd",res.data.page)
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                  this.state.postData = slice
-                 this.setState({postData:slice})
-       console.log(slice)
+                 this.setState({postData:data})
+       
                 this.setState({
-                    pageCount: Math.ceil(data.length / this.state.perPage),
+                    pageCount: Math.ceil(res.data.dataLength / this.state.perPage),
                 })
             
         });
@@ -57,16 +59,16 @@ export default class Books extends Component {
     render() { const {postData}=this.state
         return (
             <div>
-                <div class="row  m-5 d-flex justify-content-around text-center">
+                <div class="row  " >
                 {
                 postData.map((book, index) =>
-                
+              
                 <div key={index}  style={{ width: 250 }}>
-<img class="card-img-top   rounded mx-auto d-block mt-5 "  style={{ width: 250,height:250 }} src= {`${SERVER_URL}/${book.bookImage}`}/>
+<img class="card-img-top    "  style={{ width: 250,height:250 }} src= {`${SERVER_URL}/${book.bookImage}`}/>
       <Link  class=" font-italic "style={{fontSize:18 }} to={"/books/" + book._id}>{book.name}</Link>
-                <Link style={{fontSize:18 }} class=" font-italic" to={"/author/" + book.author._id}>{book.author.firstName}{book.author.lastName}</Link>
-  
-    </div>
+                <Link style={{fontSize:18 }} class=" font-italic mb-5" to={"/author/" + book.author._id}>{book.author.firstName}{book.author.lastName}</Link>
+  </div>
+    
                  ) }
                  
                 </div>

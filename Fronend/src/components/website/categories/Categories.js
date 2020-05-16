@@ -9,7 +9,6 @@ export default class Categories extends Component {
         super(props);
         this.state = {
             postData: [],
-            offset: 0,
             data: [],
             perPage: 10,
 
@@ -25,12 +24,13 @@ export default class Categories extends Component {
             .then(res => {
 
                 const data = res.data.cats;
+                console.log(data,"dd",res.data.page)
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                  this.state.postData = slice
-                 this.setState({postData:slice})
+                 this.setState({postData:data})
        
                 this.setState({
-                    pageCount: Math.ceil(data.length / this.state.perPage),
+                    pageCount: Math.ceil(res.data.dataLength / this.state.perPage),
                 })
             
         });
@@ -38,15 +38,20 @@ export default class Categories extends Component {
     }
     handlePageClick = (e) => {
         const selectedPage = e.selected;
-        const offset = selectedPage * this.state.perPage;
-
         this.setState({
             currentPage: selectedPage,
-            offset: offset,
           
         }, () => {
-            this.receivedData()
+            axios
+            .get(`http://localhost:5000/categories/?page=`+selectedPage+1)
+            .then(res => {
+
+                const data = res.data.cats;
+                this.state.postData = data
+                this.setState({postData:data})
+            })
         });
+
 
     };
 
