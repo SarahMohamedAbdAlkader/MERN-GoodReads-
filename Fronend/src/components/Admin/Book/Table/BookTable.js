@@ -18,7 +18,7 @@ function BookTable() {
     const [editedCategoryId, setEditedCategoryId] = useState({})
 
     useEffect(() => {
-        fetchData(`${SERVER_URL}/books`, setBookList)
+        fetchData(`${SERVER_URL}/books/all`, setBookList)
     }, [])
 
 

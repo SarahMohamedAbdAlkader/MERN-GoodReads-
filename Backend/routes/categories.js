@@ -4,29 +4,29 @@ const router = express.Router();
 const BookModel = require("../models/book")
 const catModel = require("../models/category");
 const { check, validationResult } = require('express-validator');
-// router.get("/", async (req, res, next) => {
+router.get("/all", async (req, res, next) => {
+  try {
+    if (req.query.name) {
+      const category = await catModel.findOne({ catName: req.query.name })
+      const books = await BookModel.find({ category: category })
+      console.log(books)
+      const BooksAndCategories = {
+        category,
+        books,
+      }
+      res.json(BooksAndCategories);
+    }
+    else {
+      const cats = await catModel.find({});
+      res.json(cats);
+      console.log(cats);
+    }
+  } catch (err) {
+    res.send(error.errmsg);
+  }
+});
 
-//   try {
-//     if (req.query.name) {
-//       const category = await catModel.findOne({ catName: req.query.name })
-//       const books = await BookModel.find({ category: category })
-//       console.log(books)
-//       const BooksAndCategories = {
-//         category,
-//         books,
-//       }
-//       res.json(BooksAndCategories);
-//     }
-//     else {
-//       const cats = await catModel.find({});
-//       res.json(cats);
-//       console.log(cats);
-//     }
-//   } catch (err) {
-//     res.send(error.errmsg);
-//   }
-// });
-router.get( '/',cors(),async (req,res,next)=>{
+router.get( '/',async (req,res,next)=>{
   try{ const cats= await catModel.find({});
      console.log(cats.length)
      const pageCount = Math.ceil(cats.length / 10);

@@ -5,6 +5,7 @@ import Modal from "../Modal/Modal"
 import EditBtn from "../EditBtn"
 import DeleteBtn from "../DeleteBtn"
 import AdminNav from "../../AdminNav/AdminNav"
+const SERVER_URL = "http://localhost:5000"
 
 function CategoryTable() {
     let i = 0;
@@ -13,7 +14,7 @@ function CategoryTable() {
     const [catName, setCatName] = useState("")
     const [modalState, setModalState] = useState("add")
     React.useEffect(() => {
-        fetchData(setCategoryList)
+        fetchData(`${SERVER_URL}/categories/all`,setCategoryList)
     }, [])
     return <div class="mt-5 text-center"><AdminNav/>
         <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => { setCatName(""); setModalState("add") }}><i class="fa fa-plus"></i></button>
@@ -53,13 +54,9 @@ function TarbleRow({ index, category, setCategoryList, categoryList, setCatName,
     )
 }
 
-async function fetchData(setList) {
-    console.log("detching");
-    
-    const url = "http://localhost:5000/";
-    let response = await fetch(url + "categories")
+async function fetchData(url,setList) {    
+    let response = await fetch(url)
     let data = await response.json();
-    console.log(data);
     setList(data);
 }
 

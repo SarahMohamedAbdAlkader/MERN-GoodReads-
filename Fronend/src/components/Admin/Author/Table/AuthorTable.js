@@ -18,7 +18,7 @@ function BookTable() {
     const [editedDob, setEditedDob] = useState({})
 
     useEffect(() => {
-        fetchData(`${SERVER_URL}/authors`, setAuthorList)
+        fetchData(`${SERVER_URL}/authors/all`, setAuthorList)
     }, [])
     return <div class="mt-5 text-center"><AdminNav/>
         <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => {
@@ -125,10 +125,8 @@ const DeleteBtn = ({ author, setAuthorList, authorList }) => {
 }
 
 async function fetchData(url, setList) {
-    console.log("fetching");
     let response = await fetch(url)
     let data = await response.json();
-    console.log(data);
     setList(data);
 }
 export default BookTable

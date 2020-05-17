@@ -28,18 +28,17 @@ router.post('/', upload.single('bookImage'), async (req, res) => {
     }
 })
 
-// router.get('/', async (req, res) => {
-//     console.log("Get All Book");
-//     // BookModel.remove({},()=>{})
-//     try {
-//         const books = await BookModel.find().populate('category').populate('author')
-//         res.json(books)
-//     } catch (err) {
-//         console.log(err);
-//         res.json(err)
-//     }
-// })
-router.get( '/',cors(),async (req,res)=>{
+router.get('/all', async (req, res) => {
+    console.log("Get All Book");
+    try {
+        const books = await BookModel.find().populate('category').populate('author')
+        res.json(books)
+    } catch (err) {
+        console.log(err);
+        res.json(err)
+    }
+})
+router.get( '/',async (req,res)=>{
     try{console.log("Get All Book"); 
     const books = await BookModel.find().populate('category').populate('author')
        console.log(books)

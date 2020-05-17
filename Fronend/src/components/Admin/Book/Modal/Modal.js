@@ -14,8 +14,8 @@ function Modal({
     const [authorList, setAuthorList] = useState([]);
 
     React.useEffect(() => {
-        fetchData(`${SERVER_URL}/categories`, setCategoryList)
-        fetchData(`${SERVER_URL}/authors`, setAuthorList)
+        fetchData(`${SERVER_URL}/categories/all`, setCategoryList)
+        fetchData(`${SERVER_URL}/authors/all`, setAuthorList)
     }, [])
 
     return (<React.Fragment>

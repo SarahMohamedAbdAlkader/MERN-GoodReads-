@@ -32,6 +32,13 @@ const upload = multer({
   },
   fileFilter: fileFilter
 });
+authorRouter.get("/all", async (req, res, next) => {
+  authorModel.find({}, (err, authors) => {
+    if (!err) return res.json(authors);
+    res.status(500).json({code: "DATABASE_ERROR"});
+  });
+});
+
 authorRouter.get("/", async (req, res, next) => {
   //Dealing with DB:
   authorModel.find({}, (err, authors) => {

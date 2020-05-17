@@ -25,7 +25,6 @@ export default class Categorydetails extends Component {
         axios
             .get(`http://localhost:5000/categories/`+url)
             .then(res => {
-
                 const data = res.data;
                 const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
                  this.state.postData = slice
