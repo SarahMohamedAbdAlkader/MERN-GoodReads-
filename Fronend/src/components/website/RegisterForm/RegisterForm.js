@@ -14,7 +14,7 @@ function RegisterForm() {
     
   const handleSubmit= (e)=>{
     e.preventDefault();
-    axios.post('http://localhost:8000/users/register/2',{firstName,lastName,email,password})
+    axios.post('http://localhost:5000/users/register/2',{firstName,lastName,email,password})
     .then(res => {
       localStorage.setItem('userToken',res.data)
       const tmp=localStorage.getItem('userToken');
