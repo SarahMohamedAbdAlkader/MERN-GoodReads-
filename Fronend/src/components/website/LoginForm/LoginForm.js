@@ -11,7 +11,7 @@ const handleSubmit = (e)=>{
   console.log(email);
   console.log(password);
  
-  axios.post('http://localhost:8000/users/login',{email,password})
+  axios.post('http://localhost:5000/users/login',{email,password})
   .then(res => {
     localStorage.setItem('userToken',res.data)
     const tmp=localStorage.getItem('userToken');
@@ -28,7 +28,7 @@ const handleSubmit = (e)=>{
     localStorage.removeItem('userToken'); 
     const tmp=localStorage.getItem('userToken');
     console.log(tmp);
-    axios.post('http://localhost:8000/users/logout',{token,email})
+    axios.post('http://localhost:5000/users/logout',{token,email})
     .then(res => {
       localStorage.setItem('userToken',res.data)
       const tmp=localStorage.getItem('userToken');
