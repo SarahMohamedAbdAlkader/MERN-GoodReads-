@@ -4,6 +4,8 @@ import "./CategoryTable.css"
 import Modal from "../Modal/Modal"
 import EditBtn from "../EditBtn"
 import DeleteBtn from "../DeleteBtn"
+import AdminNav from "../../AdminNav/AdminNav"
+
 function CategoryTable() {
     let i = 0;
     const [categoryList, setCategoryList] = useState([])
@@ -13,7 +15,7 @@ function CategoryTable() {
     React.useEffect(() => {
         fetchData(setCategoryList)
     }, [])
-    return <div class="mt-5 text-center">
+    return <div class="mt-5 text-center"><AdminNav/>
         <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => { setCatName(""); setModalState("add") }}><i class="fa fa-plus"></i></button>
         <Modal setCategoryList={setCategoryList} categoryList={categoryList} catName={catName} setCatName={setCatName} modalState={modalState} editedItemId={editedItemId} />
         <table class="table mt-2 table-striped" >

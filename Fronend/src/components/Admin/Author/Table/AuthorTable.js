@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import "./AuthorTable.css"
 import Modal from "../Modal/Modal"
 import axios from 'axios'
+import AdminNav from "../../AdminNav/AdminNav"
+
 const SERVER_URL="http://localhost:5000";
 
 function BookTable() {
@@ -18,7 +20,7 @@ function BookTable() {
     useEffect(() => {
         fetchData(`${SERVER_URL}/authors`, setAuthorList)
     }, [])
-    return <div class="mt-5 text-center">
+    return <div class="mt-5 text-center"><AdminNav/>
         <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => {
             setEditedFirstName("")
             setEditedLastName("")
