@@ -16,7 +16,7 @@ function AuthorDetails() {
   //const id = "5ebdc911b9c7bc1385204e14";
   const id=params.id;
   const getAuthorsInfo = ()=>{
-    let url="http://localhost:8000/";
+    let url="http://localhost:5000/";
   
     axios.get(url+'authors/'+id)
     .then(res => {
@@ -34,7 +34,7 @@ function AuthorDetails() {
   })
   }
   const getAuthorsBooks = ()=>{
-    let url="http://localhost:8000/";
+    let url="http://localhost:5000/";
     axios.get(url+'books/author/'+id)
     .then(res =>{
       setarr(res.data)
