@@ -79,11 +79,8 @@ router.get("/:id", async (req, res) => {
     const category = await catModel.findById(id)
     const books = await BookModel.find({ category: category })
     console.log(books)
-    const BooksAndCategories = {
-      category,
-      books,
-    }
-    res.json(BooksAndCategories);
+  
+    res.json(books);
   } catch (err) {
     res.send(error.errmsg);
   }
