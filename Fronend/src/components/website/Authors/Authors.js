@@ -7,7 +7,7 @@ function Authors() {
 
     const getAllAuthors = ()=>{
 
-      let url="http://localhost:8000/";
+      let url="http://localhost:5000/";
   
       axios.get(url+'authors/')
       .then(res => {   
@@ -27,7 +27,7 @@ function Authors() {
             return <Card style={{ width: '18rem' , display : 'inline-block' , marginRight:'10px'}}>
             <Card.Body >
               <Card.Title>{item.firstName}</Card.Title>
-              <img src={"http://localhost:8000/"+item.photo} alt=""/>  
+              <img src={"http://localhost:5000/"+item.photo} alt=""/>  
               <Card.Text>Number of Books: </Card.Text>            
                <Link style={{marginLeft:'20%'}} to={"/authorDetails/"+item._id} >Go To Author Details</Link>
             </Card.Body>
