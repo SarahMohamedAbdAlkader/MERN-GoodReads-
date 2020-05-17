@@ -39,27 +39,32 @@ authorRouter.get("/all", async (req, res, next) => {
   });
 });
 
-authorRouter.get("/", async (req, res, next) => {
-  //Dealing with DB:
-  authorModel.find({}, (err, authors) => {
-    console.log(authors);
+authorRouter.get("/", async(req, res) => {
+ 
+  try {
 
-    if (!err) return res.json(authors);
-    res.status(500).json({
-      code: "DATABASE_ERROR",
-    });
-  });
-});
+    const authors = await authorModel.find({})
+    res.json(authors)
 
-authorRouter.get("/:id", (req, res) => {
-  const authorId = req.params.id;
-  authorModel.findById(authorId).exec((err, author) => {
-    if (!err) return res.send(author);
-    res.json({
-      code: "DB_ERROR",
-    });
-  });
-  // res.send(`Showing author with ID = ${authorId}}`);
+  } catch (error) {
+        res.json({code: "DATABASE_ERROR"});
+  }
+})
+
+authorRouter.get("/:id", async (req, res) => {
+  try {
+    
+    const authorId = req.params.id;
+    console.log(authorId);
+    
+    const author = await authorModel.findById(authorId);
+    res.json(author);
+    console.log(author);
+    
+  }  catch (error) {
+    res.status(500).json({error:"db error"})
+  }
+  
 });
 
 authorRouter.post("/", upload.single("authorImage"), (req, res) => {

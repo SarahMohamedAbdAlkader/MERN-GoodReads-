@@ -77,6 +77,19 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+router.get('/author/:author', async (req, res) => {
+    const authorid = req.params.author
+    console.log("Get All Book");
+    try {//mongoose.Types.ObjectId(authorid)
+        const books = await BookModel.find({ author:authorid }).populate('author')
+        console.log(books);
+        
+        res.json(books)
+    } catch (err) {
+        console.log(err);
+        res.json(err)
+    }
+})
 
 router.delete('/:id', async (req, res) => {
     const id = req.params.id

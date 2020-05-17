@@ -4,14 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 // import AdminHome from "./screens/Admin"
-import Navbar from "./components/Website/Navbar/Navbar"
-import HomePage from "./components/Website/HomePage/HomePage"
+import Navbar from "./components/website/Navbar/Navbar"
+import HomePage from "./components/website/HomePage/HomePage"
+import Categories from './components/website/categories/Categories'
+import Categorydetails from './components/website/categories/Categorydetails'
+import Books from './components/website/books/Books'
+import Book from './components/website/bookDetails/Book'
+import Authors from './components/website/Authors/Authors'
+import AuthorDetails from './components/website/AuthorDetails/AuthorDetails';
 
-import Categories from './components/Website/categories/Categories'
-import Categorydetails from './components/Website/categories/Categorydetails'
-import Books from './components/Website/books/Books'
-import Book from './components/Website/bookDetails/Book'
-import Authors from './components/Website/Authors/Authors'
 import CategoryTable from "./components/Admin/Category/Table/CategoryTable"
 import BookTable from "./components/Admin/Book/Table/BookTable"
 import AuthorTable from "./components/Admin/Author/Table/AuthorTable"
@@ -43,7 +44,8 @@ function App() {
         <Route exact path="/categories/:id"><Categorydetails /></Route>
         <Route exact path="/books/"><Books /></Route>
         <Route exact path="/books/:id"><Book /></Route>
-        <Route exact path="/authors"><Authors /></Route>
+        <Route exact path="/authors"> <Authors /></Route>
+        <Route exact path="/authorDetails/:id"> <AuthorDetails/></Route>
       </Switch>
     </BrowserRouter>
   );

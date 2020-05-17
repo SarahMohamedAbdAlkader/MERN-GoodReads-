@@ -1,45 +1,89 @@
-const mongoose = require('mongoose');
-const schema = mongoose.Schema
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const express = require('express');
+const usersModel = require('../models/user')
+const users = express.Router();
+const multer = require('multer');
+const upload = multer({dest : 'uploads/users'});
 
-const usersSchema = new schema({
-    firstName:{type : String , required :true},
-    lastName:{type :String ,required:true},
-    email:{type: String , unique:true,required:true, match:/.+@.+\.+/},
-    admin:{type:Boolean , required:true},
-    password:{type: String , required: true},
-    tokens: [{ token: { type: String, required: true}}]
+ 
+users.get('/', async function (request, response) {
+    //show all users
+
+    try {
+        const users = await usersModel.find({})
+        response.json(users)
+
+    } catch (err) {
+        response.json({
+            code: 'database_error'
+        })
+    }
+})
+
+users.post('/register/:admin', async function (request, response) {
+   
+    
+    try {
+        const {firstName,lastName,email,password}=request.body;
+        let newUser = new usersModel()
+        newUser.firstName=firstName;
+        newUser.lastName=lastName;
+        newUser.email=email;
+        newUser.password=password;
+        newUser.admin = false;
+        if (request.params.admin == '1') newUser.admin = true;
+
+        await newUser.save()
+        const token = await usersModel.generateAuthToken()
+        response.json( token )
+
+    } catch (err) {
+        response.json(err)
+    }
 
 })
-usersSchema.pre('save', async function (next) {
-    // Hash the password before saving the user model
-    const user = this
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8)
-    }
-    next()
-})
-usersSchema.methods.generateAuthToken = async function() {
-    // Generate an auth token for the user
-    const user = this
-    const token = jwt.sign({_id: user._id}, "tokenkey")
-    user.tokens = user.tokens.concat({token})
-    await user.save()
-    return token
-}
-usersSchema.statics.findByCredentials = async (email, password) => {
-    // Search for a user by email and password.
-    const user = await usersModel.findOne({ email} )
-    if (!user) {
-        throw new Error({ error: 'Invalid login credentials' })
-    }
-    const isPasswordMatch = await bcrypt.compare(password, user.password)
-    if (!isPasswordMatch) {
-        throw new Error({ error: 'Invalid login credentials' })
-    }
-    return user
-}
 
-const usersModel= mongoose.model('usersModel',usersSchema);
-module.exports=usersModel;
+users.post('/login', async function (request, response) {
+    //login a user 
+    try {
+        const {email,password}= request.body
+        console.log(email);
+        console.log(password);
+        
+        
+        const user = await usersModel.findByCredentials(email, password)
+        if (!user) {
+            return response.json({error: 'Wrong email or password!'})
+        }
+        const token = await user.generateAuthToken()
+        response.json( token )
+        
+    } catch (err) {
+        response.json({err})
+    }
+
+})
+users.post('/logout', async (req, res) => {
+    // Log user out
+    console.log("ANA fl SERVER "); 
+    
+    try {
+        const {email,token}=req.body;
+       
+        const curUser = await usersModel.findOne({"email":email }).exec();
+        
+        curUser.tokens = curUser.tokens.filter(item => item.token != token)
+       
+        
+        let newUser = new usersModel()
+        newUser=curUser
+      
+        await newUser.save()
+        console.log("aho aho aho aho");
+        
+        res.json({"msg":"logged out!"})
+    } catch (error) {
+        res.json({error:"error ya amaar"})
+    }
+})
+
+module.exports = users;
