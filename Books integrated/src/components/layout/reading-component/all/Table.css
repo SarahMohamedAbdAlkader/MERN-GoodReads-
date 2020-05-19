@@ -1,0 +1,126 @@
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+
+#books {
+    text-align: center;
+    font-family: s"Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+
+#books td,
+#books th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#books tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#books tr:hover {
+    background-color: #ddd;
+}
+
+#books th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #0275d8;
+    color: white;
+}
+
+pagination {
+    margin-top: 25px;
+}
+
+.pagination span {
+    cursor: pointer;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+}
+
+.pagination span.active {
+    background-color: #0099FF;
+    color: white;
+    border: 1px solid #0099FF;
+}
+
+.readingProgress {
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    align-self: center;
+    position: center;
+}
+
+
+/* .readingProgress {
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    align-self: center;
+    position: center;
+} */
+
+.pagination {
+    margin: 15px auto;
+    display: flex;
+    list-style: none;
+    outline: none;
+}
+
+.pagination>.active>a {
+    background-color: rgb(22, 161, 161);
+    border-color: rgb(22, 161, 161);
+    color: #fff;
+}
+
+.pagination>li>a {
+    border: 1px solid rgb(22, 161, 161);
+    padding: 5px 10px;
+    outline: none;
+    cursor: pointer;
+}
+
+.pagination>.active>a,
+.pagination>.active>span,
+.pagination>.active>a:hover,
+.pagination>.active>span:hover,
+.pagination>.active>a:focus,
+.pagination>.active>span:focus {
+    background-color: rgb(22, 161, 161);
+    border-color: rgb(22, 161, 161);
+    outline: none;
+}
+
+.pagination>li>a,
+.pagination>li>span {
+    color: rgb(22, 161, 161)
+}
+
+.pagination>li:first-child>a,
+.pagination>li:first-child>span,
+.pagination>li:last-child>a,
+.pagination>li:last-child>span {
+    border-radius: unset
+}
+
+.border {
+    border: 5px solid black;
+}
