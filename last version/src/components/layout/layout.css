@@ -1,0 +1,41 @@
+.readingProgress {
+    background-color: whitesmoke;
+    padding: 10px;
+    align-content: left;
+    flex-direction: column;
+    border-radius: 10px;
+    text-align: left;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    width: 50%;
+    margin-top: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    border-radius: 30px;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+}
+
+.sideBarContainer {
+    flex-grow: 2;
+    border-radius: 30px;
+    border-collapse: collapse;
+    border: 5px solid;
+    border-color: #ddd;
+    height: 300px;
+    margin-top: 100px;
+    margin-right: 60px;
+}
+
+.tableContainer {
+    flex-grow: 8;
+    justify-self: center;
+    border-radius: 5px;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    padding: 50px;
+}
