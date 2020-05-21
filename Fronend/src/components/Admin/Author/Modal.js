@@ -12,7 +12,7 @@ function Modal(
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{modalState === "add" ? "Add New Book" : "Edit Book"}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{modalState === "add" ? "Add New Author" : "Edit Author"}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -49,7 +49,7 @@ function Form(props) {
             <label for="recipient-name" class="col-form-label font-weight-bold">Date Of Birth:</label>
             <input type="date" class="form-control" id="dob" value={editedDob} onChange={e => setEditedDob(e.target.value)} />
 
-            <label for="bookImage" class="col-form-label font-weight-bold">Author Image:</label>
+            <label for="authorImage" class="col-form-label font-weight-bold">Author Image:</label>
             <input type="file" class="form-control" id="authorImage" name="authorImage" onChange={(e) => seteditedPhoto(e.target.files[0])} />
 
             <div class="modal-footer " >
@@ -88,7 +88,7 @@ function Form(props) {
                         }
                     }
                     }
-                    class="btn btn-primary " data-dismiss="modal" style={{ margin: "auto" }}>{modalState === "add" ? "Add Book" : "Edit"}</button>
+                    class="btn btn-primary " data-dismiss="modal" style={{ margin: "auto" }}>{modalState === "add" ? "Add Author" : "Edit"}</button>
             </div>
         </div>
     </form >

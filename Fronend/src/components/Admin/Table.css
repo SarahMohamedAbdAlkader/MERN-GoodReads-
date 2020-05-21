@@ -1,6 +1,7 @@
 .table {
-    width: 50%;
+    width: 70%;
     margin: auto;
+    margin-bottom: 10px;
 }
 th,td {
     text-align: center;

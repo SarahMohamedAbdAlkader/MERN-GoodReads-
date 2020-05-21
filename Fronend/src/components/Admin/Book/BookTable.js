@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import "./BookTable.css"
-import Modal from "../Modal/Modal"
+import "../Table.css"
+import Modal from "./Modal"
 import axios from 'axios'
-import AdminNav from "../../AdminNav/AdminNav"
-
+import AdminNav from "../AdminNav/AdminNav"
 const SERVER_URL = "http://localhost:5000"
 
 function BookTable() {

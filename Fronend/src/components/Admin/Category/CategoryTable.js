@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import "./CategoryTable.css"
-import Modal from "../Modal/Modal"
-import EditBtn from "../EditBtn"
-import DeleteBtn from "../DeleteBtn"
-import AdminNav from "../../AdminNav/AdminNav"
+import "../Table.css"
+import Modal from "./Modal"
+import EditBtn from "./EditBtn"
+import DeleteBtn from "./DeleteBtn"
+import AdminNav from "../AdminNav/AdminNav"
 const SERVER_URL = "http://localhost:5000"
+
 
 function CategoryTable() {
     let i = 0;
