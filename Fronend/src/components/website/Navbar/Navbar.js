@@ -1,6 +1,8 @@
 import React from 'react';
 import FAVPNG from '../../assests/FAVPNG.png'
 import gwordlogo from '../../assests/gwordlogo.png'
+import login from '../../assests/login.png'
+import user from '../../assests/user.png'
 import './Navbar.css'
 import { Link, BrowserRouter, Switch, Route } from 'react-router-dom'
 import Categories from '../categories/Categories'
@@ -36,14 +38,20 @@ function Navbar() {
           </li>
 
 
-          <li class="  col-3">
+          <li class="col-3 ">
             <img class="img2" src={gwordlogo} />
+        
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline col-4 my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
           <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <li class="col-2  ">
+        <Link><img class=" img mr-3" src={user} /></Link>
+        <Link> <img class="img" src={login} /></Link>
+            
+          </li>
       </div>
     </nav>
   </React.Fragment>
