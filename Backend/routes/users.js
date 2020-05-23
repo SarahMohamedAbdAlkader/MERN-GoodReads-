@@ -1,10 +1,9 @@
 const express = require('express');
 const usersModel = require('../models/user')
 const users = express.Router();
-const multer = require('multer');
-const upload = multer({dest : 'uploads/users'});
+const {editToken, separateToken} = require('../middlewares/users')
 
- 
+
 users.get('/', async function (request, response) {
     //show all users
 
@@ -13,11 +12,50 @@ users.get('/', async function (request, response) {
         response.json(users)
 
     } catch (err) {
-        response.json({
-            code: 'database_error'
-        })
+        response.status(500).json(err);
+    }
+});
+
+// users.post('/getUser', async function (request, response){
+//     try {
+        
+//         const {token} = request.body;
+//         console.log(token);
+            
+//         const separtedInfo = separateToken(token);
+              
+//         const id=separtedInfo.id;
+//         console.log(id);
+        
+//         const user = await usersModel.findById(id).exec();   
+//         response.json(id)
+
+//     } catch (err) {
+//         response.status(500).json(err);
+//     }
+// })
+
+users.get('/getUser/:token', async function (request, response){
+    try {
+       
+        
+        const token= JSON.parse(request.params.token);
+       
+
+        const separtedInfo = separateToken(token);
+            
+        
+        const id=separtedInfo.id;  //aho l id lel 3aizo
+        console.log(id);
+        
+        const user = await usersModel.findById(id).exec();   
+        response.json(id)
+
+    } catch (err) {
+        response.status(500).json(err);
     }
 })
+
 
 users.post('/register/:admin', async function (request, response) {
    
@@ -34,44 +72,53 @@ users.post('/register/:admin', async function (request, response) {
 
         await newUser.save()
         const token = await usersModel.generateAuthToken()
+        //const editedtoken=editToken(newUser,_id,token)
         response.json( token )
 
     } catch (err) {
-        response.json(err)
+        response.status(500).json(err);
     }
 
-})
+});
 
 users.post('/login', async function (request, response) {
     //login a user 
     try {
         const {email,password}= request.body
-        console.log(email);
-        console.log(password);
         
         
         const user = await usersModel.findByCredentials(email, password)
         if (!user) {
             return response.json({error: 'Wrong email or password!'})
         }
+        
+        
         const token = await user.generateAuthToken()
-        response.json( token )
+        
+        const editedtoken = editToken(user._id,token)
+        
+
+        response.json( editedtoken )
         
     } catch (err) {
-        response.json({err})
+        response.status(500).json(err);
     }
 
-})
+});
+
 users.post('/logout', async (req, res) => {
     // Log user out
-    console.log("ANA fl SERVER "); 
-    
+  
     try {
-        const {email,token}=req.body;
-       
-        const curUser = await usersModel.findOne({"email":email }).exec();
+        const {token}=req.body;
+        const separtedInfo = separateToken(token);
+              
+        const id=separtedInfo.id;
+        const curtoken=separtedInfo.token;
+              
+        const curUser = await usersModel.findById(id).exec();       
         
-        curUser.tokens = curUser.tokens.filter(item => item.token != token)
+        curUser.tokens = curUser.tokens.filter(item => item.token != curtoken)
        
         
         let newUser = new usersModel()
@@ -82,8 +129,18 @@ users.post('/logout', async (req, res) => {
         
         res.json({"msg":"logged out!"})
     } catch (error) {
-        res.json({error:"error ya amaar"})
+        res.status(500).json(err);
     }
-})
+});
 
+users.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      const result = await usersModel.findByIdAndRemove(id);
+      res.json(result);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+  
 module.exports = users;
