@@ -40,7 +40,7 @@ function Navbar() {
 
           <li class="col-3 ">
             <img class="img2" src={gwordlogo} />
-        
+
           </li>
         </ul>
         <form class="form-inline col-4 my-2 my-lg-0">
@@ -48,10 +48,10 @@ function Navbar() {
           <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
         </form>
         <li class="col-2  ">
-        <Link><img class=" img mr-3" src={user} /></Link>
-        <Link> <img class="img" src={login} /></Link>
-            
-          </li>
+          <Link><img class=" img mr-3" src={user} /></Link>
+          <Link> <img class="img" src={login} /></Link>
+
+        </li>
       </div>
     </nav>
   </React.Fragment>
