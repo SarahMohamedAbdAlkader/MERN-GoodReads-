@@ -40,11 +40,7 @@ users.get('/getUser/:token', async function (request, response){
        
         
         const token= JSON.parse(request.params.token);
-       
-
-        const separtedInfo = separateToken(token);
-            
-        
+        const separtedInfo = separateToken(token);    
         const id=separtedInfo.id;  //aho l id lel 3aizo
         console.log(id);
         
@@ -128,9 +124,9 @@ users.post('/logout', async (req, res) => {
         await newUser.save()
         console.log("aho aho aho aho");
         
-        res.json({"msg":"logged out!"})
+        res.json({"msg":"from the server the user is logged out!"})
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 });
 
