@@ -24,14 +24,16 @@ function Book() {
 
 
   }, [])
-  const ratingChanged = (newRating) => {
-    console.log(newRating)
+  const ratingChanged = (value) => {
+    const token = sessionStorage.getItem('userToken');
+    console.log(token)
+    let bookId = window.location.pathname.split('/')[2];
+    axios.post('http://localhost:5000/ratings/'+token,{bookId,value })
+    .then(res => {
+      console.log("The user rating "+res.data); // el rating ya basha
+    })
+
   }
- const firstExample = {
-  size: 30,
-  value: 2.5,
-  edit: false
-}
 
 
   return (

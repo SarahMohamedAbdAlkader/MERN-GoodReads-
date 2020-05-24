@@ -12,7 +12,7 @@ import Book from '../bookDetails/Book'
 import Authors from '../Authors/Authors'
 function Navbar() {
   return (<React.Fragment>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
+    <nav class=" navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
       <img class="navbar-brand img" src={FAVPNG} alt="goodreads" />
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
