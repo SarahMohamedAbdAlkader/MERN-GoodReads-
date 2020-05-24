@@ -17,48 +17,45 @@ const handleSubmit = (e) => {
       password
     })
     .then(res => {
-      sessionStorage.setItem('userToken', JSON.stringify(res.data))
-      console.log(res.data);
-      console.log(typeof(res.data) );
-      const tmp = sessionStorage.getItem('userToken');
-      console.log(typeof(tmp) );
-      console.log(tmp);
-      console.log(JSON.parse(tmp) );
-      console.log(typeof(tmp) );
+      sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
+      console.log("Logged in successfully");
+      
+      // console.log(res.data);
+      // console.log(typeof(res.data) );
+      //const tmp = sessionStorage.getItem('userToken');
+      // console.log(typeof(tmp) );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+      // console.log(tmp);
+      // console.log(JSON.parse(tmp) );
+      // console.log(typeof(tmp) );
     })
     .catch(function (error) {
       console.log(error);
     })
 }
-const logout = () => {
-  console.log("ANA FL LOGOUT");
-  //const token = JSON.parse(sessionStorage.getItem('userToken'));
-  const token = sessionStorage.getItem('userToken');
+const getUserIdFromToken =()=>{
   
-  // sessionStorage.removeItem('userToken');
-  // const tmp = sessionStorage.getItem('userToken');
-
-  // axios.post('http://localhost:5000/users/logout', {
-  //     token
-  //   })
-  //   .then(res => {
-  //     sessionStorage.setItem('userToken', res.data)
-  //     const tmp = sessionStorage.getItem('userToken');
-  //     console.log(tmp);
-
-  //   })
-console.log("l token 2aho ya sulimaaaaaaaan",token);
-
-  axios.get('http://localhost:5000/users/getUser/'+token)
+  const token = sessionStorage.getItem('userToken'); //fetch stringified token from session storage
+ 
+  
+ axios.get('http://localhost:5000/users/getUser/'+token)//bnb3to fl url fa asibo string 3adi
     .then(res => {
-      console.log(res.data);
-      
-      // sessionStorage.setItem('userToken', res.data)
-      // const tmp = sessionStorage.getItem('userToken');
-      // console.log(tmp);
-
+      console.log("The user id is "+res.data); // aho l id aho aho.......
     })
 
+}
+const logout = () => {
+  console.log("In the logout function...");
+  const token = JSON.parse(sessionStorage.getItem('userToken')); //fetch l token and parse it 3ashan hanb3to fl body bta3 l request
+  sessionStorage.removeItem('userToken'); 
+  const tmp = sessionStorage.getItem('userToken'); //just to check that the token is removed
+
+  axios.post('http://localhost:5000/users/logout', { 
+      token
+    })
+    .then(res => {
+     console.log(res.data); 
+     
+    })
 }
   return (<div className="d-flex justify-content-end">
            <Form onSubmit={handleSubmit} >
