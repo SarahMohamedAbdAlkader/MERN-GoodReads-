@@ -40,18 +40,19 @@ function Navbar() {
 
           <li class="col-3 ">
             <img class="img2" src={gwordlogo} />
-
           </li>
         </ul>
         <form class="form-inline col-4 my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
           <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
         </form>
-        <li class="col-2  ">
+        <div class="col-2  ">
+          <div class="row">
           <Link><img class=" img mr-3" src={user} /></Link>
+          
           <Link> <img class="img" src={login} /></Link>
-
-        </li>
+          </div>
+        </div>
       </div>
     </nav>
   </React.Fragment>
