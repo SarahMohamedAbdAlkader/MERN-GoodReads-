@@ -27,11 +27,6 @@ function Book() {
   const ratingChanged = (newRating) => {
     console.log(newRating)
   }
- const firstExample = {
-  size: 30,
-  value: 2.5,
-  edit: false
-}
 
 
   return (
