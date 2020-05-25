@@ -73,6 +73,7 @@ users.post('/register/:admin', async function (request, response) {
 
     } catch (err) {
         response.status(500).json(err);
+        console.log(err)
     }
 
 });
@@ -90,7 +91,7 @@ users.post('/login', async function (request, response) {
         
         
         const token = await user.generateAuthToken()
-        
+        console.log(token)
         const editedtoken = editToken(user._id,token)
         
 
