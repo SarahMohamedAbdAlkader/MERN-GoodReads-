@@ -1,5 +1,6 @@
 import React,{useState , useEffect} from 'react';
-import {Card , Row , Col} from 'react-bootstrap'
+import {Card , Row , Col, DropdownButton, Dropdown} from 'react-bootstrap'
+import ReactStars from 'react-rating-stars-component'
 //import img4 from './longest.jpg'
 import axios from 'axios';
 import {useParams} from "react-router";
@@ -13,7 +14,6 @@ function AuthorDetails() {
   const [authorImg, setImg] = useState("");
   const [arr,setarr]=useState([]);
   
-  //const id = "5ebdc911b9c7bc1385204e14";
   const id=params.id;
   const getAuthorsInfo = ()=>{
     let url="http://localhost:5000/";
@@ -85,13 +85,46 @@ function AuthorDetails() {
           return <Card style={{  display : 'inline-block' }}>
           <Card.Body>
             <Card.Title>{item.name}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
             <Card.Text>
-              {item._id}
+              Average Rating is : 
+                  <div class="mt-2">
+                    <ReactStars
+                      count={5}
+                      edit={false}
+                      // onChange={ratingChanged}'#ffd700'
+                      size={18}
+                      color1={'grey'}
+                      color2={'yellow'} 
+                      value= {item.totalRatingValue/(item.totalRatingCount+1)}
+                    />
+                  </div>
+            {item.totalRatingCount} ratings
             </Card.Text>
             <Card.Link href="#">Card Link</Card.Link>
             <Card.Link href="#">Another Link</Card.Link>
           </Card.Body>
+          <Card.Text>
+              Rate the book!  
+              <div class="mt-2">
+              <ReactStars
+                count={5}
+                edit={true}
+                // onChange={ratingChanged}'#ffd700'
+                size={24}
+                color1={'grey'}
+                color2={'yellow'} 
+                value= {item.totalRatingValue/(item.totalRatingCount+1)}
+              />,
+        </div>
+        <div>
+        <DropdownButton id="dropdown-item-button" title="Dropdown button">
+          <Dropdown.Item as="button">Action</Dropdown.Item>
+          <Dropdown.Item as="button">Another action</Dropdown.Item>
+          <Dropdown.Item as="button">Something else</Dropdown.Item>
+        </DropdownButton>
+        </div>
+              
+            </Card.Text>
         </Card>
       })}
   </div>

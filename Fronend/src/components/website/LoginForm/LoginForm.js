@@ -22,7 +22,7 @@ const handleSubmit = (e) => {
       
       // console.log(res.data);
       // console.log(typeof(res.data) );
-      //const tmp = sessionStorage.getItem('userToken');
+      // const tmp = sessionStorage.getItem('userToken');
       // console.log(typeof(tmp) );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
       // console.log(tmp);
       // console.log(JSON.parse(tmp) );
@@ -34,15 +34,13 @@ const handleSubmit = (e) => {
 }
 const getUserIdFromToken =()=>{
   
-  const token = sessionStorage.getItem('userToken'); //fetch stringified token from session storage
- 
-  
- axios.get('http://localhost:5000/users/getUser/'+token)//bnb3to fl url fa asibo string 3adi
+const token = sessionStorage.getItem('userToken'); //fetch stringified token from session storage
+axios.get('http://localhost:5000/users/getUser/'+token)//bnb3to fl url fa asibo string 3adi
     .then(res => {
       console.log("The user id is "+res.data); // aho l id aho aho.......
     })
-
 }
+
 const logout = () => {
   console.log("In the logout function...");
   const token = JSON.parse(sessionStorage.getItem('userToken')); //fetch l token and parse it 3ashan hanb3to fl body bta3 l request
