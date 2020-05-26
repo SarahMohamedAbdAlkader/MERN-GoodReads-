@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
-
+import { useParams } from "react-router";
 import ReactStars from 'react-rating-stars-component'
 
 
@@ -16,73 +16,75 @@ function Book() {
   const [myRating, setMyRating] = useState({})
   const [userReview, setUserReview] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const params = useParams()
+  const bookId = params.id;
+  const token = sessionStorage.getItem('userToken');
 
-  useEffect(() => {
-    const bookId = window.location.pathname.split('/')[2]
-    const token = sessionStorage.getItem('userToken');
-    console.log(fetchData(`${SERVER_URL}/books/` + bookId, setData, setCategory, setAuthor, setReviews))
-
-
-    axios.get('http://localhost:5000/ratings/' + token + "/" + bookId)
+  const getBookRating = () => {
+    axios.get(`${SERVER_URL}/ratings/` + token + "/" + bookId)
       .then(res => {
         if (res.status === 200) {
-        console.log("The user rating " + "ddd", res.data.value); // el rating ya basha
-        setMyRating(res.data.value)}
+          setMyRating(res.data.value)
+        }
         else {
           setMyRating(0)
         }
       })
-    axios.get('http://localhost:5000/shelve/' + token + "/" + bookId)
+  }
+  const getShelve = () => {
+    axios.get(`${SERVER_URL}/shelve/` + token + "/" + bookId)
       .then(res => {
         if (res.status === 200) {
-        console.log("The user shelve ", res.data.state);
-        setSelectedOption(res.data.state)}
+          setSelectedOption(res.data.state)
+        }
         else {
           setSelectedOption("")
         }
 
       })
 
-  }, [])
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(userReview);
+  }
+  useEffect(() => {
 
-    axios.post('http://localhost:5000/reviews/' + token, {
+    console.log(fetchData(`${SERVER_URL}/books/` + bookId, setData, setCategory, setAuthor, setReviews))
+    getBookRating(); // lo mfesh token msh hygeb de
+    getShelve();//lo mfesh token brdo msh hygeb de
+
+  }, [])
+  const handleSubmit = (e) => {  //el function de bta3t el review msh hy3rf y add review lo mfesh token
+    e.preventDefault();
+
+    axios.post(`${SERVER_URL}/reviews/` + token, {
       bookId,
       userReview,
     })
       .then(res => {
-        console.log(res.data) 
         if (res.status === 200) {
-        setReviews([...reviews, res.data])}
+          setReviews([...reviews, res.data])
+        }
         else {
           alert("Please,Login to add Your Review ")
-          console.log("no")
         }
       })
       .catch(function (error) {
         console.log(error);
-        alert("Please,Login to add Your Review ")
       })
 
   }
-  const ratingChanged = (value) => {
+  const ratingChanged = (value) => { //hena msh hy3rf y8er el rating brdo
 
-    let bookId = window.location.pathname.split('/')[2];
-    axios.post('http://localhost:5000/ratings/' + sessionStorage.getItem('userToken'), { bookId, value })
+    axios.post(`${SERVER_URL}/ratings/` + token, { bookId, value })
       .then(res => {
         console.log("The user rating " + res.data); // el rating ya basha
 
       })
 
   }
-  const shelveOption = (e) => {
+  const shelveOption = (e) => { //hena msh hy3rf y8er el shelve bta3oooo
     console.log(e.target.value);
 
-    axios.post('http://localhost:5000/shelve/' + sessionStorage.getItem('userToken'), { bookId: window.location.pathname.split('/')[2], state: e.target.value })
+    axios.post(`${SERVER_URL}/shelve/` + token, { bookId, state: e.target.value })
       .then(res => {
-        console.log("The user shelve " + res.data);
         setSelectedOption(res.data)
       })
 
@@ -167,7 +169,6 @@ async function fetchData(url, setData, setCategory, setAuthor, setReviews) {
   setCategory(data.book.category)
   setAuthor(data.book.author)
   setReviews(data.bookReviews)
-  console.log(data.bookReviews)
 
   const avgRating = (data.book.totalRatingValue / data.book.totalRatingCount)
   console.log("The Average: " + avgRating);
