@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const RatingModel = require('../models/rating');
 const BookModel = require('../models/book')
-const {editToken, separateToken} = require('../middlewares/users')
+const { separateToken} = require('../middlewares/users')
 
 router.post('/:token', async (req, res) => {
-    const token= JSON.parse(req.params.token);
+    const token = JSON.parse(req.params.token);
     const separtedInfo = separateToken(token);  
-    const userId=separtedInfo.id;  
+    const userId = separtedInfo.id;  
     const { bookId, value } = req.body;
     try {
         const rating = await RatingModel.updateOne({ book: bookId, user: userId }, { value: value }, { upsert: true, new: true });

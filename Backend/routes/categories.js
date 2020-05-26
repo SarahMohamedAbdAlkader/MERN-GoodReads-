@@ -26,28 +26,29 @@ router.get("/all", async (req, res, next) => {
   }
 });
 
-router.get( '/',async (req,res,next)=>{
-  try{ const cats= await catModel.find({});
-     console.log(cats.length)
-     const pageCount = Math.ceil(cats.length / 10);
-     let page = parseInt(req.query.page);
-     if (!page) { page = 1;}
-     if (page > pageCount) {
-       page = pageCount
-     }
-     res.json({
-       "dataLength":cats.length,
-       "page": page,
-       "pageCount": pageCount,
-       cats: cats.slice(page * 10 - 10, page * 10)
-     });
-}
-     catch(err){
-        res.json({
-            code: 'DataBase Error'
-        })
+router.get('/', async (req, res, next) => {
+  try {
+    const cats = await catModel.find({});
+    console.log(cats.length)
+    const pageCount = Math.ceil(cats.length / 10);
+    let page = parseInt(req.query.page);
+    if (!page) { page = 1; }
+    if (page > pageCount) {
+      page = pageCount
     }
+    res.json({
+      "dataLength": cats.length,
+      "page": page,
+      "pageCount": pageCount,
+      cats: cats.slice(page * 10 - 10, page * 10)
+    });
+  }
+  catch (err) {
+    res.json({
+      code: 'DataBase Error'
     })
+  }
+})
 router.post("/", [check('catName').not().isEmpty()], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -68,6 +69,9 @@ router.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const post = await catModel.findByIdAndRemove(id);
+    await BookModel.deleteMany({ category: id }, (result) => {
+      console.log("books related ti this category deleted");
+    })
     res.json(post);
   } catch (err) {
     res.send(error.errmsg);
@@ -79,7 +83,7 @@ router.get("/:id", async (req, res) => {
     const category = await catModel.findById(id)
     const books = await BookModel.find({ category: category })
     console.log(books)
-  
+
     res.json(books);
   } catch (err) {
     res.send(error.errmsg);

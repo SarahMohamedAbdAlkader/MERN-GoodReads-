@@ -48,7 +48,7 @@ router.get('/', async (req, res) => {
     // const token= JSON.parse(request.params.token);
     // const separtedInfo = separateToken(token);    
     // const userId=separtedInfo.id;  //aho l id lel 3aizo
-
+    console.log(userId);
     try {
         console.log("Get All Book");
         const books = await BookModel.find().populate('category').populate('author')
@@ -107,14 +107,37 @@ router.get('/:id', async (req, res) => {
     }
 })
 
-router.get('/author/:author', async (req, res) => {
-    const authorid = req.params.author
-    console.log("Get All Book");
+router.get('/author/:author/:token', async (req, res) => {
+    console.log("wasal wasal wasal lel server");
+    //console.log(req.params);
+    
+    const authorid = req.params.author;
+    const token= JSON.parse(req.params.token);
+    console.log("daa l token----> ",authorid);
+    const separtedInfo = separateToken(token);    
+    const userId=separtedInfo.id;  //aho l id lel 3aizo
+    console.log("da l userId ------>",userId);
+    
+    console.log("Get AUTHOR BOOKS WITH RATINGS AND SHELVE");
     try {//mongoose.Types.ObjectId(authorid)
         const books = await BookModel.find({ author: authorid }).populate('author')
+        // to add rating and shelve of current logged in user 
+        for (let index = 0; index < books.length; index++) {
+            let rating = 0, shelve = "";
+            await RatingModel.find({ book: books[index]._id, user:userId  }, "value", (err, myRating) => {
+                rating = myRating.length  ? myRating[0].value : -1;
+            });
+            await ShelveModel.find({ book: books[index]._id, user:mongoose.Types.ObjectId(userId)  }, "state", (err, myshelve) => {
+                shelve = myshelve.length ? myshelve[0].state : "";
+            });
+           
+            books[index] = { book: books[index], rating , shelve}
+        }
+        console.log("l books b salatathaaa");
+        
         console.log(books);
-
         res.json(books)
+
     } catch (err) {
         console.log(err);
         res.json(err)

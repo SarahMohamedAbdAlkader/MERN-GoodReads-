@@ -21,7 +21,7 @@ function BookTable() {
     }, [])
 
 
-    return <div class="mt-5 text-center"><AdminNav/>
+    return <div class="mt-5 text-center"><AdminNav />
         <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => {
             setEditedBookName("")
             setEditedAuthorId("")
@@ -70,18 +70,22 @@ function TarbleRow({ index, book, bookList, setBookList, setModalState, setEdite
     setEditedBookName, seteditedPhoto, setEditedAuthorId, setEditedCategoryId }) {
     return (<tr>
         <th scope="row">{index}</th>
-        <td><a href={`${SERVER_URL}/${book.bookImage}`} target="_blank">Photo</a></td>
+        <td>
+            <a href={`${SERVER_URL}/${book.bookImage}`} target="_blank">
+                <img src={`${SERVER_URL}/${book.bookImage}`} alt={book.name} style={{ width: "70px", height: "70px"}} />
+            </a>
+        </td>
         <td>{book.name}</td>
-        <td>{book.category? book.category.catName:""}</td>
-        <td>{book.category?book.author.firstName +" "+book.author.lastName:""}</td>
+        <td>{book.category ? book.category.catName : ""}</td>
+        <td>{book.author ? book.author.firstName + " " + book.author.lastName : ""}</td>
         <td>
             <button class="btn" value={book._id}  >
                 <i data-toggle="modal" data-target=".bd-example-modal-lg" class="fa fa-edit" onClick={(event) => {
                     const editedId = event.target.parentElement.value
-                    setEditedItemId(editedId);setModalState("edit");
+                    setEditedItemId(editedId); setModalState("edit");
                     let editedItem = bookList.filter(item => editedId == item._id)[0]
-                    setEditedBookName(editedItem.name);seteditedPhoto(editedItem.photo);
-                    setEditedAuthorId(editedItem.author._id);setEditedCategoryId(editedItem.category._id)                    
+                    setEditedBookName(editedItem.name); seteditedPhoto(editedItem.photo);
+                    setEditedAuthorId(editedItem.author._id); setEditedCategoryId(editedItem.category._id)
                 }}></i></button>
             <DeleteBtn book={book} setBookList={setBookList} bookList={bookList}></DeleteBtn>
         </td>
@@ -113,8 +117,8 @@ const DeleteBtn = ({ book, setBookList, bookList }) => {
 async function fetchData(url, setList) {
     let response = await fetch(url)
     let data = await response.json();
-    console.log("books-data",data);
-    
+    console.log("books-data", data);
+
     setList(data);
 }
 

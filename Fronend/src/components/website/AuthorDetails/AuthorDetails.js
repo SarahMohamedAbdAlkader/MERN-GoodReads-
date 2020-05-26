@@ -1,8 +1,10 @@
 import React,{useState , useEffect} from 'react';
-import {Card , Row , Col} from 'react-bootstrap'
+import {Card , Row , Col, DropdownButton, Dropdown} from 'react-bootstrap'
+import ReactStars from 'react-rating-stars-component'
 //import img4 from './longest.jpg'
 import axios from 'axios';
 import {useParams} from "react-router";
+
 
 function AuthorDetails() {
  
@@ -13,18 +15,19 @@ function AuthorDetails() {
   const [authorImg, setImg] = useState("");
   const [arr,setarr]=useState([]);
   
-  //const id = "5ebdc911b9c7bc1385204e14";
-  const id=params.id;
-  const getAuthorsInfo = ()=>{
-    let url="http://localhost:5000/";
+  //const [userRating, setUserRating] = useState(0)
+  let userRating=0;
+  const authorId=params.id;
+  const token = sessionStorage.getItem('userToken');
   
-    axios.get(url+'authors/'+id)
+  const getAuthorsInfo = ()=>{
+   
+    axios.get("http://localhost:5000/"+'authors/'+authorId)
     .then(res => {
       setfirstName(res.data.firstName)
       setlastName(res.data.lastName)
-      setImg(url+res.data.photo)
-      // console.log(res.data.books);
-      
+      setImg("http://localhost:5000/"+res.data.photo)
+      // console.log(res.data.books);  
       // setarr(res.data.books)
       // console.log(url+res.data.photo);
       
@@ -34,10 +37,16 @@ function AuthorDetails() {
   })
   }
   const getAuthorsBooks = ()=>{
-    let url="http://localhost:5000/";
-    axios.get(url+'books/author/'+id)
+  
+    axios.get("http://localhost:5000/books/author/"+authorId+'/'+token)
     .then(res =>{
       setarr(res.data)
+      console.log(res.data);
+      userRating=res.data.rating;
+      //setUserRating(res.data.rating)
+      //userRating=res.data.rating
+      console.log("DII L BOOKS L GAT YA NOUR");
+      
       console.log(res.data);
       
     })
@@ -45,8 +54,28 @@ function AuthorDetails() {
       console.log(error);
   })
   }
-  
-  
+  const handleSelectChange = (e,bookId)=>{
+    const value=e.target.value;
+    
+    axios.post("http://localhost:5000/shelves/"+token,{"state":value,bookId})
+    .then(res =>{    
+      console.log(res.data);   
+    })
+    .catch(function (error) {
+      console.log(error);
+  })
+  }
+  const handleRatingChange = (e,bookId)=>{
+    console.log(e);
+    userRating=e;
+    axios.post("http://localhost:5000/ratings/"+token,{"value":userRating,bookId})
+    .then(res =>{    
+      console.log(res.data);   
+    })
+    .catch(function (error) {
+      console.log(error);
+  })
+  }
   useEffect(()=>{ 
     
       getAuthorsInfo()
@@ -82,16 +111,52 @@ function AuthorDetails() {
   <div>
       <h3 >Authors Books!</h3>
       {arr.map((item)=>{
-          return <Card style={{  display : 'inline-block' }}>
+          userRating=item.rating
+          return <Card style={{  display : 'inline-block' }} >
+          
           <Card.Body>
-            <Card.Title>{item.name}</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+            <Card.Title>{item.book.name}</Card.Title>
             <Card.Text>
-              {item._id}
+              Average Rating is : 
+                  <div class="mt-2">
+                    <ReactStars
+                      count={5}
+                      edit={false}
+                      size={18}
+                      color1={'grey'}
+                      color2={'yellow'} 
+                      value= {item.book.totalRatingValue/(item.book.totalRatingCount+1)}
+                    />
+                  </div>
+            {item.book.totalRatingCount} ratings
             </Card.Text>
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
+            {/* <Card.Link href="#">Card Link</Card.Link>
+            <Card.Link href="#">Another Link</Card.Link> */}
           </Card.Body>
+          <Card.Text>
+              Rate the book!  
+          </Card.Text>
+                  
+              <div class="mt-2">
+              <ReactStars
+                count={5}
+                edit={true}
+                onChange={(e)=>handleRatingChange(e,item.book._id)}
+                size={24}
+                color1={'grey'}
+                color2={'yellow'} 
+                value= {userRating}
+              />
+              
+        </div>
+        
+            
+        <select  onChange={(e)=> handleSelectChange(e,item.book._id)} >
+        <option value= 'Read' selected = {item.shelve === 'Read'}>Read</option>/>
+        <option value= 'Want To Read'  selected = {item.shelve === 'Want To Read'}>Want To Read</option>/>
+        <option value= 'Currently Reading'  selected = {item.shelve === 'Currently Reading' }>Currently Reading</option>/>
+        </select>
+      
         </Card>
       })}
   </div>

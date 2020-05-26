@@ -116,8 +116,7 @@ users.post('/logout', async (req, res) => {
         const curUser = await usersModel.findById(id).exec();       
         
         curUser.tokens = curUser.tokens.filter(item => item.token != curtoken)
-       
-        
+             
         let newUser = new usersModel()
         newUser=curUser
       
