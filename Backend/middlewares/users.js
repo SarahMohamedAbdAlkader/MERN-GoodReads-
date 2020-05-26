@@ -42,4 +42,4 @@ function separateToken(encryptedToken){
     return {"id":id , "token":curtoken}
 }
 
-module.exports = {separateToken,editToken};
+module.exports = {separateToken,editToken,decrypt};

@@ -81,11 +81,17 @@ function Book() {
 
   }
   const shelveOption = (e) => { //hena msh hy3rf y8er el shelve bta3oooo
-    console.log(e.target.value);
-
-    axios.post(`${SERVER_URL}/shelve/` + token, { bookId, state: e.target.value })
+    console.log("value",e.target.value);
+    const state=e.target.value;
+    console.log(state)
+console.log("book",bookId)
+    axios.post(`${SERVER_URL}/shelve/` + token, { bookId, state })
       .then(res => {
+        console.log(res.data)
         setSelectedOption(res.data)
+      })
+      .catch(function (error) {
+        console.log(error);
       })
 
   }
@@ -100,13 +106,13 @@ function Book() {
           <div class="col-md-2 ">
             <img src={`${SERVER_URL}/${data.bookImage}`} class="card-img" alt="..." style={{ height: 200, width: 220 }} />
             <div class="mt-2">
-
-              <select name="options" id="options" onChange={shelveOption} value={selectedOption} >
-                <option value="want to read" >Want To Read</option>
-                <option value="currently reading">Currently Reading</option>
-                <option value="read">Read</option>
-
-              </select>
+            <select  onChange={shelveOption} >
+            <option value= '' selected = {selectedOption === ''}> </option>/>
+        <option value= 'Read' selected = {selectedOption === 'Read'}>Read</option>/>
+        <option value= 'Want To Read'  selected = {selectedOption === 'Want To Read'}>Want To Read</option>/>
+        <option value= 'Currently Reading'  selected = {selectedOption === 'Currently Reading' }>Currently Reading</option>/>
+        </select>
+      
             </div>
             <div class="mt-2 column">
               <p class="card-text"><small class="text-muted">my Rating</small></p>
