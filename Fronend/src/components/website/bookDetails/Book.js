@@ -173,4 +173,5 @@ async function fetchData(url, setData, setCategory, setAuthor, setReviews) {
   const avgRating = (data.book.totalRatingValue / data.book.totalRatingCount)
   console.log("The Average: " + avgRating);
 }
+
 export default Book;
