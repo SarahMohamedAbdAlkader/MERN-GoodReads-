@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const authorModel = require("../models/author");
+const BookModel = require("../models/book")
 const authorRouter = express.Router();
 const multer = require("multer");
 const { v4: uuidv4 } = require('uuid');
@@ -107,6 +108,9 @@ authorRouter.delete("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const result = await authorModel.findByIdAndRemove(id);
+    await BookModel.deleteMany({ author: id }, (result) => {
+      console.log("books related ti this auhtor deleted");
+    })
     res.json(result);
   } catch (err) {
     res.status(500).send(error.errmsg);
