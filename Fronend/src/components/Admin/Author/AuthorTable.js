@@ -5,7 +5,7 @@ import Modal from "./Modal"
 import axios from 'axios'
 import AdminNav from "../AdminNav/AdminNav"
 
-const SERVER_URL="http://localhost:5000";
+const SERVER_URL = "http://localhost:5000";
 
 function BookTable() {
     let i = 0;
@@ -20,7 +20,7 @@ function BookTable() {
     useEffect(() => {
         fetchData(`${SERVER_URL}/authors/all`, setAuthorList)
     }, [])
-    return <div class="mt-5 text-center"><AdminNav/>
+    return <div class="mt-5 text-center"><AdminNav />
         <button class="btn" data-toggle="modal" data-target=".bd-example-modal-lg" onClick={() => {
             setEditedFirstName("")
             setEditedLastName("")
@@ -69,11 +69,15 @@ function BookTable() {
 function TarbleRow({ index, author, authorList, setAuthorList,
     setModalState, setEditedItemId, setEditedFirstName, setEditedLastName,
     seteditedPhoto, setEditedDob }) {
-//   const date= new Date(author.dob).toISOString()
-  const date= author.dob.substring(0,10);
-  return (<tr>
+    //   const date= new Date(author.dob).toISOString()
+    const date = author.dob.substring(0, 10);
+    return (<tr>
         <th scope="row">{index}</th>
-        <td><a href={`${SERVER_URL}/${author.authorImage}`} target="_blank">Photo</a></td>
+        <td>
+            <a href={`${SERVER_URL}/${author.authorImage}`} target="_blank">
+                <img src={`${SERVER_URL}/${author.authorImage}`} alt={author.firstName} style={{ width: "70px", height: "70px",borderRadius:"50%" }} />
+            </a>
+        </td>
         <td>{author.firstName}</td>
         <td>{author.lastName}</td>
         <td>{date}</td>
@@ -96,14 +100,14 @@ const EditBtn = ({ author, authorList, setModalState, setEditedItemId,
         <i data-toggle="modal" data-target=".bd-example-modal-lg" class="fa fa-edit" onClick={(event) => {
             const editedId = event.target.parentElement.value
             setEditedItemId(editedId);
-            
+
             let editedItem = authorList.filter(item => editedId == item._id)[0]
             console.log(editedItem);
-            
+
             setEditedFirstName(editedItem.firstName)
             setEditedLastName(editedItem.lastName)
             seteditedPhoto(editedItem.authorImage)
-            setEditedDob(editedItem.dob.substring(0,10))
+            setEditedDob(editedItem.dob.substring(0, 10))
             setModalState("edit")
         }}></i></button>
 }

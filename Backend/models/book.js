@@ -30,6 +30,6 @@ const bookSchema = mongoos.Schema({
     }
 })
 
-var BookModel = mongoos.model('Book', bookSchema);
+var BookModel = mongoos.model('book', bookSchema);
 
 module.exports = BookModel;

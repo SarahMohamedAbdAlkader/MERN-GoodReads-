@@ -43,4 +43,17 @@ router.get('/:token/:bookID', async (req, res) => {
         res.status(500).json(err)
     }
 })
+
+
+router.get('/', async (req, res) => {
+    console.log("Get all shelves");
+    try {     
+        const shelve = await ShelveModel.find()
+        console.log(shelve)
+        res.json(shelve)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+})
 module.exports = router

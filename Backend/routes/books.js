@@ -43,6 +43,47 @@ router.get('/all', async (req, res) => {
         res.json(err)
     }
 })
+
+router.get('/:token/:shelve', async (req, res) => {
+    // const userId = "5ecd32a691798b27e06298cf";
+    const token= JSON.parse(req.params.token);
+    const separtedInfo = separateToken(token);    
+    const userId=separtedInfo.id;  //aho l id lel 3aizo
+    const cond = req.params.shelve == "all" ? {user:userId}:{user:userId,state:req.params.shelve}     
+    try {
+        console.log("Get All Books from shelve");
+        const books = await ShelveModel.find(cond).populate({ path: 'book', populate: { path: 'author' }});
+        // to add rating and shelve of current logged in user 
+        for (let index = 0; index < books.length; index++) {
+            let myRating = 0, myShelve = "";            
+            await RatingModel.find({ book: books[index].book._id, user: mongoose.Types.ObjectId(userId) }, "value", (err, rating) => {               
+                myRating = rating.length > 0 ? rating[0].value : 0;
+            });
+            await ShelveModel.find({ book: books[index].book._id, user: mongoose.Types.ObjectId(userId) }, "state", (err, shelve) => {
+                myShelve = shelve.length > 0 ? shelve[0].state : "";
+            });
+            books[index] = { book: books[index], myRating, myShelve }
+        }
+        const pageCount = Math.ceil(books.length / 10);
+        let page = parseInt(req.query.page);
+        if (!page) { page = 1; }
+        if (page > pageCount) {
+            page = pageCount
+        }
+        res.json({
+            "dataLength": books.length,
+            "page": page,
+            "pageCount": pageCount,
+            books: books.slice(page * 10 - 10, page * 10)
+        });
+    }
+    catch (err) {
+        console.log(err);
+        res.json({
+            code: 'DataBase Error'
+        })
+    }
+})
 router.get('/', async (req, res) => {
     const userId = "5ecad1bf5be52518f003c3f1";
     // const token= JSON.parse(request.params.token);
@@ -90,8 +131,8 @@ router.get('/:id', async (req, res) => {
     console.log("Get A Book");
     try {
         const book = await BookModel.findById({ _id: id }).populate('category').populate('author')
-        const bookReviews = await ReviewModel.find({ book: id }).populate('Book').populate('usersModel')
-        const bookRatings = await RatingModel.find({ book: id }).populate('Book').populate('usersModel')
+        const bookReviews = await ReviewModel.find({ book: id }).populate('book').populate('user')
+        const bookRatings = await RatingModel.find({ book: id }).populate('book').populate('user')
         const shelve = await ShelveModel.find({book: id})
         const all = {
             book,
@@ -106,6 +147,7 @@ router.get('/:id', async (req, res) => {
         res.json(err)
     }
 })
+
 
 router.get('/author/:author/:token', async (req, res) => {
     console.log("wasal wasal wasal lel server");

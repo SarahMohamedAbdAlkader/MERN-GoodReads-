@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
-
+import { useParams } from "react-router";
 import ReactStars from 'react-rating-stars-component'
 
 
@@ -16,74 +16,82 @@ function Book() {
   const [myRating, setMyRating] = useState({})
   const [userReview, setUserReview] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
+  const params = useParams()
+  const bookId = params.id;
+  const token = sessionStorage.getItem('userToken');
 
-  useEffect(() => {
-    const bookId = window.location.pathname.split('/')[2]
-    const token = sessionStorage.getItem('userToken');
-    console.log(fetchData(`${SERVER_URL}/books/` + bookId, setData, setCategory, setAuthor, setReviews))
-
-
-    axios.get('http://localhost:5000/ratings/' + token + "/" + bookId)
+  const getBookRating = () => {
+    axios.get(`${SERVER_URL}/ratings/` + token + "/" + bookId)
       .then(res => {
         if (res.status === 200) {
-        console.log("The user rating " + "ddd", res.data.value); // el rating ya basha
-        setMyRating(res.data.value)}
+          setMyRating(res.data.value)
+        }
         else {
           setMyRating(0)
         }
       })
-    axios.get('http://localhost:5000/shelve/' + token + "/" + bookId)
+  }
+  const getShelve = () => {
+    axios.get(`${SERVER_URL}/shelve/` + token + "/" + bookId)
       .then(res => {
         if (res.status === 200) {
-        console.log("The user shelve ", res.data.state);
-        setSelectedOption(res.data.state)}
+          setSelectedOption(res.data.state)
+        }
         else {
           setSelectedOption("")
         }
 
       })
 
-  }, [])
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(userReview);
+  }
+  useEffect(() => {
 
-    axios.post('http://localhost:5000/reviews/' + token, {
+    console.log(fetchData(`${SERVER_URL}/books/` + bookId, setData, setCategory, setAuthor, setReviews))
+    getBookRating(); // lo mfesh token msh hygeb de
+    getShelve();//lo mfesh token brdo msh hygeb de
+
+  }, [])
+  const handleSubmit = (e) => {  //el function de bta3t el review msh hy3rf y add review lo mfesh token
+    e.preventDefault();
+
+    axios.post(`${SERVER_URL}/reviews/` + token, {
       bookId,
       userReview,
     })
       .then(res => {
-        console.log(res.data) 
         if (res.status === 200) {
-        setReviews([...reviews, res.data])}
+          setReviews([...reviews, res.data])
+        }
         else {
           alert("Please,Login to add Your Review ")
-          console.log("no")
         }
       })
       .catch(function (error) {
         console.log(error);
-        alert("Please,Login to add Your Review ")
       })
 
   }
-  const ratingChanged = (value) => {
+  const ratingChanged = (value) => { //hena msh hy3rf y8er el rating brdo
 
-    let bookId = window.location.pathname.split('/')[2];
-    axios.post('http://localhost:5000/ratings/' + sessionStorage.getItem('userToken'), { bookId, value })
+    axios.post(`${SERVER_URL}/ratings/` + token, { bookId, value })
       .then(res => {
         console.log("The user rating " + res.data); // el rating ya basha
 
       })
 
   }
-  const shelveOption = (e) => {
-    console.log(e.target.value);
-
-    axios.post('http://localhost:5000/shelve/' + sessionStorage.getItem('userToken'), { bookId: window.location.pathname.split('/')[2], state: e.target.value })
+  const shelveOption = (e) => { //hena msh hy3rf y8er el shelve bta3oooo
+    console.log("value",e.target.value);
+    const state=e.target.value;
+    console.log(state)
+console.log("book",bookId)
+    axios.post(`${SERVER_URL}/shelve/` + token, { bookId, state })
       .then(res => {
-        console.log("The user shelve " + res.data);
+        console.log(res.data)
         setSelectedOption(res.data)
+      })
+      .catch(function (error) {
+        console.log(error);
       })
 
   }
@@ -98,13 +106,13 @@ function Book() {
           <div class="col-md-2 ">
             <img src={`${SERVER_URL}/${data.bookImage}`} class="card-img" alt="..." style={{ height: 200, width: 220 }} />
             <div class="mt-2">
-
-              <select name="options" id="options" onChange={shelveOption} value={selectedOption} >
-                <option value="want to read" >Want To Read</option>
-                <option value="currently reading">Currently Reading</option>
-                <option value="read">Read</option>
-
-              </select>
+            <select  onChange={shelveOption} >
+            <option value= '' selected = {selectedOption === ''}> </option>/>
+        <option value= 'Read' selected = {selectedOption === 'Read'}>Read</option>/>
+        <option value= 'Want To Read'  selected = {selectedOption === 'Want To Read'}>Want To Read</option>/>
+        <option value= 'Currently Reading'  selected = {selectedOption === 'Currently Reading' }>Currently Reading</option>/>
+        </select>
+      
             </div>
             <div class="mt-2 column">
               <p class="card-text"><small class="text-muted">my Rating</small></p>
@@ -167,9 +175,9 @@ async function fetchData(url, setData, setCategory, setAuthor, setReviews) {
   setCategory(data.book.category)
   setAuthor(data.book.author)
   setReviews(data.bookReviews)
-  console.log(data.bookReviews)
 
   const avgRating = (data.book.totalRatingValue / data.book.totalRatingCount)
   console.log("The Average: " + avgRating);
 }
+
 export default Book;
