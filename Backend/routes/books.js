@@ -48,11 +48,7 @@ router.get('/', async (req, res) => {
     // const token= JSON.parse(request.params.token);
     // const separtedInfo = separateToken(token);    
     // const userId=separtedInfo.id;  //aho l id lel 3aizo
-<<<<<<< HEAD
     console.log(userId);
-=======
-
->>>>>>> 9d2736cb32e7305bebc9c6884cdab2e6aaa59acd
     try {
         console.log("Get All Book");
         const books = await BookModel.find().populate('category').populate('author')

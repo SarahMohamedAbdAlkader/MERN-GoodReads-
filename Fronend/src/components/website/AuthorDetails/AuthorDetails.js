@@ -14,7 +14,7 @@ function AuthorDetails() {
   const [lastName, setlastName]= useState("");
   const [authorImg, setImg] = useState("");
   const [arr,setarr]=useState([]);
-  const [selectValue, setSelectValue]=useState("")
+  
   //const [userRating, setUserRating] = useState(0)
   let userRating=0;
   const authorId=params.id;
@@ -55,9 +55,9 @@ function AuthorDetails() {
   })
   }
   const handleSelectChange = (e,bookId)=>{
-    setSelectValue(e.target.value)
+    const value=e.target.value;
     
-    axios.post("http://localhost:5000/shelves/"+token,{"value":selectValue,bookId})
+    axios.post("http://localhost:5000/shelves/"+token,{"state":value,bookId})
     .then(res =>{    
       console.log(res.data);   
     })
@@ -111,8 +111,9 @@ function AuthorDetails() {
   <div>
       <h3 >Authors Books!</h3>
       {arr.map((item)=>{
+          userRating=item.rating
           return <Card style={{  display : 'inline-block' }} >
-          <p hidden>{userRating=item.rating}</p>
+          
           <Card.Body>
             <Card.Title>{item.book.name}</Card.Title>
             <Card.Text>
@@ -150,7 +151,7 @@ function AuthorDetails() {
         </div>
         
             
-        <select value ={selectValue} onChange={(e)=> handleSelectChange(e,item.book._id)} >
+        <select  onChange={(e)=> handleSelectChange(e,item.book._id)} >
         <option value= 'Read' selected = {item.shelve === 'Read'}>Read</option>/>
         <option value= 'Want To Read'  selected = {item.shelve === 'Want To Read'}>Want To Read</option>/>
         <option value= 'Currently Reading'  selected = {item.shelve === 'Currently Reading' }>Currently Reading</option>/>

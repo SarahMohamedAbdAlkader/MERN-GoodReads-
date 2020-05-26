@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { separateToken} = require('../middlewares/users')
 const ShelveModel = require("../models/shelve")
-const { separateToken} = require('../middlewares/users')
+
 
 router.post('/:token', async (req, res) => {
 
@@ -13,10 +13,15 @@ router.post('/:token', async (req, res) => {
     const userId=separtedInfo.id;  //aho l id lel 3aizo
    
     const {bookId, state } = req.body;
+    console.log(state);
     
     try {
         const shelveDetails = await ShelveModel.updateOne({ book: bookId, user: userId }, { state: state }, { upsert: true, new: true });
         res.status(200).json(state)
+        console.log("da l shelve");
+        
+        console.log(shelveDetails);
+        
         console.log(state)
     } catch (err) {console.log(err)
         res.status(500).json(err);
