@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , { useState } from 'react';
 import {Form, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -20,7 +20,7 @@ const handleSubmit = (e) => {
       sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
       console.log("Logged in successfully");
       
-      // console.log(res.data);
+       console.log(JSON.stringify(res.data));
       // console.log(typeof(res.data) );
       // const tmp = sessionStorage.getItem('userToken');
       // console.log(typeof(tmp) );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
@@ -32,7 +32,7 @@ const handleSubmit = (e) => {
       console.log(error);
     })
 }
-const getUserIdFromToken =()=>{
+const getUserIdFromToken =() =>{
   
 const token = sessionStorage.getItem('userToken'); //fetch stringified token from session storage
 axios.get('http://localhost:5000/users/getUser/'+token)//bnb3to fl url fa asibo string 3adi
@@ -40,7 +40,6 @@ axios.get('http://localhost:5000/users/getUser/'+token)//bnb3to fl url fa asibo 
       console.log("The user id is "+res.data); // aho l id aho aho.......
     })
 }
-
 const logout = () => {
   console.log("In the logout function...");
   const token = JSON.parse(sessionStorage.getItem('userToken')); //fetch l token and parse it 3ashan hanb3to fl body bta3 l request
@@ -75,7 +74,7 @@ const logout = () => {
             </Form.Row>
          </Form>
        
-         <Button onClick={logout} className="d-flex justify-content-center" >Logout</Button>
+         <Button onClick={getUserIdFromToken} className="d-flex justify-content-center" >Logout</Button>
          </div>);
 }
 export default LoginForm;

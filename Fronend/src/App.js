@@ -13,10 +13,10 @@ import Book from './components/website/bookDetails/Book'
 import Authors from './components/website/Authors/Authors'
 import AuthorDetails from './components/website/AuthorDetails/AuthorDetails';
 
-import CategoryTable from "./components/admin/Category/CategoryTable"
-import BookTable from "./components/admin/Book/BookTable"
-import AuthorTable from "./components/admin/Author/AuthorTable"
-import AdminLogin from "./components/admin/Login/login"
+import CategoryTable from "./components/Admin/Category/CategoryTable"
+import BookTable from "./components/Admin/Book/BookTable"
+import AuthorTable from "./components/Admin/Author/AuthorTable"
+import AdminLogin from "./components/Admin/Login/login"
 
 function App() {
   const AdminloggedIn = true;
