@@ -16,24 +16,18 @@ users.get('/', async function (request, response) {
     }
 });
 
-// users.post('/getUser', async function (request, response){
-//     try {
-        
-//         const {token} = request.body;
-//         console.log(token);
-            
-//         const separtedInfo = separateToken(token);
-              
-//         const id=separtedInfo.id;
-//         console.log(id);
-        
-//         const user = await usersModel.findById(id).exec();   
-//         response.json(id)
+users.get('/admin/:token', async function (request, response){
+    try{
+        const token= JSON.parse(req.params.token);
+        const separtedInfo = separateToken(token);   
+        const userId = separtedInfo.id;
+        const user = await usersModel.findById(userId)
+        response.json(user.admin)
 
-//     } catch (err) {
-//         response.status(500).json(err);
-//     }
-// })
+    }catch(error){
+        response.json(error)
+    }
+})
 
 users.get('/getUser/:token', async function (request, response){
     try {
@@ -51,7 +45,6 @@ users.get('/getUser/:token', async function (request, response){
         response.status(500).json(err);
     }
 })
-
 
 users.post('/register/:admin', async function (request, response) {
    
@@ -95,7 +88,7 @@ users.post('/login', async function (request, response) {
         const editedtoken = editToken(user._id,token)
         
 
-        response.json( editedtoken )
+        response.json( {editedtoken, "admin":user.admin} )
         
     } catch (err) {
         response.status(500).json(err);

@@ -9,13 +9,12 @@ import {useParams} from "react-router";
 function AuthorDetails() {
  
   const params = useParams();
-  
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName]= useState("");
   const [authorImg, setImg] = useState("");
   const [arr,setarr]=useState([]);
   
-  //const [userRating, setUserRating] = useState(0)
+ 
   let userRating=0;
   const authorId=params.id;
   const token = sessionStorage.getItem('userToken');
@@ -38,7 +37,7 @@ function AuthorDetails() {
   }
   const getAuthorsBooks = ()=>{
   
-    axios.get("http://localhost:5000/books/author/"+authorId+'/'+token)
+    axios.get("http://localhost:5000/books/author/"+authorId+'/?token='+token)
     .then(res =>{
       setarr(res.data)
       console.log(res.data);
@@ -152,6 +151,7 @@ function AuthorDetails() {
         
             
         <select  onChange={(e)=> handleSelectChange(e,item.book._id)} >
+        <option value= '' selected = {item.shelve === ''}></option>/>
         <option value= 'Read' selected = {item.shelve === 'Read'}>Read</option>/>
         <option value= 'Want To Read'  selected = {item.shelve === 'Want To Read'}>Want To Read</option>/>
         <option value= 'Currently Reading'  selected = {item.shelve === 'Currently Reading' }>Currently Reading</option>/>
