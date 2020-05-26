@@ -39,7 +39,7 @@ router.get('/:bookId', async (req, res) => {
     const bookId = req.params.bookId
     console.log("Get A Book");
     try {
-        const bookReviews = await ReviewModel.find({ book: bookId }).populate('Book').populate('usersModel')
+        const bookReviews = await ReviewModel.find({ book: bookId }).populate('book').populate('user')
 
         res.json(bookReviews)
     } catch (err) {

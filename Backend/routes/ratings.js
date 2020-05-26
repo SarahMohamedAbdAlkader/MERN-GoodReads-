@@ -44,4 +44,18 @@ router.get('/:token/:bookID', async (req, res) => {
         res.status(500).json(err)
     }
 })
+
+router.get('/', async (req, res) => {
+    console.log("Get all Ratings");
+    
+    try {     
+        const rating = await RatingModel.find()
+        console.log(rating)
+        res.json(rating)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+})
+
 module.exports = router
