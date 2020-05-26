@@ -3,9 +3,8 @@ const BookModel = require('../models/book')
 
 const ratingSchema = new mongoose.Schema({
     value: { type: Number, required: true },
-    book: { type: mongoose.Schema.Types.ObjectId, ref: "Book" },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "usersModel" }
-    // user: { type: String }
+    book: { type: mongoose.Schema.Types.ObjectId, ref: "book" },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" }
 })
 
 ratingSchema.statics.getRatingDetails = async (bookId) => {
