@@ -1,9 +1,10 @@
 const express = require("express");
-const Router = express.Router();
+const router = express.Router();
+const { separateToken} = require('../middlewares/users')
 const ShelveModel = require("../models/shelve")
 const { separateToken} = require('../middlewares/users')
-//ana ghaiart w 7ateit token
-Router.post('/:token', async (req, res) => {
+
+router.post('/:token', async (req, res) => {
 
     const token= JSON.parse(req.params.token);
     console.log(token);
@@ -15,19 +16,26 @@ Router.post('/:token', async (req, res) => {
     
     try {
         const shelveDetails = await ShelveModel.updateOne({ book: bookId, user: userId }, { state: state }, { upsert: true, new: true });
-        res.status(200).json(shelveDetails)
-    } catch (err) {
+        res.status(200).json(state)
+        console.log(state)
+    } catch (err) {console.log(err)
         res.status(500).json(err);
     }
 })
 
-Router.get('/', async(req,res)=>{
-    try {
-        const shelves = await ShelveModel.find({})
-        res.json(shelves)
+
+router.get('/:token/:bookID', async (req, res) => {
+    console.log("Get User shelve");
+    try {     const token= JSON.parse(req.params.token);
+        const separtedInfo = separateToken(token);  
+        const userId=separtedInfo.id;  
+        const bookId= req.params.bookID
+        const shelve = await ShelveModel.findOne({user:userId,book:bookId})
+        console.log(shelve)
+        res.json(shelve)
     } catch (err) {
         console.log(err);
         res.status(500).json(err)
     }
 })
-module.exports = Router
+module.exports = router

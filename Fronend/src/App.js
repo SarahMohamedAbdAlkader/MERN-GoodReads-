@@ -42,7 +42,7 @@ function App() {
         <Route exact path="/"> <HomePage /> </Route>
         <Route exact path="/categories"><Categories /></Route>
         <Route exact path="/categories/:id"><Categorydetails /></Route>
-        <Route exact path="/books/"><Books /></Route>
+        <Route exact path="/books"><Books /></Route>
         <Route exact path="/books/:id"><Book /></Route>
         <Route exact path="/authors"> <Authors /></Route>
         <Route exact path="/authorDetails/:id"> <AuthorDetails/></Route>

@@ -29,4 +29,19 @@ router.get('/', async (req, res) => {
         res.status(500).json(err)
     }
 })
+
+router.get('/:token/:bookID', async (req, res) => {
+    console.log("Get User Rating");
+    try {     const token= JSON.parse(req.params.token);
+        const separtedInfo = separateToken(token);  
+        const userId=separtedInfo.id;  
+        const bookId= req.params.bookID
+        const ratings = await RatingModel.findOne({user:userId,book:bookId})
+        console.log(ratings)
+        res.json(ratings)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+})
 module.exports = router
