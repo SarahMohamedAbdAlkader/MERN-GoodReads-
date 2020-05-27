@@ -27,7 +27,7 @@ function Authors() {
             return <Card style={{ width: '18rem' , display : 'inline-block' , marginRight:'10px'}}>
             <Card.Body >
               <Card.Title>{item.firstName}</Card.Title>
-              <img src={"http://localhost:5000/"+item.photo} alt=""/>  
+              <Card.Img src={"http://localhost:5000/"+item.authorImage} style={{width:'150px', height:'150px'}} />
               <Card.Text>Number of Books: </Card.Text>            
                <Link style={{marginLeft:'20%'}} to={"/authorDetails/"+item._id} >Go To Author Details</Link>
             </Card.Body>

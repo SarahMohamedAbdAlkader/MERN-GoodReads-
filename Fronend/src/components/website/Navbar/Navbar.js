@@ -27,6 +27,7 @@ function Navbar() {
       .then(res => {
        console.log(res.data); 
       })
+    window.location.reload();
   }
   
   return (<React.Fragment>

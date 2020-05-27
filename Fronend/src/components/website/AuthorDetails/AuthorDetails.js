@@ -26,8 +26,8 @@ function AuthorDetails() {
     .then(res => {
       setfirstName(res.data.firstName)
       setlastName(res.data.lastName)
-      setImg("http://localhost:5000/"+res.data.photo)
-      // console.log(res.data.books);  
+      setImg("http://localhost:5000/"+res.data.authorImage)
+       console.log("http://localhost:5000/"+res.data.authorImage);  
       // setarr(res.data.books)
       // console.log(url+res.data.photo);
       
@@ -60,9 +60,10 @@ function AuthorDetails() {
     
     if(token != null){
       const value=e.target.value; 
-      axios.post("http://localhost:5000/shelves/"+token,{"state":value,bookId})
+      axios.post("http://localhost:5000/shelve/"+token,{"state":value,bookId})
       .then(res =>{    
-        console.log(res.data);   
+        console.log(res.data);
+        window.location.reload();   
       })
       .catch(function (error) {
         console.log(error);
@@ -79,14 +80,14 @@ function AuthorDetails() {
       userRating=e;
       axios.post("http://localhost:5000/ratings/"+token,{"value":userRating,bookId})
       .then(res =>{    
-        console.log(res.data);   
+        console.log(res.data);  
+        window.location.reload(); 
       })
-      .catch(function (error) {
+      .catch(function (error) {   
         console.log(error);
     })
   }else{
     alert("You need to login first....")
-    //return  <Redirect  to="/" />
     setRedirectState('/')
   }
   }
@@ -118,7 +119,7 @@ function AuthorDetails() {
       </Card.Text>
       </Col>
       </Row>
-    </Card.Body>
+    </Card.Body>  
   </Card>
   <br />
  
@@ -130,6 +131,7 @@ function AuthorDetails() {
           
           <Card.Body>
             <Card.Title>{item.book.name}</Card.Title>
+            <Card.Img src={"http://localhost:5000/"+item.book.bookImage} style={{width:'150px', height:'150px'}} />
             <Card.Text>
               Average Rating is : 
                   <div class="mt-2">
