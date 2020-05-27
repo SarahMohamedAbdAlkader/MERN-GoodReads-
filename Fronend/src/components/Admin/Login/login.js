@@ -22,6 +22,7 @@ function AdminLogin({ AdminloggedIn }) {
                                 .then(res => {
                                     if(res.data.admin){
                                         sessionStorage.setItem('userToken', JSON.stringify(res.data))
+                                       return  <Redirect to="/admin/category" />
                                         console.log("stored");
                                     }
                                 })

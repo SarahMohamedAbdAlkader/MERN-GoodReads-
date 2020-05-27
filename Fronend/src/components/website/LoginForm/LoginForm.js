@@ -17,21 +17,19 @@ const handleSubmit = (e) => {
       password
     })
     .then(res => {
-      console.log(JSON.stringify(res.data.editedtoken));
-      sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
-      console.log("Logged in successfully");
-      
-       
-      // console.log(typeof(res.data) );
-      // const tmp = sessionStorage.getItem('userToken');
-      // console.log(typeof(tmp) );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-      // console.log(tmp);
-      // console.log(JSON.parse(tmp) );
-      // console.log(typeof(tmp) );
+      if(res.status == 200){
+        console.log(JSON.stringify(res.data));
+        sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
+       // console.log("Logged in successfully");
+        alert("Logged in successfully")
+      }  
     })
     .catch(function (error) {
       console.log(error);
+      alert("Wrong email or/and password ")
     })
+    setEmail('')
+    setPassword('')
 }
 const getUserIdFromToken =() =>{
   
@@ -45,7 +43,7 @@ const logout = () => {
   console.log("In the logout function...");
   const token = JSON.parse(sessionStorage.getItem('userToken')); //fetch l token and parse it 3ashan hanb3to fl body bta3 l request
   sessionStorage.removeItem('userToken'); 
-  const tmp = sessionStorage.getItem('userToken'); //just to check that the token is removed
+ // const tmp = sessionStorage.getItem('userToken'); //just to check that the token is removed
 
   axios.post('http://localhost:5000/users/logout', { 
       token
@@ -55,7 +53,7 @@ const logout = () => {
      
     })
 }
-  return (<div className="d-flex justify-content-end">
+  return (<div className="d-flex justify-content-end ">
            <Form onSubmit={handleSubmit} >
             <Form.Row>
               
@@ -67,15 +65,15 @@ const logout = () => {
               <Form.Group controlId="formGroupPassword">
                 {/* <Form.Label>Password</Form.Label> */}
 
-                  <Form.Control type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                  <Form.Control type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} style={{marginLeft:'10px', marginRight:'10px'}}/>
               </Form.Group>
                   <Col>
-                      <Button type="submit" className="d-flex justify-content-center"  >Login</Button>
+                      <Button type="submit" className="d-flex justify-content-center btn btn-warning"  >Login</Button>
                   </Col>
             </Form.Row>
          </Form>
        
-         <Button onClick={getUserIdFromToken} className="d-flex justify-content-center" >Logout</Button>
+         {/* <Button onClick={getUserIdFromToken} className="d-flex justify-content-center btn btn-warning" >Logout</Button> */}
          </div>);
 }
 export default LoginForm;

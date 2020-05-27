@@ -12,25 +12,34 @@ function RegisterForm() {
     
   const handleSubmit= (e)=>{
     e.preventDefault();
-    axios.post('http://localhost:5000/users/register/2',{firstName,lastName,email,password})
+    if(password != cpassword) alert("Passwords don't match..")
+    else {
+    axios.post('http://localhost:5000/users/register/2',{firstName,lastName,email,password} )
     .then(res => {
-      alert("Welcome! Login to begin your reading journey")
-      // localStorage.setItem('userToken',res.data)
-      // const tmp=localStorage.getItem('userToken');
-      // console.log(tmp);
-      
+      console.log("da l res",res);
+      alert("Welcome! Login to begin your reading journey") 
+       
+    })
+    .catch(function(error){
+      alert("This email already exists ")
     })
   }
+  setEmail('')
+  setPassword('')
+  setcPassword('')
+  setfirstName('')
+  setlastName('')
+}
   
-  return (<Form  onSubmit={handleSubmit}>
+  return (<Form  className = "justify-content-center" onSubmit={handleSubmit}>
    <h3>New here? Create a free account!</h3>
-    <Form>
+    
      <Form.Group as={Row} controlId="validationCustom01">
-            <Form.Control  type="text" required  style={{  marginLeft : '10px' }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
+            <Form.Control  type="text"   style={{  marginLeft : '10px' }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
     </Form.Group>
      
     <Form.Group  as={Row}  controlId="validationCustom02">
-             <Form.Control required type="text"   style={{  marginLeft : '10px' }}  value={lastName} onChange={e => setlastName(e.target.value)} placeholder="Last Name"/>
+             <Form.Control  type="text"   style={{  marginLeft : '10px' }}  value={lastName} onChange={e => setlastName(e.target.value)} placeholder="Last Name"/>
     </Form.Group>
     
     <Form.Group as={Row} controlId="formPlaintextEmail">
@@ -42,16 +51,16 @@ function RegisterForm() {
   </Form.Group>
 
   <Form.Group as={Row} controlId="formPlaintextPassword">
-      <Form.Control type="password"   placeholder="Confirm Password" className="justify-content-md-center"  value={cpassword} onChange={e => setcPassword(e.target.value)}/>
+      <Form.Control type="password"   placeholder="Confirm Password" style={{  marginLeft : '10px' }} className="justify-content-md-center"  value={cpassword} onChange={e => setcPassword(e.target.value)}/>
   </Form.Group>
 
-</Form>
+
 
 {/* <Form.Group>
     <Form.Check  required label="Agree to terms and conditions" feedback="You must agree before submitting." />
 </Form.Group> */}
 
-<Button type="submit"  style={{ marginLeft : '120px'}}>Register</Button>
+<Button type="submit" className="d-flex justify-content-center btn btn-warning"  >Register</Button>
 </Form>);
 }
 export default RegisterForm;

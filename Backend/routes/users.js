@@ -49,6 +49,10 @@ users.get('/getUser/:token', async function (request, response){
 users.post('/register/:admin', async function (request, response) {
     try {
         const {firstName,lastName,email,password}=request.body;
+        
+        const tmpUser = await usersModel.find({email})
+        if(tmpUser) return response.status(409).json({err:"email already used"})
+
         let newUser = new usersModel()
         newUser.firstName=firstName;
         newUser.lastName=lastName;
@@ -62,7 +66,7 @@ users.post('/register/:admin', async function (request, response) {
         const editedtoken=editToken(newUser._id,token)
         console.log(editedtoken);
         
-        response.json( editedtoken )
+        response.status(200).json( editedtoken )
 
     } catch (err) {
         response.status(500).json(err);
@@ -81,16 +85,16 @@ users.post('/login', async function (request, response) {
         console.log("geh hnaa");
         
         if (!curUser) {
-            return response.json({error: 'Wrong email or password!'})
+            return response.status(400).json({error: 'Wrong email or password!'})
         }
         const token = await curUser.generateAuthToken()
         console.log(token)
         const editedtoken = editToken(curUser._id,token)
         console.log("khalas l login w bib3at");
         
-        if(curUser.admin)response.json( editedtoken, {"admin":curUser.admin} )
-        else response.json(editedtoken)
-        
+        if(curUser.admin)response.status(200).json( editedtoken, {"admin":curUser.admin} )
+        else response.status(200).json(editedtoken)
+
     } catch (err) {
         response.status(500).json(err);
     }

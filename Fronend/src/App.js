@@ -20,7 +20,7 @@ import AdminLogin from "./components/Admin/Login/login"
 
 function App() {
   const token = JSON.parse( sessionStorage.getItem('userToken'))
-  const AdminloggedIn = token ? token.admin: false
+  const AdminloggedIn = token && token.admin ? true: false
   return (
     <BrowserRouter>
       <Navbar />
