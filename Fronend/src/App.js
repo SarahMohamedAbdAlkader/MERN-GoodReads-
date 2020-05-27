@@ -52,6 +52,7 @@ function App() {
         <Route exact path="/authorDetails/:id"> <AuthorDetails/></Route>
         <Route exact path="/search/book/:name"> <Searchbooks/></Route>
         <Route exact path="/search/category/:name"> <Searchcategories/></Route>
+        <Route exact path="/search//"> <Books/></Route>
       </Switch>
     </BrowserRouter>
   );
