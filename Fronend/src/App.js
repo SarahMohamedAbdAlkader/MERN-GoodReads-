@@ -19,7 +19,8 @@ import AuthorTable from "./components/Admin/Author/AuthorTable"
 import AdminLogin from "./components/Admin/Login/login"
 
 function App() {
-  const AdminloggedIn = true;
+  const token = JSON.parse( sessionStorage.getItem('userToken'))
+  const AdminloggedIn = token ? token.admin: false
   return (
     <BrowserRouter>
       <Navbar />
