@@ -92,7 +92,7 @@ router.get('/', async (req, res) => {
     console.log(userId);
     try {
         console.log("Get All Book");
-        const books = await BookModel.find().populate('category').populate('author')
+        const books = await BookModel.find().sort({totalRatingCount: -1}).populate('category').populate('author')
         // to add rating and shelve of current logged in user 
         for (let index = 0; index < books.length; index++) {
             let myRating = 0, shelve = "";
@@ -110,6 +110,7 @@ router.get('/', async (req, res) => {
         if (page > pageCount) {
             page = pageCount
         }
+        
         res.json({
             "dataLength": books.length,
             "page": page,
