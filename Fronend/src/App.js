@@ -12,11 +12,14 @@ import Books from './components/website/books/Books'
 import Book from './components/website/bookDetails/Book'
 import Authors from './components/website/Authors/Authors'
 import AuthorDetails from './components/website/AuthorDetails/AuthorDetails';
+import Searchbooks from './components/website/search/Searchbooks'
+import Searchcategories from './components/website/search/Searchcategories'
 
 import CategoryTable from "./components/Admin/Category/CategoryTable"
 import BookTable from "./components/Admin/Book/BookTable"
 import AuthorTable from "./components/Admin/Author/AuthorTable"
 import AdminLogin from "./components/Admin/Login/login"
+
 
 function App() {
   const token = JSON.parse( sessionStorage.getItem('userToken'))
@@ -47,6 +50,8 @@ function App() {
         <Route exact path="/books/:id"><Book /></Route>
         <Route exact path="/authors"> <Authors /></Route>
         <Route exact path="/authorDetails/:id"> <AuthorDetails/></Route>
+        <Route exact path="/search/book/:name"> <Searchbooks/></Route>
+        <Route exact path="/search/category/:name"> <Searchcategories/></Route>
       </Switch>
     </BrowserRouter>
   );

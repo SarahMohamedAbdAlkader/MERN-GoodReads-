@@ -167,8 +167,8 @@ function Book() {
           {
             reviews.map((review, index) =>
 
-              <div key={index} >
-
+              <div key={index}class="row" >
+<p>{review.user.firstName} {review.user.lastName}</p> :
                 <p class=" font-italic ">{review.text}</p>
 
               </div>

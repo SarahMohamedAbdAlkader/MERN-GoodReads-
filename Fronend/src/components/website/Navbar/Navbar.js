@@ -10,6 +10,7 @@ import Categorydetails from '../categories/Categorydetails'
 import Books from '../books/Books'
 import Book from '../bookDetails/Book'
 import Authors from '../Authors/Authors'
+import Search from '../search/Search'
 function Navbar() {
   return (<React.Fragment>
     <nav class=" navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
@@ -42,10 +43,11 @@ function Navbar() {
             <img class="img2" src={gwordlogo} />
           </li>
         </ul>
-        <form class="form-inline col-4 my-2 my-lg-0">
+        {/* <form class="form-inline col-4 my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
           <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> */}
+        <Search />
         <div class="col-2  ">
           <div class="row">
           <Link><img class=" img mr-3" src={user} /></Link>
