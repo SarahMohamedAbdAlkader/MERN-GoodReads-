@@ -149,14 +149,18 @@ router.get('/:id', async (req, res) => {
 })
 
 
-router.get('/author/:author/', async (req, res) => {
+router.get('/author/details/:author/', async (req, res) => {
     console.log("wasal wasal wasal lel server");
     //console.log(req.params);
     
     const authorid = req.params.author;
+    console.log(req.query.token);
+    //console.log(JSON.parse(req.query.token));
+    
     const token= JSON.parse(req.query.token);
     let userId=7;
     if(token != null){
+        console.log(token);
         const separtedInfo = separateToken(token);    
         userId=separtedInfo.id;  //aho l id lel 3aizo
         console.log("da l userId ------>",userId);
@@ -177,7 +181,6 @@ router.get('/author/:author/', async (req, res) => {
             books[index] = { book: books[index], rating , shelve}
         }
         console.log("l books b salatathaaa");
-        
         console.log(books);
         res.json(books)
 

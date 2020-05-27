@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { useParams } from "react-router";
-import ReactStars from 'react-rating-stars-component'
+import ReactStars from 'react-rating-stars-component';
+import {Redirect} from 'react-router-dom';
 
 
 const bookId = window.location.pathname.split('/')[2]
@@ -19,30 +20,33 @@ function Book() {
   const params = useParams()
   const bookId = params.id;
   const token = sessionStorage.getItem('userToken');
+  const [redirectPage,setRedirectState]= useState(null)
 
   const getBookRating = () => {
-    axios.get(`${SERVER_URL}/ratings/` + token + "/" + bookId)
-      .then(res => {
-        if (res.status === 200) {
-          setMyRating(res.data.value)
-        }
-        else {
-          setMyRating(0)
-        }
-      })
-  }
+   
+      axios.get(`${SERVER_URL}/ratings/` + token + "/" + bookId)
+        .then(res => {
+          if (res.status === 200) {
+            setMyRating(res.data.value)
+          }
+          else {
+            setMyRating(0)
+          }
+        })
+}
   const getShelve = () => {
-    axios.get(`${SERVER_URL}/shelve/` + token + "/" + bookId)
-      .then(res => {
-        if (res.status === 200) {
-          setSelectedOption(res.data.state)
-        }
-        else {
-          setSelectedOption("")
-        }
+    
+      axios.get(`${SERVER_URL}/shelve/` + token + "/" + bookId)
+        .then(res => {
+          if (res.status === 200) {
+            setSelectedOption(res.data.state)
+          }
+          // else {
+          //   alert("You need to login first....")
+          //  // setSelectedOption("")
+          // }
 
-      })
-
+        })
   }
   useEffect(() => {
 
@@ -52,8 +56,8 @@ function Book() {
 
   }, [])
   const handleSubmit = (e) => {  //el function de bta3t el review msh hy3rf y add review lo mfesh token
+   if(token != null){
     e.preventDefault();
-
     axios.post(`${SERVER_URL}/reviews/` + token, {
       bookId,
       userReview,
@@ -69,35 +73,49 @@ function Book() {
       .catch(function (error) {
         console.log(error);
       })
-
+    }else{
+      alert("You need to login first....")
+      setRedirectState('/')
+    }
   }
   const ratingChanged = (value) => { //hena msh hy3rf y8er el rating brdo
 
-    axios.post(`${SERVER_URL}/ratings/` + token, { bookId, value })
-      .then(res => {
-        console.log("The user rating " + res.data); // el rating ya basha
+    if(token != null){
+      axios.post(`${SERVER_URL}/ratings/` + token, { bookId, value })
+        .then(res => {
+          console.log("The user rating " + res.data); // el rating ya basha
 
-      })
-
+        })
+    }
+    else{
+      alert("You need to login first....")
+      setRedirectState('/')
+    }
   }
   const shelveOption = (e) => { //hena msh hy3rf y8er el shelve bta3oooo
-    console.log("value",e.target.value);
-    const state=e.target.value;
-    console.log(state)
-console.log("book",bookId)
-    axios.post(`${SERVER_URL}/shelve/` + token, { bookId, state })
-      .then(res => {
-        console.log(res.data)
-        setSelectedOption(res.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+    if(token != null){
+      console.log("value",e.target.value);
+      const state=e.target.value;
+      console.log(state)
+      console.log("book",bookId)
+      axios.post(`${SERVER_URL}/shelve/` + token, { bookId, state })
+        .then(res => {
+          console.log(res.data)
+          setSelectedOption(res.data)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+  }
+  else {
+    alert("You need to login first....")
+    setRedirectState('/')
+  }
 
   }
 
 
-
+  if(redirectPage)return  <Redirect  to="/" /> 
 
   return (
     <React.Fragment>
@@ -107,11 +125,11 @@ console.log("book",bookId)
             <img src={`${SERVER_URL}/${data.bookImage}`} class="card-img" alt="..." style={{ height: 200, width: 220 }} />
             <div class="mt-2">
             <select  onChange={shelveOption} >
-            <option value= '' selected = {selectedOption === ''}> </option>/>
-        <option value= 'Read' selected = {selectedOption === 'Read'}>Read</option>/>
-        <option value= 'Want To Read'  selected = {selectedOption === 'Want To Read'}>Want To Read</option>/>
-        <option value= 'Currently Reading'  selected = {selectedOption === 'Currently Reading' }>Currently Reading</option>/>
-        </select>
+              <option value= '' selected = {selectedOption === ''}> </option>/>
+              <option value= 'Read' selected = {selectedOption === 'Read'}>Read</option>/>
+              <option value= 'Want To Read'  selected = {selectedOption === 'Want To Read'}>Want To Read</option>/>
+              <option value= 'Currently Reading'  selected = {selectedOption === 'Currently Reading' }>Currently Reading</option>/>
+            </select>
       
             </div>
             <div class="mt-2 column">

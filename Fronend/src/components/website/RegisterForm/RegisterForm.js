@@ -9,16 +9,15 @@ function RegisterForm() {
   const [cpassword, setcPassword]= useState("");
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName]= useState("");
-
-
     
   const handleSubmit= (e)=>{
     e.preventDefault();
     axios.post('http://localhost:5000/users/register/2',{firstName,lastName,email,password})
     .then(res => {
-      localStorage.setItem('userToken',res.data)
-      const tmp=localStorage.getItem('userToken');
-      console.log(tmp);
+      alert("Welcome! Login to begin your reading journey")
+      // localStorage.setItem('userToken',res.data)
+      // const tmp=localStorage.getItem('userToken');
+      // console.log(tmp);
       
     })
   }

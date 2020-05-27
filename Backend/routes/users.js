@@ -47,8 +47,6 @@ users.get('/getUser/:token', async function (request, response){
 })
 
 users.post('/register/:admin', async function (request, response) {
-   
-    
     try {
         const {firstName,lastName,email,password}=request.body;
         let newUser = new usersModel()
@@ -60,9 +58,11 @@ users.post('/register/:admin', async function (request, response) {
         if (request.params.admin == '1') newUser.admin = true;
 
         await newUser.save()
-        const token = await usersModel.generateAuthToken()
-        //const editedtoken=editToken(newUser,_id,token)
-        response.json( token )
+        const token = await newUser.generateAuthToken()
+        const editedtoken=editToken(newUser._id,token)
+        console.log(editedtoken);
+        
+        response.json( editedtoken )
 
     } catch (err) {
         response.status(500).json(err);
@@ -75,20 +75,21 @@ users.post('/login', async function (request, response) {
     //login a user 
     try {
         const {email,password}= request.body
+        console.log(email);
+        console.log(password);
+        const curUser = await usersModel.findByCredentials(email, password)
+        console.log("geh hnaa");
         
-        
-        const user = await usersModel.findByCredentials(email, password)
-        if (!user) {
+        if (!curUser) {
             return response.json({error: 'Wrong email or password!'})
         }
-        
-        
-        const token = await user.generateAuthToken()
+        const token = await curUser.generateAuthToken()
         console.log(token)
-        const editedtoken = editToken(user._id,token)
+        const editedtoken = editToken(curUser._id,token)
+        console.log("khalas l login w bib3at");
         
-
-        response.json( {editedtoken, "admin":user.admin} )
+        if(curUser.admin)response.json( editedtoken, {"admin":curUser.admin} )
+        else response.json(editedtoken)
         
     } catch (err) {
         response.status(500).json(err);

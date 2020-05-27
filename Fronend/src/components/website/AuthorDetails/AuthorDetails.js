@@ -4,6 +4,7 @@ import ReactStars from 'react-rating-stars-component'
 //import img4 from './longest.jpg'
 import axios from 'axios';
 import {useParams} from "react-router";
+import {Redirect} from 'react-router-dom';
 
 
 function AuthorDetails() {
@@ -13,7 +14,7 @@ function AuthorDetails() {
   const [lastName, setlastName]= useState("");
   const [authorImg, setImg] = useState("");
   const [arr,setarr]=useState([]);
-  
+  const [redirectPage,setRedirectState]= useState(null)
  
   let userRating=0;
   const authorId=params.id;
@@ -36,8 +37,9 @@ function AuthorDetails() {
   })
   }
   const getAuthorsBooks = ()=>{
-  
-    axios.get("http://localhost:5000/books/author/"+authorId+'/?token='+token)
+   console.log("athou erwjhkwrk;l");
+   
+    axios.get("http://localhost:5000/books/author/details/"+authorId+'/?token='+token)
     .then(res =>{
       setarr(res.data)
       console.log(res.data);
@@ -54,26 +56,39 @@ function AuthorDetails() {
   })
   }
   const handleSelectChange = (e,bookId)=>{
-    const value=e.target.value;
+    console.log(token);
     
-    axios.post("http://localhost:5000/shelves/"+token,{"state":value,bookId})
-    .then(res =>{    
-      console.log(res.data);   
-    })
-    .catch(function (error) {
-      console.log(error);
-  })
+    if(token != null){
+      const value=e.target.value; 
+      axios.post("http://localhost:5000/shelves/"+token,{"state":value,bookId})
+      .then(res =>{    
+        console.log(res.data);   
+      })
+      .catch(function (error) {
+        console.log(error);
+     })
+    }
+    else {
+      alert("You need to login first....")
+     // return  <Redirect  to="/" />
+     setRedirectState('/');
+    }
   }
   const handleRatingChange = (e,bookId)=>{
-    console.log(e);
-    userRating=e;
-    axios.post("http://localhost:5000/ratings/"+token,{"value":userRating,bookId})
-    .then(res =>{    
-      console.log(res.data);   
+    if(token != null){
+      userRating=e;
+      axios.post("http://localhost:5000/ratings/"+token,{"value":userRating,bookId})
+      .then(res =>{    
+        console.log(res.data);   
+      })
+      .catch(function (error) {
+        console.log(error);
     })
-    .catch(function (error) {
-      console.log(error);
-  })
+  }else{
+    alert("You need to login first....")
+    //return  <Redirect  to="/" />
+    setRedirectState('/')
+  }
   }
   useEffect(()=>{ 
     
@@ -81,7 +96,7 @@ function AuthorDetails() {
       getAuthorsBooks()
       
   }, []);
-    
+  if(redirectPage)return  <Redirect  to="/" /> 
   return (<div>
  
   <Card>
