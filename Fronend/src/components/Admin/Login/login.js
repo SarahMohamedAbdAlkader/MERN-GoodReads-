@@ -17,9 +17,10 @@ function AdminLogin({ AdminloggedIn }) {
                             axios.post('http://localhost:5000/users/login', { email, password })
                                 .then(res => {
                                     if (res.data.admin) {
-                                        sessionStorage.setItem('adminToken', JSON.stringify(res.data))
+                                        sessionStorage.setItem('userToken', JSON.stringify(res.data.editedtoken))
+                                        sessionStorage.setItem('admin', JSON.stringify(res.data.admin))
                                         console.log("redirection");
-                                        alert("Logged In")
+                                        alert("You are successfully logged in as Admin")
                                         window.location.reload();
                                         // return   <Redirect to="/admin/category" />
                                     }
