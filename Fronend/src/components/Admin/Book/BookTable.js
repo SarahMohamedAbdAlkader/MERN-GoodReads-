@@ -109,16 +109,9 @@ const DeleteBtn = ({ book, setBookList, bookList }) => {
         }}></i></button>
 }
 
-// const EditBtn =
-//     ({ book, bookList, setModalState, setEditedItemId, setEditedBookName, seteditedPhoto, setEditedAuthorName, setEditedCategoryName }) => {
-
-//     }
-
 async function fetchData(url, setList) {
     let response = await fetch(url)
     let data = await response.json();
-    console.log("books-data", data);
-
     setList(data);
 }
 

@@ -22,8 +22,7 @@ import AdminLogin from "./components/Admin/Login/login"
 
 
 function App() {
-  const token = JSON.parse( sessionStorage.getItem('userToken'))
-  const AdminloggedIn = token && token.admin ? true: false
+  const AdminloggedIn = sessionStorage.getItem('userToken') && sessionStorage.getItem('admin')? true: false
   return (
     <BrowserRouter>
       <Navbar />
@@ -52,6 +51,7 @@ function App() {
         <Route exact path="/authorDetails/:id"> <AuthorDetails/></Route>
         <Route exact path="/search/book/:name"> <Searchbooks/></Route>
         <Route exact path="/search/category/:name"> <Searchcategories/></Route>
+        <Route exact path="/search//"> <Books/></Route>
       </Switch>
     </BrowserRouter>
   );

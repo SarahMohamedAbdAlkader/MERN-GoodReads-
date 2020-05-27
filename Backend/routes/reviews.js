@@ -15,7 +15,10 @@ router.post('/:token', async (req, res) => {
     })
     try {
         const savedReview = await review.save()
-        res.json(savedReview)
+        const newReview = await ReviewModel.find().populate('user')
+        console.log("savedReview",savedReview)
+        console.log("newReview",newReview)
+        res.json(newReview)
     } catch (error) {
         console.log(err);
         res.status(500).json(err);

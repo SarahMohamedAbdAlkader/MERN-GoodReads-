@@ -3,11 +3,9 @@ import axios from 'axios'
 
 const SERVER_URL = "http://localhost:5000";
 
-function Modal(
-    { setAuthorList, authorList, modalState, editedItemId, editedFirstName, setEditedFirstName,
-        editedLastName, setEditedLastName, editedPhoto, seteditedPhoto, editedDob, setEditedDob }
-) {
-    return (<React.Fragment>
+function Modal({ setAuthorList, authorList, modalState, editedItemId, editedFirstName, setEditedFirstName,editedLastName, setEditedLastName, editedPhoto, seteditedPhoto, editedDob, setEditedDob }) {
+   
+   return (<React.Fragment>
         <div class="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -60,7 +58,6 @@ function Form(props) {
                         formData.append("lastName", editedLastName)
                         formData.append("dob", editedDob)
                         formData.append("authorImage", editedPhoto)
-                        console.log(document.getElementById("authorImage"));
                         if (modalState === "add") {
                             if (editedFirstName && editedLastName && editedDob && editedPhoto) {
                                 axios.post(`${SERVER_URL}/authors`, formData, {})
