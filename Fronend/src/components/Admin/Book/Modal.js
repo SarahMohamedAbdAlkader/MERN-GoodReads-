@@ -50,8 +50,7 @@ function Modal({
 
 function Form(props) {
     const {
-        authorList, setAuthorList, categoryList, setCategoryList,
-        bookList, setBookList, modalState, editedItemId,
+        authorList, categoryList, bookList, setBookList, modalState, editedItemId,
         editedBookName, setEditedBookName, editedPhoto, seteditedPhoto,
         editedAuthorId, setEditedAuthorId, editedCategoryId, setEditedCategoryId
     } = props
@@ -80,7 +79,6 @@ function Form(props) {
                     })}
             </select>
 
-
             <label for="bookImage" class="col-form-label font-weight-bold">Book Image:</label>
             <input type="file" class="form-control" name="bookImage" id="bookImage" onChange={(e) => seteditedPhoto(e.target.files[0])} />
             <ConfirmationBtn
@@ -103,7 +101,7 @@ function ConfirmationBtn({ modalState, bookList, setBookList, editedItemId,
             formData.append("categoryId", editedCategoryId)
             formData.append("authorId", editedAuthorId)
             formData.append("bookImage", editedPhoto)
-            if (modalState === "add") {
+            if (modalState === "add") { //add new book
                 if (editedBookName && editedCategoryId && editedAuthorId && editedPhoto) {
                     axios.post(`${SERVER_URL}/books`, formData, {})
                         .then(res => {
@@ -113,47 +111,22 @@ function ConfirmationBtn({ modalState, bookList, setBookList, editedItemId,
                     alert("Please Fill All Fields")
                 }
             }
-            else { //edit Author
-console.log(editedBookName);
-console.log(editedCategoryId);
-console.log(editedAuthorId);
-console.log(editedPhoto);
-
-
-
+            else { //edit Book
                 if (editedBookName && editedCategoryId && editedAuthorId) {
                     axios.patch(`${SERVER_URL}/books/${editedItemId}`, formData)
                         .then(res => {
                             if (res.status === 200) {
-                                console.log("res is",res.data);
                                 setBookList(bookList.map(item => {
                                     return item._id == editedItemId ? res.data : item
                                 }));
                             } else {
-                                alert("Database Erorr! Book Name Exist")
+                                alert("Database Erorr!")
                             }
                         })
                 } else {
                     alert("Please Fill All Fields")
                 }
             }
-
-
-            // if (cateName) {
-            //     if (modalState === "add") {
-            //         setCategoryList([...categoryList, { id: 4, name: cateName }])
-            //         setCatName("")
-            //     } else {
-            //         setCategoryList(categoryList.map(item => {
-            //             if (item.id == editedItemId) {
-            //                 item.name = cateName;
-            //             }
-            //             return item
-            //         }));
-            //         console.log("confirm edit");
-            //         setCatName("")
-            //     }
-            // }
         }}
             class="btn btn-primary " data-dismiss="modal" style={{ margin: "auto" }}>{modalState === "add" ? "Add Book" : "Edit"}</button>
     </div>
