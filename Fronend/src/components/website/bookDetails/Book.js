@@ -26,7 +26,7 @@ function Book() {
    
       axios.get(`${SERVER_URL}/ratings/` + token + "/" + bookId)
         .then(res => {
-          if (res.status === 200) {
+          if (res.status === 200 && res.data) {
             setMyRating(res.data.value)
           }
           else {
@@ -38,7 +38,7 @@ function Book() {
     
       axios.get(`${SERVER_URL}/shelve/` + token + "/" + bookId)
         .then(res => {
-          if (res.status === 200) {
+          if (res.status === 200 && res.data) {
             setSelectedOption(res.data.state)
           }
           // else {
@@ -64,7 +64,8 @@ function Book() {
     })
       .then(res => {
         if (res.status === 200) {
-          setReviews([...reviews, res.data])
+          console.log("ad",res.data)
+          setReviews(res.data)
         }
         else {
           alert("Please,Login to add Your Review ")
