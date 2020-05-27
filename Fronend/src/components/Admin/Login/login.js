@@ -14,22 +14,22 @@ function AdminLogin({ AdminloggedIn }) {
                     <div id="login-box" class="col-md-12">
                         <form id="login-form" class="form" method="post" onSubmit={(e) => {
                             e.preventDefault();
-                            console.log(email);
-                            console.log(password);
-
-
-                            axios.post('http://localhost:5000/users/login', {email,password})
+                            axios.post('http://localhost:5000/users/login', { email, password })
                                 .then(res => {
-                                    if(res.data.admin){
-                                        sessionStorage.setItem('userToken', JSON.stringify(res.data))
-                                       return  <Redirect to="/admin/category" />
-                                        console.log("stored");
+                                    if (res.data.admin) {
+                                        sessionStorage.setItem('adminToken', JSON.stringify(res.data))
+                                        console.log("redirection");
+                                        alert("Logged In")
+                                        window.location.reload();
+                                        // return   <Redirect to="/admin/category" />
                                     }
                                 })
                                 .catch(function (error) {
                                     console.log("sorry wrong cred");
-                                    
                                     console.log(error);
+                                    alert("Sorry you have Enterd incorrect Email or Password")
+                                    setEmail("")
+                                    setPassword("")
                                 })
                         }}>
                             <h3 class="text-center text-info">Welcome To Admin Panel</h3>
@@ -42,7 +42,7 @@ function AdminLogin({ AdminloggedIn }) {
                                 <input type="password" name="password" id="password" class="form-control" value={password} onChange={e => setPassword(e.target.value)} />
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" class="btn btn-info btn-md" value="submit" />
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Login" />
                             </div>
                         </form>
                     </div>
