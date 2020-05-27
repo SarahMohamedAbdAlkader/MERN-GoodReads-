@@ -51,7 +51,11 @@ users.post('/register/:admin', async function (request, response) {
         const {firstName,lastName,email,password}=request.body;
         
         const tmpUser = await usersModel.find({email})
-        if(tmpUser) return response.status(409).json({err:"email already used"})
+        if(tmpUser.length) {
+            console.log(tmpUser);
+            
+            return response.status(409).json({err:"email already used"})
+        }
 
         let newUser = new usersModel()
         newUser.firstName=firstName;

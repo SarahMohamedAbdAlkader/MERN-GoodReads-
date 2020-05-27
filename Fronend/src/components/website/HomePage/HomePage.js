@@ -7,10 +7,14 @@ import {Row, Col, Container} from 'react-bootstrap'
 function HomePage() {
   
   return (<div>
-       
+      <Row  style={{marginTop:'20px'}}>
+        <Col>
+        <h3 style={{marginLeft:'150px'}}>Welcome to Book Reads!</h3>
+        </Col>
        { sessionStorage.getItem('userToken')==null &&
-        <div style={{marginTop:'20px'}} > <LoginForm/></div>
+        <div > <LoginForm/></div>
        }
+       </Row>
         <Container>
         <Row className="justify-content-md-center">
             <Col sm={8}>
@@ -18,7 +22,7 @@ function HomePage() {
             </Col>
             {  sessionStorage.getItem('userToken')==null &&
             <Col >
-              <div><RegisterForm/></div>
+              <div className = "d-flex justify-content-end"><RegisterForm/></div>
             </Col>
             }
           </Row>

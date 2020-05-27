@@ -31,36 +31,32 @@ function RegisterForm() {
   setlastName('')
 }
   
-  return (<Form  className = "justify-content-center" onSubmit={handleSubmit}>
-   <h3>Create a free account!</h3>
+  return (<Form   onSubmit={handleSubmit} >
+   <h3>Create a free account now!</h3>
     
      <Form.Group as={Row} controlId="validationCustom01">
-            <Form.Control  type="text"   style={{  marginLeft : '10px' }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
+            <Form.Control  type="text"   style={{  marginLeft : '10px',width:'350px' }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
     </Form.Group>
      
     <Form.Group  as={Row}  controlId="validationCustom02">
-             <Form.Control  type="text"   style={{  marginLeft : '10px' }}  value={lastName} onChange={e => setlastName(e.target.value)} placeholder="Last Name"/>
+             <Form.Control  type="text"  style={{  marginLeft : '10px',width:'350px' }} value={lastName} onChange={e => setlastName(e.target.value)} placeholder="Last Name"/>
     </Form.Group>
     
     <Form.Group as={Row} controlId="formPlaintextEmail">
-           <Form.Control  type="email" style={{  marginLeft : '10px' }}  value={email} onChange={e => setEmail(e.target.value)} placeholder="Email Address"/>   
+           <Form.Control  type="email"  style={{  marginLeft : '10px',width:'350px' }}  value={email} onChange={e => setEmail(e.target.value)} placeholder="Email Address"/>   
   </Form.Group>
 
   <Form.Group as={Row} controlId="formPlaintextPassword">
-      <Form.Control type="password"   placeholder="Password" style={{  marginLeft : '10px' }}  value={password} onChange={e => setPassword(e.target.value)}/>
+      <Form.Control type="password"   placeholder="Password"  style={{  marginLeft : '10px',width:'350px' }} value={password} onChange={e => setPassword(e.target.value)}/>
   </Form.Group>
 
   <Form.Group as={Row} controlId="formPlaintextPassword">
-      <Form.Control type="password"   placeholder="Confirm Password" style={{  marginLeft : '10px' }} className="justify-content-md-center"  value={cpassword} onChange={e => setcPassword(e.target.value)}/>
+      <Form.Control type="password"   placeholder="Confirm Password"  style={{  marginLeft : '10px',width:'350px' }} className="justify-content-md-center"  value={cpassword} onChange={e => setcPassword(e.target.value)}/>
   </Form.Group>
 
 
 
-{/* <Form.Group>
-    <Form.Check  required label="Agree to terms and conditions" feedback="You must agree before submitting." />
-</Form.Group> */}
-
-<Button type="submit" className="d-flex justify-content-center btn btn-warning"  >Register</Button>
+<Button type="submit" className="btn btn-warning" style={{marginLeft:'130px'}} >Register</Button>
 </Form>);
 }
 export default RegisterForm;
