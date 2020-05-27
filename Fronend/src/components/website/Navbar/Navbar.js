@@ -11,7 +11,23 @@ import Books from '../books/Books'
 import Book from '../bookDetails/Book'
 import Authors from '../Authors/Authors'
 import Search from '../search/Search'
+import axios from 'axios';
+
 function Navbar() {
+  const logout = () => {
+    console.log("In the logout function...");
+    const token = JSON.parse(sessionStorage.getItem('userToken')); //fetch l token and parse it 3ashan hanb3to fl body bta3 l request
+    sessionStorage.removeItem('userToken'); 
+   // const tmp = sessionStorage.getItem('userToken'); //just to check that the token is removed
+  
+    axios.post('http://localhost:5000/users/logout', { 
+        token
+      })
+      .then(res => {
+       console.log(res.data); 
+       
+      })
+  }
   return (<React.Fragment>
     <nav class=" navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
       <img class="navbar-brand img" src={FAVPNG} alt="goodreads" />
@@ -52,7 +68,7 @@ function Navbar() {
           <div class="row">
           <Link><img class=" img mr-3" src={user} /></Link>
           
-          <Link> <img class="img" src={login} /></Link>
+          <Link> <img class="img" src={login}  onClick={()=>logout()}/></Link>
           </div>
         </div>
       </div>

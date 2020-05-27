@@ -21,7 +21,7 @@ const handleSubmit = (e) => {
         console.log(JSON.stringify(res.data));
         sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
        // console.log("Logged in successfully");
-        alert("Logged in successfully")
+        alert("You are successfully logged in")
       }  
     })
     .catch(function (error) {

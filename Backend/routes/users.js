@@ -121,7 +121,7 @@ users.post('/logout', async (req, res) => {
         await newUser.save()
         console.log("aho aho aho aho");
         
-        res.json({"msg":"from the server the user is logged out!"})
+        res.json({msg:"from the server the user is logged out!"})
     } catch (error) {
         res.status(500).json(error);
     }

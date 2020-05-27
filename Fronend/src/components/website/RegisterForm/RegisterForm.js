@@ -32,7 +32,7 @@ function RegisterForm() {
 }
   
   return (<Form  className = "justify-content-center" onSubmit={handleSubmit}>
-   <h3>New here? Create a free account!</h3>
+   <h3>Create a free account!</h3>
     
      <Form.Group as={Row} controlId="validationCustom01">
             <Form.Control  type="text"   style={{  marginLeft : '10px' }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
