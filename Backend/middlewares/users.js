@@ -11,7 +11,8 @@ function encrypt(text) {
     return { token00: iv.toString('hex'), token11: encrypted.toString('hex') };
    }
 
-function decrypt(text) {
+
+   function decrypt(text) {
   
     
     let iv = Buffer.from(text.token00, 'hex');
@@ -23,7 +24,6 @@ function decrypt(text) {
     
     return decrypted.toString();
    }
-
 function editToken(userId, token){
     
     userId=userId.toString()
@@ -33,6 +33,7 @@ function editToken(userId, token){
     return encryptedToken;
    // return res;
 }
+
 
 function separateToken(encryptedToken){
       
