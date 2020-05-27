@@ -141,7 +141,7 @@ function AuthorDetails() {
                       size={18}
                       color1={'grey'}
                       color2={'yellow'} 
-                      value= {item.book.totalRatingValue/(item.book.totalRatingCount+1)}
+                      value= {item.book.totalRatingValue/(item.book.totalRatingCount)}
                     />
                   </div>
             {item.book.totalRatingCount} ratings
