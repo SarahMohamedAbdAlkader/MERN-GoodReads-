@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FAVPNG from '../../assests/FAVPNG.png'
 import gwordlogo from '../../assests/gwordlogo.png'
 import login from '../../assests/login.png'
@@ -13,21 +13,22 @@ import Authors from '../Authors/Authors'
 import Search from '../search/Search'
 import axios from 'axios';
 
+
 function Navbar() {
+  
   const logout = () => {
     console.log("In the logout function...");
     const token = JSON.parse(sessionStorage.getItem('userToken')); //fetch l token and parse it 3ashan hanb3to fl body bta3 l request
     sessionStorage.removeItem('userToken'); 
-   // const tmp = sessionStorage.getItem('userToken'); //just to check that the token is removed
-  
+     
     axios.post('http://localhost:5000/users/logout', { 
         token
       })
       .then(res => {
        console.log(res.data); 
-       
       })
   }
+  
   return (<React.Fragment>
     <nav class=" navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between ">
       <img class="navbar-brand img" src={FAVPNG} alt="goodreads" />
@@ -64,13 +65,16 @@ function Navbar() {
           <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
         </form> */}
         <Search />
+        {sessionStorage.getItem('userToken')!=null &&
+        
         <div class="col-2  ">
           <div class="row">
-          <Link><img class=" img mr-3" src={user} /></Link>
+          <Link><img class=" img mr-3" src={user} style={{width:'30px', height:'30px'}}/></Link>
           
-          <Link> <img class="img" src={login}  onClick={()=>logout()}/></Link>
+          <Link to="/"> <img class="img" src={login} style={{width:'30px', height:'30px'}} onClick={()=>logout()}/></Link>
           </div>
         </div>
+        }
       </div>
     </nav>
   </React.Fragment>
