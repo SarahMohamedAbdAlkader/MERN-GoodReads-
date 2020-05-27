@@ -21,6 +21,7 @@ router.post('/', upload.single('bookImage'), async (req, res) => {
         name: req.body.name,
         category: req.body.categoryId,
         author: req.body.authorId,
+        bookDetails:req.body.bookDetails,
         bookImage: req.file.path
     });
     try {
@@ -48,7 +49,7 @@ router.get('/:token/:shelve', async (req, res) => {
     // const userId = "5ecd32a691798b27e06298cf";
     const token= JSON.parse(req.params.token);
     const separtedInfo = separateToken(token);    
-    const userId=separtedInfo.id;  //aho l id lel 3aizo
+    const userId=separtedInfo.id; 
     const cond = req.params.shelve == "all" ? {user:userId}:{user:userId,state:req.params.shelve}     
     try {
         console.log("Get All Books from shelve");
@@ -209,7 +210,8 @@ router.patch('/:id', upload.single('bookImage'), async (req, res) => {
         name: req.body.name,
         category: req.body.categoryId,
         author: req.body.authorId,
-        bookImage: req.file ? req.file.path : (await BookModel.findById(id).select('bookImage -_id')).bookImage
+        bookImage: req.file ? req.file.path : (await BookModel.findById(id).select('bookImage -_id')).bookImage,
+        bookDetails:req.body.bookDetails
     }
     console.log("edit book");
     try {
