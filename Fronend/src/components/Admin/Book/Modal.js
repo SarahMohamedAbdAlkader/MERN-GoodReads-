@@ -8,7 +8,7 @@ const SERVER_URL = "http://localhost:5000"
 function Modal({
     bookList, setBookList, modalState, editedItemId, editedBookName, setEditedBookName,
     editedPhoto, seteditedPhoto, editedAuthorId, setEditedAuthorId,
-    editedCategoryId, setEditedCategoryId
+    editedCategoryId, setEditedCategoryId,editedBookDetails,seteditedBookDetails
 }) {
     const [categoryList, setCategoryList] = useState([]);
     const [authorList, setAuthorList] = useState([]);
@@ -36,6 +36,7 @@ function Modal({
                             modalState={modalState} editedItemId={editedItemId}
                             editedBookName={editedBookName} setEditedBookName={setEditedBookName}
                             editedPhoto={editedPhoto} seteditedPhoto={seteditedPhoto}
+                            editedBookDetails={editedBookDetails} seteditedBookDetails = { seteditedBookDetails } 
                             editedAuthorId={editedAuthorId} setEditedAuthorId={setEditedAuthorId}
                             editedCategoryId={editedCategoryId} setEditedCategoryId={setEditedCategoryId}
                         ></Form>
@@ -51,15 +52,15 @@ function Modal({
 function Form(props) {
     const {
         authorList, categoryList, bookList, setBookList, modalState, editedItemId,
-        editedBookName, setEditedBookName, editedPhoto, seteditedPhoto,
+        editedBookName, setEditedBookName, editedPhoto, seteditedPhoto,editedBookDetails,seteditedBookDetails,
         editedAuthorId, setEditedAuthorId, editedCategoryId, setEditedCategoryId
     } = props
     return <form method="POST">
         <div class="form-group">
-            <label for="recipient-name" class="col-form-label font-weight-bold">Book Name:</label>
+            <label for="recipient-name" class="col-form-label font-weight-bold">*Book Name:</label>
             <input type="text" class="form-control" id="book-name" value={editedBookName} onChange={e => setEditedBookName(e.target.value)} />
 
-            <label for="category-select" class="col-form-label font-weight-bold">Category</label>
+            <label for="category-select" class="col-form-label font-weight-bold">*Category</label>
             <select className="form-control" id="category-select" name="category-select" onChange={e => setEditedCategoryId(e.target.value)}>
                 <option value=""></option>
                 {
@@ -69,7 +70,7 @@ function Form(props) {
                     })}
             </select>
 
-            <label for="author-select" class="col-form-label font-weight-bold">Author</label>
+            <label for="author-select" class="col-form-label font-weight-bold">*Author</label>
             <select className="form-control" id="author-select" name="author-select" onChange={e => setEditedAuthorId(e.target.value)}>
                 <option value=""></option>
                 {
@@ -79,10 +80,14 @@ function Form(props) {
                     })}
             </select>
 
-            <label for="bookImage" class="col-form-label font-weight-bold">Book Image:</label>
+            <label for="bookImage" class="col-form-label font-weight-bold">*Book Image:</label>
             <input type="file" class="form-control" name="bookImage" id="bookImage" onChange={(e) => seteditedPhoto(e.target.files[0])} />
+
+            <label for="recipient-name" class="col-form-label font-weight-bold">Book Details:</label>
+            <input type="text" class="form-control" id="book-details" value={editedBookDetails} onChange={e => seteditedBookDetails(e.target.value)} />
+            
             <ConfirmationBtn
-                bookList={bookList} setBookList={setBookList}
+                bookList={bookList} setBookList={setBookList} editedBookDetails={editedBookDetails}
                 modalState={modalState} editedItemId={editedItemId}
                 editedBookName={editedBookName} editedPhoto={editedPhoto}
                 editedAuthorId={editedAuthorId} editedCategoryId={editedCategoryId}
@@ -93,13 +98,14 @@ function Form(props) {
 
 
 function ConfirmationBtn({ modalState, bookList, setBookList, editedItemId,
-    editedBookName, editedPhoto, editedAuthorId, editedCategoryId }) {
+    editedBookName, editedPhoto, editedAuthorId, editedCategoryId,editedBookDetails }) {
     return <div class="modal-footer " >
         <button type="submit" onClick={() => {
             const formData = new FormData()
             formData.append("name", editedBookName)
             formData.append("categoryId", editedCategoryId)
             formData.append("authorId", editedAuthorId)
+            formData.append("bookDetails", editedBookDetails)
             formData.append("bookImage", editedPhoto)
             if (modalState === "add") { //add new book
                 if (editedBookName && editedCategoryId && editedAuthorId && editedPhoto) {
@@ -108,7 +114,7 @@ function ConfirmationBtn({ modalState, bookList, setBookList, editedItemId,
                             setBookList([...bookList, res.data])
                         })
                 } else {
-                    alert("Please Fill All Fields")
+                    alert("Please Fill All Required Fields")
                 }
             }
             else { //edit Book

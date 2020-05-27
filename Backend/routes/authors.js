@@ -73,7 +73,8 @@ authorRouter.post("/", upload.single("authorImage"), (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     dob: req.body.dob,
-    authorImage: req.file.path
+    authorImage: req.file.path,
+    details:req.body.details
   });
   //creating a authorModel, and passing it the data to be manipulated later
   author.save((err, author) => {
@@ -91,7 +92,8 @@ authorRouter.patch("/:id", upload.single("authorImage"), async (req, res) => {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     dob: req.body.dob,
-    authorImage: req.file ? req.file.path : (await authorModel.findById(authorId).select('authorImage -_id')).authorImage
+    authorImage: req.file ? req.file.path : (await authorModel.findById(authorId).select('authorImage -_id')).authorImage,
+    details: req.body.details
   }
   try {
     const updatedAuthor = await authorModel.findOneAndUpdate({ _id: authorId }, authorData, { new: true })
