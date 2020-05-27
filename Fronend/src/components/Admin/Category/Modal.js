@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import axios from 'axios';
 
 
@@ -25,8 +24,7 @@ function Modal({ setCategoryList, categoryList, catName, setCatName, modalState,
                     </div>
                     <ConfirmationBtn
                         categoryList={categoryList} setCategoryList={setCategoryList}
-                        catName={catName} setCatName={setCatName}
-                        modalState={modalState} editedItemId={editedItemId}
+                        catName={catName} modalState={modalState} editedItemId={editedItemId}
                     ></ConfirmationBtn>
                 </div>
             </div>
@@ -36,13 +34,12 @@ function Modal({ setCategoryList, categoryList, catName, setCatName, modalState,
 
 
 
-function ConfirmationBtn({ categoryList, setCategoryList, catName, setCatName, modalState, editedItemId }) {
+function ConfirmationBtn({ categoryList, setCategoryList, catName, modalState, editedItemId }) {
     return (<div class="modal-footer " >
         <button type="button" onClick={(e) => {
             e.preventDefault()
             if (catName) {
-                if (modalState === "add") {
-                    //Add New Category
+                if (modalState === "add") { //Add New Category
                     axios.post(`http://localhost:5000/categories`, { catName: catName })
                         .then(res => {
                             if (res.status === 200) {
@@ -57,10 +54,6 @@ function ConfirmationBtn({ categoryList, setCategoryList, catName, setCatName, m
                             if (res.status === 200) {
                                 setCategoryList(categoryList.map(item => {
                                 return item._id == editedItemId ? res.data : item
-                                    // if (item._id == editedItemId) {
-                                    //     item.catName = catName;
-                                    // }
-                                    // return item
                                 }));
                             } else {
                                 alert("Erorr! Category Name Exist")

@@ -25,7 +25,8 @@ const handleSubmit = (e) => {
         sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
        // console.log("Logged in successfully");
         alert("You are successfully logged in")
-        setRedirectState('/categories')
+       // setRedirectState('/categories')
+       window.location.reload();
       }  
     })
     .catch(function (error) {
