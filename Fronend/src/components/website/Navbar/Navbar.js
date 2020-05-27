@@ -60,10 +60,6 @@ function Navbar() {
             <img class="img2" src={gwordlogo} />
           </li>
         </ul>
-        {/* <form class="form-inline col-4 my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-          <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
-        </form> */}
         <Search />
         {sessionStorage.getItem('userToken')!=null &&
         
