@@ -65,7 +65,7 @@ function AuthorDetails() {
       axios.post("http://localhost:5000/shelve/" + token, { "state": value, bookId })
         .then(res => {
           console.log(res.data);
-          window.location.reload();
+         // window.location.reload();
         })
         .catch(function (error) {
           console.log(error);

@@ -13,11 +13,12 @@ import AuthorDetails from "./components/website/AuthorDetails/AuthorDetails";
 import Searchbooks from "./components/website/search/Searchbooks";
 import Searchcategories from "./components/website/search/Searchcategories";
 import Books from "./components/website/books/Books";
+import Book from './components/website/bookDetails/Book'
 import CategoryTable from "./components/Admin/Category/CategoryTable";
 import BookTable from "./components/Admin/Book/BookTable";
 import AuthorTable from "./components/Admin/Author/AuthorTable";
 import AdminLogin from "./components/Admin/Login/login";
-
+import EditForm from './components/website/EditProfile/EditProfile'
 function App() {
   const AdminloggedIn =
     sessionStorage.getItem("userToken") && sessionStorage.getItem("admin")
@@ -56,7 +57,7 @@ function App() {
           <Books />
         </Route>
         <Route exact path='/books/:id'>
-          <Books />
+          <Book />
         </Route>
         <Route exact path='/authors'>
           {" "}
@@ -78,6 +79,10 @@ function App() {
           {" "}
           <Books />
         </Route>
+        <Route exact path='/editProfile'>
+          <EditForm/>
+        </Route>
+       
       </Switch>
     </BrowserRouter>
   );
