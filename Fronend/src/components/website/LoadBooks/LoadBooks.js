@@ -31,9 +31,9 @@ function LoadBooks() {
   return (<div >
   <h1>Popular Books!</h1>
     {books.map((item) => {
-      return <Card style={{ width: '15rem', display: 'inline-block', marginRight: '10px' }}>
+      return <Card style={{ width: '17rem', display: 'inline-block', marginRight: '10px' }}>
         <Card.Body>
-          <Card.Img src={`${SERVER_URL}/${item.book.bookImage}`} class="card-img">
+          <Card.Img src={`${SERVER_URL}/${item.book.bookImage}`} class="card-img" style={{height:"200px"}}>
 
           </Card.Img>
           <Row>
