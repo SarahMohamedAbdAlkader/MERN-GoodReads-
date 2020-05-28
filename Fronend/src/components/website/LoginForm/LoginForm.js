@@ -2,6 +2,7 @@ import React , { useState } from 'react';
 import {Form, Col, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {Redirect} from 'react-router-dom';
+import login from '../../assests/login.svg'
 
 function LoginForm() {
   
@@ -24,7 +25,8 @@ const handleSubmit = (e) => {
         sessionStorage.setItem('userToken', JSON.stringify(res.data)) //add the token to the session storage as a string
        // console.log("Logged in successfully");
         alert("You are successfully logged in")
-        setRedirectState('/categories')
+       // setRedirectState('/categories')
+       window.location.reload();
       }  
     })
     .catch(function (error) {
@@ -44,26 +46,29 @@ axios.get('http://localhost:5000/users/getUser/'+token)//bnb3to fl url fa asibo 
 }
 if(redirectPage)return  <Redirect  to="/categories" />
   return (<div className="d-flex justify-content-end " style={{marginRight:'25px'}}>
+    <div class="card text-white" style={{width: "350px"}}>
+    <img src={login} class="card-img-top" alt="..."></img>
            <Form onSubmit={handleSubmit} >
             <Form.Row>
               
               <Form.Group controlId="formGroupEmail">
                 {/* <Form.Label>Email address</Form.Label> */}
-                  <Form.Control type="email" placeholder="email"  value={email} onChange={e => setEmail(e.target.value)} style={{width:'200px'}}/>
+                  <Form.Control type="email" placeholder="email"  value={email} onChange={e => setEmail(e.target.value)} style={{width:'200px',marginLeft:"85px"}}/>
               </Form.Group>
         
               <Form.Group controlId="formGroupPassword">
                 {/* <Form.Label>Password</Form.Label> */}
 
-                  <Form.Control type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} style={{marginLeft:'10px', marginRight:'10px',width:'180px'}}/>
+                  <Form.Control type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} style={{width:'200px',marginLeft:"85px"}}/>
               </Form.Group>
-                  <Col>
-                      <Button type="submit" className="d-flex justify-content-center btn btn-warning"  >Login</Button>
-                  </Col>
+                  
+                      <Button type="submit " style={{marginLeft:"155px"}}className="mb-2 d-flex justify-content-center btn btn-warning"  >Login</Button>
+                
             </Form.Row>
          </Form>
        
          {/* <Button onClick={getUserIdFromToken} className="d-flex justify-content-center btn btn-warning" >Logout</Button> */}
+         </div>
          </div>);
 }
 export default LoginForm;

@@ -6,13 +6,13 @@ import axios from 'axios'
 import AdminNav from "../AdminNav/AdminNav"
 
 const SERVER_URL = "http://localhost:5000";
-
 function BookTable() {
     let i = 0;
     const [authorList, setAuthorList] = useState([])
     const [editedItemId, setEditedItemId] = useState()
     const [modalState, setModalState] = useState("add")
     const [editedFirstName, setEditedFirstName] = useState("")
+    const [editedDetails, seteditedDetails] = useState("")
     const [editedLastName, setEditedLastName] = useState("")
     const [editedPhoto, seteditedPhoto] = useState("")
     const [editedDob, setEditedDob] = useState({})
@@ -26,6 +26,7 @@ function BookTable() {
             setEditedLastName("")
             seteditedPhoto("")
             setEditedDob("")
+            seteditedDetails("")
             setModalState("add")
         }}><i class="fa fa-plus"></i></button>
         <Modal
@@ -35,6 +36,7 @@ function BookTable() {
             editedLastName={editedLastName} setEditedLastName={setEditedLastName}
             editedPhoto={editedPhoto} seteditedPhoto={seteditedPhoto}
             editedDob={editedDob} setEditedDob={setEditedDob}
+            editedDetails={editedDetails} seteditedDetails={seteditedDetails}
         />
         <table class="table mt-2 table-striped" >
             <thead class="thead-dark">
@@ -44,6 +46,7 @@ function BookTable() {
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
                     <th scope="col">Date Of Birth</th>
+                    <th scope="col">Details</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -56,7 +59,7 @@ function BookTable() {
                             authorList={authorList} setAuthorList={setAuthorList}
                             setEditedItemId={setEditedItemId} setModalState={setModalState}
                             setEditedFirstName={setEditedFirstName} setEditedLastName={setEditedLastName}
-                            seteditedPhoto={seteditedPhoto} setEditedDob={setEditedDob}
+                            seteditedPhoto={seteditedPhoto} setEditedDob={setEditedDob} seteditedDetails={seteditedDetails}
                         ></TarbleRow>
                     })
                 }
@@ -65,11 +68,7 @@ function BookTable() {
     </div>
 }
 
-
-function TarbleRow({ index, author, authorList, setAuthorList,
-    setModalState, setEditedItemId, setEditedFirstName, setEditedLastName,
-    seteditedPhoto, setEditedDob }) {
-    //   const date= new Date(author.dob).toISOString()
+function TarbleRow({ index, author, authorList, setAuthorList,setModalState, setEditedItemId, setEditedFirstName, setEditedLastName,seteditedPhoto, setEditedDob, seteditedDetails }) {
     const date = author.dob.substring(0, 10);
     return (<tr>
         <th scope="row">{index}</th>
@@ -81,11 +80,12 @@ function TarbleRow({ index, author, authorList, setAuthorList,
         <td>{author.firstName}</td>
         <td>{author.lastName}</td>
         <td>{date}</td>
+        <td>{author.details?author.details:""}</td>  
         <td>
             <EditBtn author={author} authorList={authorList}
                 setModalState={setModalState} setEditedItemId={setEditedItemId}
                 setEditedFirstName={setEditedFirstName} setEditedLastName={setEditedLastName}
-                seteditedPhoto={seteditedPhoto} setEditedDob={setEditedDob}
+                seteditedPhoto={seteditedPhoto} setEditedDob={setEditedDob} seteditedDetails={seteditedDetails}
             ></EditBtn>
             <DeleteBtn author={author} setAuthorList={setAuthorList} authorList={authorList}></DeleteBtn>
         </td>
@@ -93,20 +93,17 @@ function TarbleRow({ index, author, authorList, setAuthorList,
     )
 }
 
-
 const EditBtn = ({ author, authorList, setModalState, setEditedItemId,
-    setEditedFirstName, setEditedLastName, seteditedPhoto, setEditedDob }) => {
+    setEditedFirstName, setEditedLastName, seteditedPhoto, setEditedDob,seteditedDetails }) => {
     return <button class="btn" value={author._id}  >
         <i data-toggle="modal" data-target=".bd-example-modal-lg" class="fa fa-edit" onClick={(event) => {
             const editedId = event.target.parentElement.value
             setEditedItemId(editedId);
-
             let editedItem = authorList.filter(item => editedId == item._id)[0]
-            console.log(editedItem);
-
             setEditedFirstName(editedItem.firstName)
             setEditedLastName(editedItem.lastName)
             seteditedPhoto(editedItem.authorImage)
+            seteditedDetails(editedItem.details)
             setEditedDob(editedItem.dob.substring(0, 10))
             setModalState("edit")
         }}></i></button>

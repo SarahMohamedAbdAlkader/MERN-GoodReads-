@@ -95,8 +95,9 @@ users.post('/login', async function (request, response) {
         console.log(token)
         const editedtoken = editToken(curUser._id,token)
         console.log("khalas l login w bib3at");
+        console.log(curUser);
         
-        if(curUser.admin)response.status(200).json( editedtoken, {"admin":curUser.admin} )
+        if(curUser.admin)response.status(200).json( {editedtoken, "admin":curUser.admin} )
         else response.status(200).json(editedtoken)
 
     } catch (err) {

@@ -13,6 +13,7 @@ function BookTable() {
     const [modalState, setModalState] = useState("add")
     const [editedBookName, setEditedBookName] = useState("")
     const [editedPhoto, seteditedPhoto] = useState("")
+    const [editedBookDetails, seteditedBookDetails] = useState("")
     const [editedAuthorId, setEditedAuthorId] = useState({})
     const [editedCategoryId, setEditedCategoryId] = useState({})
 
@@ -27,6 +28,7 @@ function BookTable() {
             setEditedAuthorId("")
             setEditedCategoryId("")
             seteditedPhoto("")
+            seteditedBookDetails("")
             setModalState("add")
         }}><i class="fa fa-plus"></i></button>
         <Modal
@@ -34,6 +36,7 @@ function BookTable() {
             modalState={modalState} editedItemId={editedItemId}
             editedBookName={editedBookName} setEditedBookName={setEditedBookName}
             editedPhoto={editedPhoto} seteditedPhoto={seteditedPhoto}
+            editedBookDetails={editedBookDetails} seteditedBookDetails = { seteditedBookDetails } 
             editedAuthorId={editedAuthorId} setEditedAuthorId={setEditedAuthorId}
             editedCategoryId={editedCategoryId} setEditedCategoryId={setEditedCategoryId}
         />
@@ -45,6 +48,7 @@ function BookTable() {
                     <th scope="col">Name</th>
                     <th scope="col">Category</th>
                     <th scope="col">Author</th>
+                    <th scope="col">Details</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -57,6 +61,7 @@ function BookTable() {
                             setEditedItemId={setEditedItemId} setModalState={setModalState}
                             setEditedBookName={setEditedBookName} seteditedPhoto={seteditedPhoto}
                             setEditedAuthorId={setEditedAuthorId} setEditedCategoryId={setEditedCategoryId}
+                            seteditedBookDetails = { seteditedBookDetails } 
                         ></TarbleRow>
                     })
                 }
@@ -67,7 +72,7 @@ function BookTable() {
 
 
 function TarbleRow({ index, book, bookList, setBookList, setModalState, setEditedItemId,
-    setEditedBookName, seteditedPhoto, setEditedAuthorId, setEditedCategoryId }) {
+    setEditedBookName, seteditedPhoto, setEditedAuthorId, setEditedCategoryId,seteditedBookDetails }) {
     return (<tr>
         <th scope="row">{index}</th>
         <td>
@@ -78,6 +83,7 @@ function TarbleRow({ index, book, bookList, setBookList, setModalState, setEdite
         <td>{book.name}</td>
         <td>{book.category ? book.category.catName : ""}</td>
         <td>{book.author ? book.author.firstName + " " + book.author.lastName : ""}</td>
+        <td>{book.bookDetails ? book.bookDetails : ""}</td>
         <td>
             <button class="btn" value={book._id}  >
                 <i data-toggle="modal" data-target=".bd-example-modal-lg" class="fa fa-edit" onClick={(event) => {
@@ -86,6 +92,7 @@ function TarbleRow({ index, book, bookList, setBookList, setModalState, setEdite
                     let editedItem = bookList.filter(item => editedId == item._id)[0]
                     setEditedBookName(editedItem.name); seteditedPhoto(editedItem.photo);
                     setEditedAuthorId(editedItem.author._id); setEditedCategoryId(editedItem.category._id)
+                    seteditedBookDetails (editedItem.bookDetails)
                 }}></i></button>
             <DeleteBtn book={book} setBookList={setBookList} bookList={bookList}></DeleteBtn>
         </td>
@@ -109,16 +116,9 @@ const DeleteBtn = ({ book, setBookList, bookList }) => {
         }}></i></button>
 }
 
-// const EditBtn =
-//     ({ book, bookList, setModalState, setEditedItemId, setEditedBookName, seteditedPhoto, setEditedAuthorName, setEditedCategoryName }) => {
-
-//     }
-
 async function fetchData(url, setList) {
     let response = await fetch(url)
     let data = await response.json();
-    console.log("books-data", data);
-
     setList(data);
 }
 

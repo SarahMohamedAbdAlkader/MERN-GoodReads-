@@ -7,11 +7,14 @@ const ShelveModel = require("../models/shelve")
 router.post('/:token', async (req, res) => {
 
     const token= JSON.parse(req.params.token);
+    console.log("ANA GEEIIIIIIIIT FL POST");
+    
     console.log(token);
     
     const separtedInfo = separateToken(token);    
     const userId=separtedInfo.id;  //aho l id lel 3aizo
-   
+    console.log(userId);
+    
     const {bookId, state } = req.body;
     console.log(state);
     

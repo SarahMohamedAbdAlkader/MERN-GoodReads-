@@ -3,11 +3,9 @@ import axios from 'axios'
 
 const SERVER_URL = "http://localhost:5000";
 
-function Modal(
-    { setAuthorList, authorList, modalState, editedItemId, editedFirstName, setEditedFirstName,
-        editedLastName, setEditedLastName, editedPhoto, seteditedPhoto, editedDob, setEditedDob }
-) {
-    return (<React.Fragment>
+function Modal({ setAuthorList, authorList, modalState, editedItemId, editedFirstName, setEditedFirstName,editedLastName, setEditedLastName, editedPhoto, seteditedPhoto, editedDob, setEditedDob,editedDetails,seteditedDetails }) {
+   
+   return (<React.Fragment>
         <div class="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -25,6 +23,7 @@ function Modal(
                             editedLastName={editedLastName} setEditedLastName={setEditedLastName}
                             editedPhoto={editedPhoto} seteditedPhoto={seteditedPhoto}
                             editedDob={editedDob} setEditedDob={setEditedDob}
+                            editedDetails={editedDetails} seteditedDetails={seteditedDetails}
                         ></Form>
                     </div>
                 </div>
@@ -36,21 +35,24 @@ function Modal(
 function Form(props) {
     const { authorList, setAuthorList, modalState, editedItemId,
         editedFirstName, setEditedFirstName, editedLastName, setEditedLastName,
-        editedPhoto, seteditedPhoto, editedDob, setEditedDob } = props
+        editedPhoto, seteditedPhoto, editedDob, setEditedDob, editedDetails, seteditedDetails} = props
 
     return <form method="POST" >
         <div class="form-group">
-            <label for="recipient-name" class="col-form-label font-weight-bold">First Name:</label>
+            <label for="recipient-name" class="col-form-label font-weight-bold">*First Name:</label>
             <input type="text" class="form-control" id="first-name" value={editedFirstName} onChange={e => setEditedFirstName(e.target.value)} />
 
-            <label for="recipient-name" class="col-form-label font-weight-bold">Last Name:</label>
+            <label for="recipient-name" class="col-form-label font-weight-bold">*Last Name:</label>
             <input type="text" class="form-control" id="last-name" value={editedLastName} onChange={e => setEditedLastName(e.target.value)} />
 
-            <label for="recipient-name" class="col-form-label font-weight-bold">Date Of Birth:</label>
+            <label for="recipient-name" class="col-form-label font-weight-bold">*Date Of Birth:</label>
             <input type="date" class="form-control" id="dob" value={editedDob} onChange={e => setEditedDob(e.target.value)} />
 
-            <label for="authorImage" class="col-form-label font-weight-bold">Author Image:</label>
+            <label for="authorImage" class="col-form-label font-weight-bold">*Author Image:</label>
             <input type="file" class="form-control" id="authorImage" name="authorImage" onChange={(e) => seteditedPhoto(e.target.files[0])} />
+            
+            <label for="recipient-name" class="col-form-label font-weight-bold">Details:</label>
+            <input type="text" class="form-control" id="first-name" value={editedDetails} onChange={e => seteditedDetails(e.target.value)} />
 
             <div class="modal-footer " >
                 <button type="submit"
@@ -59,8 +61,8 @@ function Form(props) {
                         formData.append("firstName", editedFirstName)
                         formData.append("lastName", editedLastName)
                         formData.append("dob", editedDob)
+                        formData.append("details", editedDetails)
                         formData.append("authorImage", editedPhoto)
-                        console.log(document.getElementById("authorImage"));
                         if (modalState === "add") {
                             if (editedFirstName && editedLastName && editedDob && editedPhoto) {
                                 axios.post(`${SERVER_URL}/authors`, formData, {})

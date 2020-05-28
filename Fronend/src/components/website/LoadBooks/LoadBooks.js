@@ -1,28 +1,59 @@
-import React from 'react';
-import {Card} from 'react-bootstrap'
+import React, { useState, useEffect } from 'react';
+import { Card } from 'react-bootstrap'
+import axios from 'axios';
+import { Row, Col, Container } from 'react-bootstrap'
+import ReactStars from 'react-rating-stars-component';
+const SERVER_URL = "http://localhost:5000"
 
 
 
-    
 function LoadBooks() {
-    const arr=[{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"},{name:"bla",author:"bla bla"}]
-    return (<div>
-       
-        {arr.map((item)=>{
-            return <Card style={{ width: '12rem' , display : 'inline-block' , marginRight:'10px'}}>
-            <Card.Body>
-              <Card.Title>{item.name}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-              <Card.Text>
-                item.author
-              </Card.Text>
-              <Card.Link href="#">Card Link</Card.Link>
-              <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
-          </Card>
-        })}
-    </div>
+  const [books, setBooks] = useState([])
+  const getBooks = () => {
 
-    );
+    axios.get(`${SERVER_URL}/books`)
+      .then(res => {
+        if (res.status === 200 && res.data) {
+          console.log(res.data.books)
+          setBooks(res.data.books)
+        }
+
+
+      })
+  }
+  useEffect(() => {
+
+
+    getBooks();
+
+  }, [])
+
+  return (<div >
+  <h1>Popular Books!</h1>
+    {books.map((item) => {
+      return <Card style={{ width: '15rem', display: 'inline-block', marginRight: '10px' }}>
+        <Card.Body>
+          <Card.Img src={`${SERVER_URL}/${item.book.bookImage}`} class="card-img">
+
+          </Card.Img>
+          <Row>
+            <Card.Link href={"/books/" + item.book._id}>{item.book.name}</Card.Link>
+          </Row>
+          <Row>
+            <Card.Link href={"/authorDetails/" + item.book.author._id}>{item.book.author.firstName} {item.book.author.lastName}</Card.Link>
+          </Row>
+          <Card.Text>Average Rating : {item.book.totalRatingValue / item.book.totalRatingCount}</Card.Text>
+          <ReactStars
+            count={5}
+            value={item.book.totalRatingValue / item.book.totalRatingCount}
+            size={24}
+            edit={false}
+            color2={'#ffd700'} />
+        </Card.Body>
+      </Card>
+    })}
+  </div>
+
+  );
 }
 export default LoadBooks;

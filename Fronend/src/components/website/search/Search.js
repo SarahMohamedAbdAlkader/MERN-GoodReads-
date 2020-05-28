@@ -34,15 +34,16 @@ const selectOption = (e) => {
 
     return (
 
-        <form class="form-inline col-4 my-2 my-lg-0" onSubmit={onSubmit}>
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" value={userSearch} onChange={e => change(e)}></input>
-            <select name="search" onChange={selectOption}>
+        <form class="form-inline col-5 my-1 my-lg-0" onSubmit={onSubmit}>
+        
+        <input class="form-control mr-sm-1 my-1" type="search" placeholder="Search" aria-label="Search" value={userSearch} onChange={e => change(e)}></input>
+        <select class="form-control  border rounded ml-2 mr-2" name="search" onChange={selectOption}>
             <option value="" selected = {selectedOption === ''}></option>
           <option value="category" selected = {selectedOption === 'category'}>Category</option>
           <option value="book" selected = {selectedOption === 'book'} >Book</option>
         </select>
         <Link to ={'/search/'+selectedOption+"/"+userSearch}> <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" >Search</button> </Link>
-          
+            
         </form>
 
     );
