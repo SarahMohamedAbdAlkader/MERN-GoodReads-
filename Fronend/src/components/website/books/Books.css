@@ -8,7 +8,8 @@
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     border: 2px solid #ddd;
-    width: 50%;
+    width: 75%;
+    height: 100%;
     margin-top: 20px;
 }
 
@@ -29,6 +30,8 @@
     height: 320px;
     margin-top: 100px;
     margin-right: 60px;
+    border-collapse: collapse;
+    height: 30%;
 }
 
 .tableContainer {

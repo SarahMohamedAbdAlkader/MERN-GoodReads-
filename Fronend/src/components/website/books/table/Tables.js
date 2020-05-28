@@ -57,7 +57,7 @@ export default class Tables extends React.Component {
         totalRatingCount,
       } = book.book.book; //destructuring
       const { myRating, myShelve } = book;
-      console.log(book);
+      //   console.log(book);
 
       //console.log(shelve);
       return (
@@ -82,7 +82,7 @@ export default class Tables extends React.Component {
               <ReactStars
                 count={5}
                 edit={false}
-                size={18}
+                size={20}
                 color1={"grey"}
                 color2={"yellow"}
                 value={totalRatingValue / totalRatingCount}
@@ -95,7 +95,7 @@ export default class Tables extends React.Component {
               count={5}
               edit={true}
               onChange={(e) => handleRatingChange(e, _id)}
-              size={24}
+              size={20}
               color1={"grey"}
               color2={"yellow"}
               value={myRating}
