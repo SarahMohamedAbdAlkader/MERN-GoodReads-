@@ -66,7 +66,7 @@ function Navbar() {
         
         <div class="col-1  ">
           <div class="row">
-          <Link><img class=" img mr-3" src={user} style={{width:'30px', height:'30px'}}/></Link>
+          <Link to="/editProfile"><img class=" img mr-3" src={user} style={{width:'30px', height:'30px'}}/></Link>
           
           <Link to="/"> <img class="img" src={login} style={{width:'30px', height:'30px'}} onClick={()=>logout()}/></Link>
           </div>

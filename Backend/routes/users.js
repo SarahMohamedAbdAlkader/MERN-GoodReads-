@@ -1,6 +1,7 @@
 const express = require('express');
 const usersModel = require('../models/user')
 const users = express.Router();
+const bcrypt = require('bcryptjs')
 const {editToken, separateToken} = require('../middlewares/users')
 
 
@@ -35,11 +36,11 @@ users.get('/getUser/:token', async function (request, response){
         
         const token= JSON.parse(request.params.token);
         const separtedInfo = separateToken(token);    
-        const id=separtedInfo.id;  //aho l id lel 3aizo
-        console.log(id);
+        const userId=separtedInfo.id;  //aho l id lel 3aizo
+        console.log(userId);
         
-        const user = await usersModel.findById(id).exec();   
-        response.json(id)
+        const curUser = await usersModel.findById(userId).exec();   
+        response.json({"email":curUser.email,"firstName":curUser.firstName, "lastName":curUser.lastName })
 
     } catch (err) {
         response.status(500).json(err);
@@ -51,6 +52,8 @@ users.post('/register/:admin', async function (request, response) {
         const {firstName,lastName,email,password}=request.body;
         
         const tmpUser = await usersModel.find({email})
+        
+        
         if(tmpUser.length) {
             console.log(tmpUser);
             
@@ -78,6 +81,52 @@ users.post('/register/:admin', async function (request, response) {
     }
 
 });
+users.post('/editUser/:token', async function (request, response){
+    try{
+        console.log("ANAA GEIT FL EDIT");
+        
+        console.log(request.body);
+        const token= JSON.parse(request.params.token);
+        const separtedInfo = separateToken(token);    
+        const userId=separtedInfo.id;  //aho l id lel 3aizo
+        console.log(userId);
+
+        let curUser= await usersModel.findById(userId)
+       
+        const tmpUser = await usersModel.findOne({"email":request.body.email})
+        //console.log("gab l temp",tmpUser);
+        //console.log(String(curUser._id))
+        //console.log(String(tmpUser._id));
+         
+        
+        if(tmpUser != null && String(curUser._id) != String(tmpUser._id)) {
+           // console.log(tmpUser);
+            return response.status(409).json({err:"email already used"})
+        }
+       // console.log("ba3d l if",curUser);
+        
+        // let newUser = new usersModel()
+        // console.log("da l new user", newUser);
+        
+        curUser.firstName=request.body.firstName
+        curUser.lastName=request.body.lastName
+        curUser.email=request.body.email
+        
+        //console.log("type of passsword",request.body.password.length);
+        if(request.body.password.length){
+            curUser.password = await bcrypt.hash( request.body.password, 8);
+         }
+      
+        console.log("2abl l save", curUser);
+        
+       const tmp= await usersModel.findByIdAndUpdate(userId,curUser)
+        console.log("ba3d l save" , tmp);
+        
+        return response.status(200).json({"firstName": curUser.firstName, "lastName": curUser.lastName , "email":curUser.email})
+    }catch(error){
+        response.status(500).json(error); 
+    }
+})
 
 users.post('/login', async function (request, response) {
     //login a user 

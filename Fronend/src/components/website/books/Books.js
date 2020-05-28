@@ -1,47 +1,50 @@
 import React from "react";
+import Tables from "./table/Tables";
 import "./Books.css";
-import BeautyStars from "beauty-stars";
-//import books from "../../Data.js";
-import axios from "axios";
 import ReactPaginate from "react-paginate";
-const API_URL = "http://localhost:5000";
-const options = [
-  { id: 1, value: "Read", label: "Read" },
-  { id: 2, value: "Reading", label: "Reading" },
-  { id: 3, value: "want to read", label: "want to read" },
-];
-
-export default class All extends React.Component {
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import axios from "axios";
+const SERVER_URL = "http://localhost:5000";
+//import ReactPaginate from "react-paginate";
+const token = sessionStorage.getItem("userToken");
+export default class Layout extends React.Component {
   constructor(props) {
-    super(props); //since we are extending class Table so we have to use super in order to override Component class constructor
+    super(props);
     this.state = {
+      shelveState: "all",
       books: [],
       postData: [],
       perPage: 10,
-      currentPage: 0,
-      //selectedPage: 0,
+      currentPage: 1,
+      booksChanges: false,
+      offset: 0,
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
   receivedData() {
     //data
-    axios.get(`http://localhost:5000/books`).then((res) => {
-      // console.log(res.data.books);
-      const books = res.data.books;
-      console.log(res.data);
-      console.log(this.state.offset);
+    axios
+      .get(`${SERVER_URL}/books/` + token + "/" + this.state.shelveState)
+      .then((res) => {
+        // console.log("data received at books ==>", res.data.books);
+        const books = res.data.books;
+        //console.log("Received data assigned: ==> ", books);
+        //console.log(this.state.offset);
+        const slice = books.slice(
+          this.state.offset,
+          this.state.offset + this.state.perPage
+        );
+        this.postData = slice;
+        this.setState({ postData: books });
+        //console.log("Received data  sliced ==>", this.postData);
 
-      const slice = books.slice(
-        this.state.offset,
-        this.state.offset + this.state.perPage
-      );
-      this.postData = slice;
-      this.setState({ postData: books });
-
-      this.setState({
-        pageCount: Math.ceil(res.data.dataLength / this.state.perPage),
+        this.setState({
+          pageCount: Math.ceil(res.data.dataLength / this.state.perPage),
+        });
       });
-    });
+  }
+  componentDidMount() {
+    this.receivedData();
   }
   handlePageClick = (e) => {
     console.log("hi");
@@ -51,152 +54,84 @@ export default class All extends React.Component {
         currentPage: selectedPage,
       },
       () => {
-        axios.get(`http://localhost:5000/books/?page=` + 2).then((res) => {
-          //convert to number
-          const books = res.data.books; //??
+        axios
+          .get(
+            `${SERVER_URL}/books/${token}/${this.state.shelveState}/?page=` +
+              parseInt(selectedPage)
+          )
+          .then((res) => {
+            const books = res.data.books;
 
-          this.postData = books;
-          this.setState({ postData: books });
-        });
+            this.postData = books;
+            this.setState({ postData: books });
+          });
       }
     );
   };
-
-  componentDidMount() {
-    this.receivedData();
-  }
-
   render() {
     return (
-      <div>
-        <h1 className="readingProgress">All books</h1>
-        <table id="books">
-          <thead>{this.renderTableHeader()}</thead>
-          <tbody>{this.renderTableData()}</tbody>
-        </table>{" "}
-        <ReactPaginate
-          previousLabel={"<<"}
-          nextLabel={">>"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={this.state.pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageClick}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
-        />
+      <div className='container'>
+        <div className='sideBarContainer'>
+          <ul onClick={(e) => console.log(e.target)}>
+            <ul className='readingProgress'>
+              <Link onClick={this.renderAll}>All Books</Link>
+            </ul>
+            <ul className='readingProgress'>
+              <Link onClick={this.renderCurrent}>Currently Reading</Link>
+            </ul>
+            <ul className='readingProgress'>
+              <Link onClick={this.renderRead}>Read Books</Link>
+            </ul>
+            <ul className='readingProgress'>
+              <Link onClick={this.renderWant}>Want to Read</Link>
+            </ul>
+          </ul>
+        </div>
+        <div>
+          <hr />
+        </div>
+
+        <div className='tableContainer'>
+          <Tables
+            booksChanges={this.state.booksChanges}
+            books={this.state.books}
+            postData={this.state.postData}
+          />
+          <ReactPaginate
+            previousLabel={"<<"}
+            nextLabel={">>"}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageClick}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+          />
+        </div>
       </div>
     );
   }
-
-  renderTableData() {
-    const { postData } = this.state;
-    return postData.map((book, index) => {
-      const {
-        id,
-        bookImage,
-        name,
-        author,
-        totalRatingValue,
-        myRating,
-        shelve,
-      } = book.book; //destructuring
-      //console.log(book.book);
-
-      return (
-        <tr key={id}>
-          <td>
-            <img
-              src={`${API_URL}/${bookImage}`}
-              style={{ width: 15, height: 15 }}
-              alt={name}
-            />
-          </td>
-          <td>{name}</td>
-          <td>
-            {author.firstName} {author.lastName}
-          </td>
-
-          <td
-            onChange={() => {
-              console.log("changed");
-            }}
-          >
-            <BeautyStars size={20} value={totalRatingValue} />
-          </td>
-          <td onClick={(e) => console.log(e.target)}>
-            <BeautyStars
-              /* value={this.rate} */
-              onChange={(e) => {
-                this.renderRating(index);
-                console.log(book.id);
-                const editeId = book.id;
-                console.log(editeId);
-                postData.map((item, index) => {
-                  console.log(item);
-                  if (item.id === editeId) {
-                    item.myRating = e;
-                    // item.rating=item.value;
-                  }
-                  return item;
-                });
-              }}
-              //key={id}
-              value={myRating}
-              size={20}
-            />
-          </td>
-          <td>
-            <select>
-              {options.map((item, id) => {
-                return shelve === item.value ? (
-                  <option key={item.id} value={item.value} selected>
-                    {item.label}
-                  </option>
-                ) : (
-                  <option key={item.id} value={item.value}>
-                    {item.label}
-                  </option>
-                );
-              })}
-            </select>
-          </td>
-        </tr>
-      );
-    });
-  }
-
-  renderTableHeader() {
-    //  let header = Object.keys(this.state.postData[0]);
-    //return header.map((key, index) => {
-    return (
-      <tr>
-        <th>cover</th>
-        <th>Name</th>
-        <th>Author</th>
-        <th>Avg Rate</th>
-        <th>Rating</th>
-        <th>shelve</th>
-      </tr>
-    );
-    //});
-  }
-
-  // rate: 0,
-
-  renderRating(index) {
-    const { postData } = this.state;
-
-    const newBooks = postData.map((book, id) => {
-      if (index === id) {
-        return { ...book, totalRatingValue: this.state.rate };
-      }
-      return book;
-    });
-    this.setState({
-      books: newBooks,
-    });
-  }
+  renderAll = (e) => {
+    this.setState({ shelveState: "all" });
+    console.log(this.state.shelveState);
+    this.receivedData();
+  };
+  renderCurrent = (e) => {
+    this.setState({ shelveState: "Currently Reading" });
+    console.log(this.state.shelveState);
+    this.receivedData();
+  };
+  renderRead = (e) => {
+    this.setState({ shelveState: "Read" });
+    console.log(this.state.shelveState);
+    this.receivedData();
+  };
+  renderWant = (e) => {
+    this.setState({ shelveState: "Want To Read" });
+    console.log(this.state.shelveState);
+    this.receivedData();
+  };
 }

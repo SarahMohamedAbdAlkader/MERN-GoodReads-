@@ -84,8 +84,8 @@ function Book() {
     if(token != null){
       axios.post(`${SERVER_URL}/ratings/` + token, { bookId, value })
         .then(res => {
-          console.log("The user rating " + res.data); // el rating ya basha
-
+          console.log("The user rating " + res.data); // el rating ya basha <3
+          window.location.reload()
         })
     }
     else{
