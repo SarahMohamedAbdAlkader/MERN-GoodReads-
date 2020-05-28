@@ -43,7 +43,6 @@ function LoadBooks() {
             <Card.Link href={"/books/" + item.book._id}>{item.book.name}</Card.Link>
           </Row>
          
-          {/* <Card.Text>Average Rating : {item.book.totalRatingValue / item.book.totalRatingCount}</Card.Text> */}
           <Row style={{justifyContent:'center'}}>
           <ReactStars
            

@@ -46,8 +46,6 @@ function AuthorDetails() {
         setarr(res.data)
         console.log(res.data);
         userRating = res.data.rating;
-        //setUserRating(res.data.rating)
-        //userRating=res.data.rating
         console.log("DII L BOOKS L GAT YA NOUR");
 
         console.log(res.data);
@@ -65,7 +63,6 @@ function AuthorDetails() {
       axios.post("http://localhost:5000/shelve/" + token, { "state": value, bookId })
         .then(res => {
           console.log(res.data);
-         // window.location.reload();
         })
         .catch(function (error) {
           console.log(error);
@@ -73,7 +70,6 @@ function AuthorDetails() {
     }
     else {
       alert("You need to login first....")
-      // return  <Redirect  to="/" />
       setRedirectState('/');
     }
   }
@@ -112,7 +108,7 @@ function AuthorDetails() {
 
           <Col>
             <Card.Text >
-              {/* Author id is {params.id}. */}
+           
 
               {details}
 
@@ -126,7 +122,8 @@ function AuthorDetails() {
 
     <h3 class="font-italic  bg-warning text-center">Authors Books!</h3>
     <div class="ml-5 card-columns">
-      {arr.map((item) => {
+      {! arr.length && <p>This author has no books yet.</p>}
+      {arr.length && arr.map((item) => {
         userRating = item.rating
         return <Card style={{ display: 'inline-block', marginRight: "10px" }} >
 

@@ -36,9 +36,7 @@ users.get('/getUser/:token', async function (request, response){
         
         const token= JSON.parse(request.params.token);
         const separtedInfo = separateToken(token);    
-        const userId=separtedInfo.id;  //aho l id lel 3aizo
-        console.log(userId);
-        
+        const userId=separtedInfo.id; 
         const curUser = await usersModel.findById(userId).exec();   
         response.json({"email":curUser.email,"firstName":curUser.firstName, "lastName":curUser.lastName })
 
@@ -55,8 +53,7 @@ users.post('/register/:admin', async function (request, response) {
         
         
         if(tmpUser.length) {
-            console.log(tmpUser);
-            
+           
             return response.status(409).json({err:"email already used"})
         }
 
@@ -71,7 +68,6 @@ users.post('/register/:admin', async function (request, response) {
         await newUser.save()
         const token = await newUser.generateAuthToken()
         const editedtoken=editToken(newUser._id,token)
-        console.log(editedtoken);
         
         response.status(200).json( editedtoken )
 
@@ -83,44 +79,32 @@ users.post('/register/:admin', async function (request, response) {
 });
 users.post('/editUser/:token', async function (request, response){
     try{
-        console.log("ANAA GEIT FL EDIT");
         
-        console.log(request.body);
         const token= JSON.parse(request.params.token);
         const separtedInfo = separateToken(token);    
-        const userId=separtedInfo.id;  //aho l id lel 3aizo
-        console.log(userId);
+        const userId=separtedInfo.id;  
+        
 
         let curUser= await usersModel.findById(userId)
        
         const tmpUser = await usersModel.findOne({"email":request.body.email})
-        //console.log("gab l temp",tmpUser);
-        //console.log(String(curUser._id))
-        //console.log(String(tmpUser._id));
-         
+               
         
         if(tmpUser != null && String(curUser._id) != String(tmpUser._id)) {
-           // console.log(tmpUser);
             return response.status(409).json({err:"email already used"})
         }
-       // console.log("ba3d l if",curUser);
-        
-        // let newUser = new usersModel()
-        // console.log("da l new user", newUser);
-        
+      
         curUser.firstName=request.body.firstName
         curUser.lastName=request.body.lastName
         curUser.email=request.body.email
         
-        //console.log("type of passsword",request.body.password.length);
         if(request.body.password.length){
             curUser.password = await bcrypt.hash( request.body.password, 8);
          }
       
-        console.log("2abl l save", curUser);
-        
+      
        const tmp= await usersModel.findByIdAndUpdate(userId,curUser)
-        console.log("ba3d l save" , tmp);
+        console.log("user updated successfully" , tmp);
         
         return response.status(200).json({"firstName": curUser.firstName, "lastName": curUser.lastName , "email":curUser.email})
     }catch(error){
@@ -132,19 +116,15 @@ users.post('/login', async function (request, response) {
     //login a user 
     try {
         const {email,password}= request.body
-        console.log(email);
-        console.log(password);
         const curUser = await usersModel.findByCredentials(email, password)
-        console.log("geh hnaa");
+       
         
         if (!curUser) {
             return response.status(400).json({error: 'Wrong email or password!'})
         }
         const token = await curUser.generateAuthToken()
-        console.log(token)
         const editedtoken = editToken(curUser._id,token)
-        console.log("khalas l login w bib3at");
-        console.log(curUser);
+       
         
         if(curUser.admin)response.status(200).json( {editedtoken, "admin":curUser.admin} )
         else response.status(200).json(editedtoken)
@@ -173,7 +153,7 @@ users.post('/logout', async (req, res) => {
         newUser=curUser
       
         await newUser.save()
-        console.log("aho aho aho aho");
+        console.log("The user is logged out!");
         
         res.json({msg:"from the server the user is logged out!"})
     } catch (error) {
