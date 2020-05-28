@@ -14,6 +14,7 @@ import Authors from './components/website/Authors/Authors'
 import AuthorDetails from './components/website/AuthorDetails/AuthorDetails';
 import Searchbooks from './components/website/search/Searchbooks'
 import Searchcategories from './components/website/search/Searchcategories'
+import Searchauthors from './components/website/search/Searchauthors'
 
 import CategoryTable from "./components/Admin/Category/CategoryTable"
 import BookTable from "./components/Admin/Book/BookTable"
@@ -51,6 +52,7 @@ function App() {
         <Route exact path="/authorDetails/:id"> <AuthorDetails/></Route>
         <Route exact path="/search/book/:name"> <Searchbooks/></Route>
         <Route exact path="/search/category/:name"> <Searchcategories/></Route>
+        <Route exact path="/search/author/:name"> <Searchauthors/></Route>
         <Route exact path="/search//"> <Books/></Route>
       </Switch>
     </BrowserRouter>

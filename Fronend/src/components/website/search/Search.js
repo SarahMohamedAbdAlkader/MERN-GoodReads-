@@ -41,6 +41,7 @@ const selectOption = (e) => {
             <option value="" selected = {selectedOption === ''}></option>
           <option value="category" selected = {selectedOption === 'category'}>Category</option>
           <option value="book" selected = {selectedOption === 'book'} >Book</option>
+          <option value="author" selected = {selectedOption === 'author'} >Author</option>
         </select>
         <Link to ={'/search/'+selectedOption+"/"+userSearch}> <button class="btn btn-outline-warning my-2 my-sm-0" type="submit" >Search</button> </Link>
             
