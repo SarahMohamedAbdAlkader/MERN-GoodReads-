@@ -35,24 +35,24 @@ function RegisterForm() {
   return (<Form   onSubmit={handleSubmit} >
    <h5 class="text-white font-italic"  style={{fontSize:"30px"}}>Create a free account now!</h5>
     
-     <Form.Group class="form-control w-50" as={Row} controlId="validationCustom01">
-            <Form.Control  class="form-control"type="text"   style={{  marginLeft : '82px' }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
+     <Form.Group class="form-control w-50 " as={Row} controlId="validationCustom01">
+            <Form.Control  class="form-control "type="text"   style={{  marginLeft : '82px',width:"75%" }}  value={firstName} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
     </Form.Group>
      
-    <Form.Group  as={Row}  class="form-control w-50"controlId="validationCustom02">
-             <Form.Control class="form-control" type="text"  style={{  marginLeft : '82px' }} value={lastName} onChange={e => setlastName(e.target.value)} placeholder="Last Name"/>
+    <Form.Group  as={Row}  class="form-control w-50 "controlId="validationCustom02">
+             <Form.Control class="form-control " type="text"  style={{  marginLeft : '82px',width:"75%"}} value={lastName} onChange={e => setlastName(e.target.value)} placeholder="Last Name"/>
     </Form.Group>
     
     <Form.Group as={Row}class="form-control w-50" controlId="formPlaintextEmail">
-           <Form.Control  type="email"  style={{  marginLeft : '82px' }}  value={email} onChange={e => setEmail(e.target.value)} placeholder="Email Address"/>   
+           <Form.Control  type="email"  style={{  marginLeft : '82px',width:"75%" }}  value={email} onChange={e => setEmail(e.target.value)} placeholder="Email Address"/>   
   </Form.Group>
 
-  <Form.Group as={Row} class="form-control w-50" controlId="formPlaintextPassword">
-      <Form.Control class="form-control w-50" type="password"   placeholder="Password"  style={{  marginLeft : '82px' }} value={password} onChange={e => setPassword(e.target.value)}/>
+  <Form.Group as={Row} class="form-control w-50 " controlId="formPlaintextPassword">
+      <Form.Control class="form-control w-50 reg-form-control" type="password"   placeholder="Password"  style={{  marginLeft : '82px',width:"75%" }} value={password} onChange={e => setPassword(e.target.value)}/>
   </Form.Group>
 
-  <Form.Group as={Row} class="form-control w-50" controlId="formPlaintextPassword">
-      <Form.Control type="password"   placeholder="Confirm Password"  style={{  marginLeft : '82px' }} className="justify-content-md-center"  value={cpassword} onChange={e => setcPassword(e.target.value)}/>
+  <Form.Group as={Row} class="form-control w-50 " controlId="formPlaintextPassword">
+      <Form.Control type="password"   placeholder="Confirm Password"  style={{  marginLeft : '82px',width:"75%" }} className="justify-content-md-center"  value={cpassword} onChange={e => setcPassword(e.target.value)}/>
   </Form.Group>
 
 
