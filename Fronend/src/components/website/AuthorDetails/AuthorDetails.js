@@ -123,7 +123,7 @@ function AuthorDetails() {
     <h3 class="font-italic  bg-warning text-center">Authors Books!</h3>
     <div class="ml-5 card-columns">
       {! arr.length && <p>This author has no books yet.</p>}
-      {arr.length && arr.map((item) => {
+      { arr.map((item) => {
         userRating = item.rating
         return <Card style={{ display: 'inline-block', marginRight: "10px" }} >
 
