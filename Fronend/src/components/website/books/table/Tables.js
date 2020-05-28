@@ -23,8 +23,7 @@ export default class Tables extends React.Component {
       booksChanges: false,
       offset: 0,
     };
-    this.handlePageClick = this.handlePageClick.bind(this);
-    // console.log("PostData Passed ==>", props.postData);
+    //this.handlePageClick = this.handlePageClick.bind(this);
     this.state.books = props.books;
     this.state.postData = props.postData;
     console.log("prpos post", this.state.postData);

@@ -19,6 +19,7 @@ export default class Layout extends React.Component {
       booksChanges: false,
       offset: 0,
     };
+    this.handlePageClick = this.handlePageClick.bind(this);
   }
   receivedData() {
     //data
