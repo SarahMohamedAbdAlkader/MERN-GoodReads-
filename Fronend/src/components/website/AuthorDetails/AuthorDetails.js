@@ -4,7 +4,7 @@ import ReactStars from 'react-rating-stars-component'
 //import img4 from './longest.jpg'
 import axios from 'axios';
 import { useParams } from "react-router";
-import { Redirect } from 'react-router-dom';
+import { Redirect , Link} from 'react-router-dom';
 
 
 function AuthorDetails() {
@@ -131,7 +131,7 @@ function AuthorDetails() {
         return <Card style={{ display: 'inline-block', marginRight: "10px" }} >
 
           <Card.Body>
-            <Card.Title class="text-center mb-2 font-italic font-weight-bold">{item.book.name}</Card.Title>
+           <Card.Title class="text-center mb-2 font-italic font-weight-bold"> <Link to={"books/"+item.book._id}>{item.book.name}</Link></Card.Title>
             <Card.Img class="m-auto" src={"http://localhost:5000/" + item.book.bookImage} style={{ display: "block", width: '150px', height: '150px' }} />
             <Card.Text style={{ marginLeft: "150px" }}>
               Average Rating is :

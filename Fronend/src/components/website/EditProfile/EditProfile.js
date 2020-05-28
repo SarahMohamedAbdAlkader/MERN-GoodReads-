@@ -69,7 +69,7 @@ function EditForm() {
 
 
 
-<Button type="submit" className="btn btn-warning" style={{marginLeft:'130px'}} >Register</Button>
+<Button type="submit" className="btn btn-warning" style={{marginLeft:'130px'}} >Save Changes</Button>
 </Form>);
 }
 export default EditForm;
