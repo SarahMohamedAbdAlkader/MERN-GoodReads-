@@ -60,18 +60,18 @@ export default class Categories extends Component {
     }
     render() { const {postData}=this.state
         return (
-            <div>
+            <div class="mb-5">
                 <div class="row  m-5 d-flex justify-content-around text-center">
                 {
                 postData.map((category, index) =>
                 <div key={index} class="card bg-info mb-3 p-3 " style={{ width: 300 }}>
 
-      <Link  class=" text-white  font-italic " style={{fontSize:25 }} to={"/categories/" + category._id}>{category.catName}</Link>
+      <Link  class=" text-white  font-italic mt-3 " style={{fontSize:25,textDecoration:"none" }} to={"/categories/" + category._id}>{category.catName}</Link>
   
     </div>
                  ) }
                 </div>
-                <div class=" d-flex justify-content-center">
+                <div class=" d-flex justify-content-center mt-5">
                     <ReactPaginate
                         previousLabel={"prev"}
                         nextLabel={"next"}

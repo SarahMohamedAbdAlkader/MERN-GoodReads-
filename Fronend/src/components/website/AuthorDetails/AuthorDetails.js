@@ -167,7 +167,7 @@ function AuthorDetails() {
           </div>
 
 
-          <select  style={{ marginLeft: "130px" }} class=" ml-5" onChange={(e) => handleSelectChange(e, item.book._id)} >
+          <select  style={{ marginLeft: "130px" }} onChange={(e) => handleSelectChange(e, item.book._id)} >
             <option value='' selected={item.shelve === ''}></option>/>
         <option value='Read' selected={item.shelve === 'Read'}>Read</option>/>
         <option value='Want To Read' selected={item.shelve === 'Want To Read'}>Want To Read</option>/>
