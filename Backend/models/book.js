@@ -20,6 +20,9 @@ const bookSchema = mongoos.Schema({
         type: Date,
         default: Date.now
     },
+    bookDetails:{
+        type: String
+    },
     totalRatingCount: {
         type: Number,
         default: 0

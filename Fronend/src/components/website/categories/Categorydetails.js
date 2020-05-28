@@ -57,7 +57,7 @@ export default class Categorydetails extends Component {
     render() { const {postData}=this.state
         return (
             <div>
-                <div class="row mt-3  m-5 d-flex justify-content-around text-center">
+                <div class="row mt-3 mb-5  m-5 d-flex justify-content-around text-center">
                 {
                 postData.map((book, index) =>
                 <div key={index} class="card d-flex justify-content-center border" style={{ width:250,height:200 }}>

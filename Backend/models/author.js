@@ -4,6 +4,7 @@ const authorSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   authorImage: { type: String, required: false },
   dob: { type: Date, required: false },
+  details:{type:String}
 });
 //authorSchema.dob instanceof Date;
 //for Data Manipulation: CRUD

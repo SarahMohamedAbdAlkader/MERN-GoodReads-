@@ -23,6 +23,10 @@ function AdminLogin({ AdminloggedIn }) {
                                         alert("You are successfully logged in as Admin")
                                         window.location.reload();
                                         // return   <Redirect to="/admin/category" />
+                                    } else {
+                                        alert("Sorry you have Enterd incorrect Email or Password")
+                                        setEmail("")
+                                        setPassword("")
                                     }
                                 })
                                 .catch(function (error) {

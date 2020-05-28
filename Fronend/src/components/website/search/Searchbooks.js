@@ -39,7 +39,7 @@ function Searchbooks() {
                   size={24}
                   edit={false}
                   color2={'#ffd700'} />
-                   <Link to={"/books/" + book._id} ><h2 class=" card-footer font-italic ">Go To Book Details Yalaaaaaa=></h2> </Link>
+                   <Link to={"/books/" + book._id} ><h2 class=" card-footer font-italic ">Go To Book Details</h2> </Link>
               
                   </div>
 

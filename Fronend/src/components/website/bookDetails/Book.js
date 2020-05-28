@@ -145,10 +145,11 @@ function Book() {
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title text-dark">{data.name}</h5>
-              <p class=" text-dark ">By:  <Link class="text-info" to={"/authorDetails/" + author._id}>{author.firstName} {author.lastName} </Link> </p>
+              <h5 class="card-title text-dark font-weight-bold">{data.name}</h5>
+              <p class=" text-dark  ">By:  <Link class="text-info" to={"/authorDetails/" + author._id}>{author.firstName} {author.lastName} </Link> </p>
               <p class=" text-dark"> Category: <Link class="text-info" to={"/categories/" + category._id}>{category.catName} </Link> </p>
-              <div class="row">
+              <p class=" text-dark"> {data.bookDetails ? data.bookDetails:""} </p>
+              <div class="row ml-3">
                 <ReactStars
                   count={5}
                   value={data.totalRatingValue / data.totalRatingCount}
@@ -164,19 +165,19 @@ function Book() {
       </div>
       <div class="card mb-3">
         <div class="card-body">
-          <h5 class="card-title">Reviews</h5>
+          <h5 class="card-title bg-warning font-italic text-center">Reviews</h5>
           {
             reviews.map((review, index) =>
 
-              <div key={index}class="row" >
-<p>{review.user.firstName} {review.user.lastName}</p> :
+              <div key={index}class="row ml-3" >
+<p class="font-weight-bold text-dark text-center">{review.user.firstName} {review.user.lastName} : </p> 
                 <p class=" font-italic ">{review.text}</p>
 
               </div>
 
             )}
         </div>
-        <form class="form-inline col-4 my-2 my-lg-0 m-auto" onSubmit={handleSubmit}>
+        <form class="form-inline col-4 my-2 my-lg-0 m-auto mb-3" onSubmit={handleSubmit}>
           <input class="form-control mr-sm-2" placeholder="Your Review" aria-label="Review" value={userReview} onChange={e => setUserReview(e.target.value)}></input>
           <button class="btn btn-warning  m-auto my-2 my-sm-0" type="submit">Add Review</button>
         </form>
