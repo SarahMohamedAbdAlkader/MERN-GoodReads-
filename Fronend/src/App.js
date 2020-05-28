@@ -12,6 +12,7 @@ import Authors from "./components/website/Authors/Authors";
 import AuthorDetails from "./components/website/AuthorDetails/AuthorDetails";
 import Searchbooks from "./components/website/search/Searchbooks";
 import Searchcategories from "./components/website/search/Searchcategories";
+import Searchauthors from './components/website/search/Searchauthors'
 import Books from "./components/website/books/Books";
 import Book from './components/website/bookDetails/Book'
 import CategoryTable from "./components/Admin/Category/CategoryTable";
@@ -72,12 +73,16 @@ function App() {
           <Searchbooks />
         </Route>
         <Route exact path='/search/category/:name'>
-          {" "}
+        
           <Searchcategories />
         </Route>
         <Route exact path='/search//'>
-          {" "}
+    
           <Books />
+        </Route>
+        <Route exact path='/search/author/:name'>
+          
+          <Searchauthors />
         </Route>
         <Route exact path='/editProfile'>
           <EditForm/>
