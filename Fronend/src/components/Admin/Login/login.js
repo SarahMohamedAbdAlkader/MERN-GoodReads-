@@ -9,7 +9,7 @@ function AdminLogin({ AdminloggedIn }) {
     const [password, setPassword] = useState("");
     return <div class="wrapper fadeInDown">
         <div id="formContent">
-            <h2 class="active"> Sign In </h2>
+            <h2 class="active admin-login-h2"> Sign In </h2>
             <form onSubmit={(e) => {
                 e.preventDefault();
                 axios.post('http://localhost:5000/users/login', { email, password })

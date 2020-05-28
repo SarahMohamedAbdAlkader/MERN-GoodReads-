@@ -18,6 +18,7 @@ export default class Layout extends React.Component {
       currentPage: 1,
       booksChanges: false,
       offset: 0,
+      tableTitle: "All Books",
     };
     this.handlePageClick = this.handlePageClick.bind(this);
   }
@@ -70,19 +71,19 @@ export default class Layout extends React.Component {
   };
   render() {
     return (
-      <div className='container'>
+      <div className='BooksContainer'>
         <div className='sideBarContainer'>
           <ul onClick={(e) => console.log(e.target)}>
-            <ul className='readingProgress'>
+            <ul className='readingProgressSwitch'>
               <Link onClick={this.renderAll}>All Books</Link>
             </ul>
-            <ul className='readingProgress'>
+            <ul className='readingProgressSwitch'>
               <Link onClick={this.renderCurrent}>Currently Reading</Link>
             </ul>
-            <ul className='readingProgress'>
+            <ul className='readingProgressSwitch'>
               <Link onClick={this.renderRead}>Read Books</Link>
             </ul>
-            <ul className='readingProgress'>
+            <ul className='readingProgressSwitch'>
               <Link onClick={this.renderWant}>Want to Read</Link>
             </ul>
           </ul>
@@ -96,42 +97,45 @@ export default class Layout extends React.Component {
             booksChanges={this.state.booksChanges}
             books={this.state.books}
             postData={this.state.postData}
+            tableTitle={this.state.tableTitle}
           />
           <ReactPaginate
             previousLabel={"<<"}
             nextLabel={">>"}
             breakLabel={"..."}
-            breakClassName={"break-me"}
+            // breakClassName={"break-me"}
             pageCount={this.state.pageCount}
             marginPagesDisplayed={2}
             pageRangeDisplayed={5}
             onPageChange={this.handlePageClick}
             containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
+            //subContainerClassName={"pages-pagination"}
             activeClassName={"active"}
+            //previousClassName={"pagination-span"}
+            pageClassName={"pagePaginate"}
           />
         </div>
       </div>
     );
   }
   renderAll = (e) => {
-    this.setState({ shelveState: "all" });
-    console.log(this.state.shelveState);
+    this.state.shelveState = "all";
+    this.state.tableTitle = " All Books ";
     this.receivedData();
   };
   renderCurrent = (e) => {
-    this.setState({ shelveState: "Currently Reading" });
-    console.log(this.state.shelveState);
+    this.state.shelveState = "Currently Reading";
+    this.state.tableTitle = " Currently Reading ";
     this.receivedData();
   };
   renderRead = (e) => {
-    this.setState({ shelveState: "Read" });
-    console.log(this.state.shelveState);
+    this.state.shelveState = "Read";
+    this.state.tableTitle = " Read ";
     this.receivedData();
   };
   renderWant = (e) => {
-    this.setState({ shelveState: "Want To Read" });
-    console.log(this.state.shelveState);
+    this.state.shelveState = "Want To Read";
+    this.state.tableTitle = " Want To Read ";
     this.receivedData();
   };
 }
