@@ -44,8 +44,8 @@ function EditForm() {
     getUserInfo()
 }, []);
 
-  return (<div style={{width:'350px', margin:'auto'}}><Form   onSubmit={handleSubmit} >
-   <h3>Edit profile!</h3>
+  return (<div style={{width:'350px', margin:'auto', marginTop:'60px'}}><Form   onSubmit={handleSubmit} >
+   <h3>Edit your Profile Details</h3>
     
      <Form.Group as={Row} controlId="validationCustom01">
             <Form.Control  type="text"   style={{  marginLeft : '10px',width:'350px' }}  value={firstNameValue} onChange={e => setfirstName(e.target.value)} placeholder="First Name"/>
