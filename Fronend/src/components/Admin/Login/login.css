@@ -8,7 +8,8 @@
 */
 /* body {
   font-family: "Poppins", sans-serif;
-  height: 100vh;
+  /* height: 100vh; 
+  font-size: medium;
 }  */
 
 /* a {
@@ -43,6 +44,7 @@
 }
 
 #formContent {
+  margin: auto;
   -webkit-border-radius: 10px 10px 10px 10px;
   border-radius: 10px 10px 10px 10px;
   background: #fff;

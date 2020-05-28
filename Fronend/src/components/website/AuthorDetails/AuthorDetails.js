@@ -131,10 +131,10 @@ function AuthorDetails() {
         return <Card style={{ display: 'inline-block', marginRight: "10px" }} >
 
           <Card.Body>
-           <Card.Title class="text-center mb-2 font-italic font-weight-bold"> <Link to={"books/"+item.book._id}>{item.book.name}</Link></Card.Title>
+           <Card.Title class="text-center mb-2 font-italic font-weight-bold"> <Link to={"/books/"+item.book._id}>{item.book.name}</Link></Card.Title>
             <Card.Img class="m-auto" src={"http://localhost:5000/" + item.book.bookImage} style={{ display: "block", width: '150px', height: '150px' }} />
             <Card.Text style={{ marginLeft: "150px" }}>
-              Average Rating is :
+             
                   <div class="mt-2">
                 <ReactStars
                   count={5}
