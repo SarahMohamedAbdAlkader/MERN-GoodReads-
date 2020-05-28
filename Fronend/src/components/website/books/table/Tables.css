@@ -1,0 +1,59 @@
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+}
+
+#books {
+    text-align: center;
+    font-family: s"Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    width: 100%;
+}
+
+#books td,
+#books th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#books tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#books tr:hover {
+    background-color: #ddd;
+}
+
+#books th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #0275d8;
+    color: white;
+}
+
+.readingProgress {
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    align-self: center;
+    position: center;
+}
+
+
+/* .readingProgress {
+    background-color: whitesmoke;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    align-self: center;
+    position: center;
+} */

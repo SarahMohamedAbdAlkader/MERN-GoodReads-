@@ -1,0 +1,17 @@
+.table {
+    width: 70%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+th,td {
+    text-align: center;
+}
+td {
+    font-size: 20px
+}
+.fa {
+    font-size: 30px !important;
+}
+.fa:active {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}

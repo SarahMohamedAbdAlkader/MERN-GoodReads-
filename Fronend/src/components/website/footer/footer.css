@@ -1,0 +1,15 @@
+footer {
+
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+    width: 100%;
+    background-color:#343a40 ;
+    color: white;
+    height: 40px;
+    padding: 5px;
+}
+
+.double-nav .breadcrumb-dn {
+    color: #343a40;
+}

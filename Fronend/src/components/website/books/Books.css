@@ -1,0 +1,61 @@
+.readingProgressSwitch {
+    background-color: whitesmoke;
+    padding: 10px;
+    align-content: left;
+    flex-direction: column;
+    border-radius: 10px;
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    width: 75%;
+    height: 100%;
+    margin-top: 20px;
+}
+
+.BooksContainer {
+    display: flex;
+    flex-direction: row;
+    border-radius: 30px;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+}
+
+.sideBarContainer {
+    flex-grow: 2;
+    border-radius: 30px;
+    border-collapse: collapse;
+    border: 5px solid;
+    border-color: #ddd;
+    height: 320px;
+    margin-top: 100px;
+    margin-right: 60px;
+    border-collapse: collapse;
+    height: 30%;
+}
+
+.tableContainer {
+    flex-grow: 8;
+    justify-self: center;
+    border-radius: 5px;
+    border-collapse: collapse;
+    border: 2px solid #ddd;
+    padding: 50px;
+}
+
+.pagination {
+    cursor: pointer;
+    color: white;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+}
+
+
+/* .pagePaginate {
+    background-color: #0099FF;
+    color: white;
+    border: 1px solid #0099FF;
+} */
