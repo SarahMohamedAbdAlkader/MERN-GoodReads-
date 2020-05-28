@@ -85,7 +85,7 @@ function App() {
           <Searchauthors />
         </Route>
         <Route exact path='/editProfile'>
-          <EditForm/>
+       { sessionStorage.getItem("userToken")? <EditForm/> : <Redirect to='/' /> }
         </Route>
        
       </Switch>
