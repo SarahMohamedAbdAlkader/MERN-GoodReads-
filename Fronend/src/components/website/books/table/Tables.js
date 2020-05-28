@@ -63,12 +63,13 @@ export default class Tables extends React.Component {
       return (
         <tr key={_id}>
           <td>{index + 1}</td>
-          <td>
+          <td><a href={`${SERVER_URL}/${bookImage}`} target="_blank">
             <img
               src={`${SERVER_URL}/${bookImage}`}
-              style={{ width: 15, height: 15 }}
+              style={{ width: 50, height: 50 }}
               alt={name}
             />
+            </a>
           </td>
           <td>
             <a href={`http://localhost:3000/books/${_id}`}>{name}</a>
@@ -78,7 +79,6 @@ export default class Tables extends React.Component {
           </td>
 
           <td>
-            <div class='mt-2'>
               <ReactStars
                 count={5}
                 edit={false}
@@ -87,7 +87,6 @@ export default class Tables extends React.Component {
                 color2={"yellow"}
                 value={totalRatingValue / totalRatingCount}
               />
-            </div>
           </td>
 
           <td onClick={(e) => console.log(e.target)}>
