@@ -19,17 +19,17 @@ function RegisterForm() {
     .then(res => {
       console.log("da l res",res);
       alert("Welcome! Login to begin your reading journey") 
-       
+      setEmail('')
+      setPassword('')
+      setcPassword('')
+      setfirstName('')
+      setlastName('')
     })
     .catch(function(error){
       alert("This email already exists ")
     })
   }
-  setEmail('')
-  setPassword('')
-  setcPassword('')
-  setfirstName('')
-  setlastName('')
+  
 }
   
   return (<Form   onSubmit={handleSubmit} >

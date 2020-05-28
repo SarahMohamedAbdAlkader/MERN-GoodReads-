@@ -27,7 +27,7 @@ function HomePage() {
      
       <Row className="justify-content-md-center">
      
-        <Col sm={9}>
+        <Col sm={10}>
         
           <LoadBooks />
           

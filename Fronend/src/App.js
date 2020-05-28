@@ -74,35 +74,23 @@ function App() {
           <Searchbooks />
         </Route>
         <Route exact path='/search/category/:name'>
-
+        
           <Searchcategories />
         </Route>
         <Route exact path='/search//'>
-
+    
           <Books />
         </Route>
         <Route exact path='/search//:name'>
-
-          <Books />
-        </Route>
-        <Route exact path='/search/book'>
-
-          <Books />
-        </Route>
-        <Route exact path='/search/category'>
-
-          <Categories />
-        </Route>
-        <Route exact path='/search/author'>
-
-          <Authors />
-        </Route>
+    
+    <Books />
+  </Route>
         <Route exact path='/search/author/:name'>
-
+          
           <Searchauthors />
         </Route>
         <Route exact path='/editProfile'>
-          <EditForm />
+          <EditForm/>
         </Route>
         <Route component={Error} />
       </Switch>

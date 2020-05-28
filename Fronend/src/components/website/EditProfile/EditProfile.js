@@ -44,7 +44,7 @@ function EditForm() {
     getUserInfo()
 }, []);
 
-  return (<Form   onSubmit={handleSubmit} >
+  return (<div style={{width:'350px', margin:'auto'}}><Form   onSubmit={handleSubmit} >
    <h3>Edit profile!</h3>
     
      <Form.Group as={Row} controlId="validationCustom01">
@@ -69,7 +69,7 @@ function EditForm() {
 
 
 
-<Button type="submit" className="btn btn-warning" style={{marginLeft:'130px'}} >Register</Button>
-</Form>);
+<Button type="submit" className="btn btn-warning" style={{marginLeft:'100px'}} >Save Changes</Button>
+</Form></div>);
 }
 export default EditForm;
