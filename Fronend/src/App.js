@@ -13,6 +13,7 @@ import AuthorDetails from "./components/website/AuthorDetails/AuthorDetails";
 import Searchbooks from "./components/website/search/Searchbooks";
 import Searchcategories from "./components/website/search/Searchcategories";
 import Searchauthors from './components/website/search/Searchauthors'
+import Error from './components/website/Error/Error'
 import Books from "./components/website/books/Books";
 import Book from './components/website/bookDetails/Book'
 import CategoryTable from "./components/Admin/Category/CategoryTable";
@@ -80,6 +81,26 @@ function App() {
     
           <Books />
         </Route>
+        <Route exact path='/search//:name'>
+    
+    <Books />
+    
+  </Route>
+  <Route exact path='/search/book'>
+    
+    <Books />
+    
+  </Route>
+  <Route exact path='/search/category'>
+    
+    <Categories />
+    
+  </Route>
+  <Route exact path='/search/author'>
+    
+    <Authors />
+    
+  </Route>
         <Route exact path='/search/author/:name'>
           
           <Searchauthors />
@@ -87,7 +108,7 @@ function App() {
         <Route exact path='/editProfile'>
           <EditForm/>
         </Route>
-       
+        <Route component={Error} />
       </Switch>
     </BrowserRouter>
   );

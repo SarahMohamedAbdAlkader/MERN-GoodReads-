@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import { useParams } from "react-router";
-import ReactStars from 'react-rating-stars-component'
 const SERVER_URL = "http://localhost:5000"
 const catName = window.location.pathname.split('/')[2]
 function Searchcategories() {
@@ -19,7 +18,7 @@ function Searchcategories() {
 
 
       if (data.length == 0) {
-        return  <Link class="text-white text-center " to={"/"}><p class="bg-danger text-center mt-5 font-italic"> Back To Home</p> </Link>;
+        return  <Link class="text-white text-center " style={{fontSize:"30px"}} to={"/"}><p class="bg-danger text-center mt-5 font-italic"> Name doesn't Exist, Back To Home</p> </Link>;
       }
     return (
         <div >
@@ -33,7 +32,7 @@ function Searchcategories() {
         <Link  to={"/categories/" + category._id} ><h2 class="bg-light card-footer font-italic ">Go To Category Details</h2> </Link>
       </div>
       ) : 
-        <Link  to={"/"}><p class="bg-danger  font-italic"> Back To Home</p> </Link>
+        <Link  to={"/"}><p class="bg-danger  font-italic" style={{fontSize:"30px"}}>Name doesn't Exist, Back To Home</p> </Link>
       }
     </div>
     

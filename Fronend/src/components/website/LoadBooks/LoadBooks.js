@@ -31,25 +31,30 @@ function LoadBooks() {
   return (<div >
   <h1>Popular Books!</h1>
     {books.map((item) => {
-      return <Card style={{ width: '15rem', display: 'inline-block', marginRight: '10px' }}>
+      return <Card style={{ width: '17rem', display: 'inline-block', marginRight: '10px' }}>
         <Card.Body>
-          <Card.Img src={`${SERVER_URL}/${item.book.bookImage}`} class="card-img">
+          <Card.Img src={`${SERVER_URL}/${item.book.bookImage}`} class="card-img" style={{height:"200px"}}>
 
           </Card.Img>
-          <Row>
+          <Row style={{justifyContent:'center'}}>
+            <Card.Link  href={"/authorDetails/" + item.book.author._id}>{item.book.author.firstName} {item.book.author.lastName}</Card.Link>
+          </Row>
+          <Row style={{justifyContent:'center'}}>
             <Card.Link href={"/books/" + item.book._id}>{item.book.name}</Card.Link>
           </Row>
-          <Row>
-            <Card.Link href={"/authorDetails/" + item.book.author._id}>{item.book.author.firstName} {item.book.author.lastName}</Card.Link>
-          </Row>
-          <Card.Text>Average Rating : {item.book.totalRatingValue / item.book.totalRatingCount}</Card.Text>
+         
+          {/* <Card.Text>Average Rating : {item.book.totalRatingValue / item.book.totalRatingCount}</Card.Text> */}
+          <Row style={{justifyContent:'center'}}>
           <ReactStars
+           
             count={5}
             value={item.book.totalRatingValue / item.book.totalRatingCount}
             size={24}
             edit={false}
             color2={'#ffd700'} />
+            </Row>
         </Card.Body>
+
       </Card>
     })}
   </div>
