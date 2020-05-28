@@ -33,7 +33,7 @@ export default class Tables extends React.Component {
   render() {
     return (
       <div>
-        <h1 className='readingProgress'>All books</h1>
+        <h1 className='readingProgress'>{this.props.tableTitle}</h1>
         <table id='books'>
           <thead>{this.renderTableHeader()}</thead>
           <tbody>{this.renderTableData()}</tbody>
@@ -57,10 +57,12 @@ export default class Tables extends React.Component {
         totalRatingCount,
       } = book.book.book; //destructuring
       const { myRating, myShelve } = book;
+      console.log(book);
 
       //console.log(shelve);
       return (
         <tr key={_id}>
+          <td>{index + 1}</td>
           <td>
             <img
               src={`${SERVER_URL}/${bookImage}`}
@@ -68,7 +70,9 @@ export default class Tables extends React.Component {
               alt={name}
             />
           </td>
-          <td>{name}</td>
+          <td>
+            <a href={`http://localhost:3000/books/${_id}`}>{name}</a>
+          </td>
           <td>
             {author.firstName} {author.lastName}
           </td>
@@ -128,6 +132,7 @@ export default class Tables extends React.Component {
   renderTableHeader() {
     return (
       <tr>
+        <th>No.</th>
         <th>cover</th>
         <th>Name</th>
         <th>Author</th>
