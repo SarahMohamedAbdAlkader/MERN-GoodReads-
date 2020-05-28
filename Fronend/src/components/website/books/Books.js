@@ -58,7 +58,8 @@ export default class Layout extends React.Component {
         axios
           .get(
             `${SERVER_URL}/books/${token}/${this.state.shelveState}/?page=` +
-              parseInt(selectedPage)
+              parseInt(selectedPage) +
+              1
           )
           .then((res) => {
             const books = res.data.books;
