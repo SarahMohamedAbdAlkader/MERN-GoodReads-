@@ -30,7 +30,7 @@ function Searchcategories() {
       
       {flag ? (   <div> <Link  class=" text-white  font-italic " style={{fontSize:25 }} to={"/categories/" + category._id}>{category.catName}</Link>
     
-        <Link  to={"/categories/" + category._id} ><h2 class="bg-light card-footer font-italic ">Go To Category Details Yalaaaaaa=></h2> </Link>
+        <Link  to={"/categories/" + category._id} ><h2 class="bg-light card-footer font-italic ">Go To Category Details</h2> </Link>
       </div>
       ) : 
         <Link  to={"/"}><p class="bg-danger  font-italic"> Back To Home</p> </Link>

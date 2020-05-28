@@ -64,7 +64,7 @@ function Navbar() {
         <Search />
         {sessionStorage.getItem('userToken')!=null &&
         
-        <div class="col-2  ">
+        <div class="col-1  ">
           <div class="row">
           <Link><img class=" img mr-3" src={user} style={{width:'30px', height:'30px'}}/></Link>
           
