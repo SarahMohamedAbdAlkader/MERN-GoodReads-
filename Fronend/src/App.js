@@ -84,6 +84,22 @@ function App() {
         <Route exact path='/search//:name'>
     
     <Books />
+    
+  </Route>
+  <Route exact path='/search/book'>
+    
+    <Books />
+    
+  </Route>
+  <Route exact path='/search/category'>
+    
+    <Categories />
+    
+  </Route>
+  <Route exact path='/search/author'>
+    
+    <Authors />
+    
   </Route>
         <Route exact path='/search/author/:name'>
           
